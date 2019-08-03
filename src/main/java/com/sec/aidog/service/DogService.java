@@ -28,4 +28,6 @@ public interface DogService {
     Map<String, Object> getAnimalillList(String districtcode, int startPage, int pageSize);
 
     Map<String, Object> getAnaBillStaList(String districtcode, int startPage, int pageSize);
+
+    Map<String, Object> getAnaChildCheckStaList(String districtcode, int startPage, int pageSize);
 }
