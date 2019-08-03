@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.AppconfigMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Appconfig" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="app_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="dosingcycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="areacycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="dosingtotal" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="firstdosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="enddosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, app_id, dosingcycle, areacycle, updatetime, dosingtotal, firstdosing_time, enddosing_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.AppconfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from appconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from appconfig
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from appconfig
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.AppconfigExample" >
+    delete from appconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Appconfig" >
+    insert into appconfig (id, app_id, dosingcycle, 
+      areacycle, updatetime, dosingtotal, 
+      firstdosing_time, enddosing_time)
+    values (#{id,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{dosingcycle,jdbcType=INTEGER}, 
+      #{areacycle,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}, #{dosingtotal,jdbcType=INTEGER}, 
+      #{firstdosingTime,jdbcType=TIMESTAMP}, #{enddosingTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Appconfig" >
+    insert into appconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="dosingcycle != null" >
+        dosingcycle,
+      </if>
+      <if test="areacycle != null" >
+        areacycle,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="dosingtotal != null" >
+        dosingtotal,
+      </if>
+      <if test="firstdosingTime != null" >
+        firstdosing_time,
+      </if>
+      <if test="enddosingTime != null" >
+        enddosing_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="dosingcycle != null" >
+        #{dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="areacycle != null" >
+        #{areacycle,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosingtotal != null" >
+        #{dosingtotal,jdbcType=INTEGER},
+      </if>
+      <if test="firstdosingTime != null" >
+        #{firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddosingTime != null" >
+        #{enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.AppconfigExample" resultType="java.lang.Integer" >
+    select count(*) from appconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update appconfig
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.appId != null" >
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dosingcycle != null" >
+        dosingcycle = #{record.dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.areacycle != null" >
+        areacycle = #{record.areacycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dosingtotal != null" >
+        dosingtotal = #{record.dosingtotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.firstdosingTime != null" >
+        firstdosing_time = #{record.firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enddosingTime != null" >
+        enddosing_time = #{record.enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update appconfig
+    set id = #{record.id,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      dosingcycle = #{record.dosingcycle,jdbcType=INTEGER},
+      areacycle = #{record.areacycle,jdbcType=INTEGER},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      dosingtotal = #{record.dosingtotal,jdbcType=INTEGER},
+      firstdosing_time = #{record.firstdosingTime,jdbcType=TIMESTAMP},
+      enddosing_time = #{record.enddosingTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Appconfig" >
+    update appconfig
+    <set >
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="dosingcycle != null" >
+        dosingcycle = #{dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="areacycle != null" >
+        areacycle = #{areacycle,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosingtotal != null" >
+        dosingtotal = #{dosingtotal,jdbcType=INTEGER},
+      </if>
+      <if test="firstdosingTime != null" >
+        firstdosing_time = #{firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddosingTime != null" >
+        enddosing_time = #{enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Appconfig" >
+    update appconfig
+    set app_id = #{appId,jdbcType=VARCHAR},
+      dosingcycle = #{dosingcycle,jdbcType=INTEGER},
+      areacycle = #{areacycle,jdbcType=INTEGER},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      dosingtotal = #{dosingtotal,jdbcType=INTEGER},
+      firstdosing_time = #{firstdosingTime,jdbcType=TIMESTAMP},
+      enddosing_time = #{enddosingTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

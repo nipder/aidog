@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../../bootstrap/js/bootstrap.js">
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <title>防控项圈注册</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>单项圈注册</h4>
+                        请填写表单进行单项圈注册！
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>项圈编号：</label>
+                        <input type="text" class="form-control" placeholder="项圈编号"  id="input_neckletid" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>生产日期：</label>
+                        <input id="producetime"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="button" id="a_addnec" class="btn btn-info btn-flat">注册单个项圈</button>
+                        </div>
+                    </div>
+                </form>
+                <form role="form" style="margin-top: 80px">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>从json文件批量注册项圈</h4>
+                        请选择文件进行批量注册！
+                    </div>
+                    <input tabindex="-1" id="select_range" data-input="false" class="font-small" type="file">
+                    <br/><span id="testspan">批量注册文件内容</span>
+                </form>
+                <form role="form" style="margin-top: 80px">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>从excel批量注册犬只及犬主人</h4>
+                        请选择文件进行批量注册！
+                    </div>
+                    <div class="form-group" id="thumbnailUploadContainer" class="col-sm-10" style="float: left; margin-right: 50px;">
+                        <input id="articleImageFile" name="excelFile" type="file" class="form-control" style="width: 300px; display: inline;" />
+                        <input id="saveZipButton" type="button" style="width: 60px;height: 35px;" value="上传" />
+                    </div>
+                    <br/><br/><br/><span id="testbatch">批量注册文件内容</span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        //单个注册
+        $("#a_addnec").click(function () {
+            var tempdata = {};
+            var nec_id = $("#input_neckletid").val();
+            var producetime = $("#producetime").val();
+            if(nec_id == ""){
+                alert("请输入项圈编号！");
+                return;
+            }
+            if(producetime == "2017-06-30T00:00"){
+                alert("请输入生产日期！");
+                return;
+            }
+            producetime = $("#producetime").val()+":00";
+            alert(producetime);
+            tempdata.nec_id = nec_id;
+            tempdata.producetime = producetime;
+            $.ajax({
+                url: "/aidog/api/singlenecregister",
+                type: "POST",
+                data:  tempdata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    alert(data.msg);
+                    window.location.reload();
+                }
+            })
+        });
+
+
+        //批量注册
+        $('#select_range').change(function(evt){
+            var files = evt.target.files;
+
+            if(files.length) {
+                var file = files[0];
+                var reader = new FileReader();
+                if(typeof FileReader == 'undefined') {
+                    layer.alert("你的浏览器不支持FileReader接口！", {title: "提示", skin: "layui-layer-molv"});
+                    return;
+                }
+                reader.readAsText(file,"UTF-8");
+                reader.onload = function(val) {
+                    $("#testspan").html(val.target.result);
+                    //ajax给后台
+                    var senddata = {};
+                    senddata.data = val.target.result;
+                    $.ajax({
+                        url: "/aidog/api/batchnecregister",
+                        type: "POST",
+                        data:  JSON.stringify(senddata),
+                        contentType: "application/json",
+                        dataType: "text",    // 控制回来的数据类型
+                        beforeSend: function (request) {
+                            request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                        },
+                        success: function (data) {
+                            alert(data);
+                            window.location.reload();
+                        }
+                    })
+                }
+            };
+        });
+
+        //导入excel文件
+        $("#saveZipButton").on('click', function(){
+            var formData = new FormData();
+            var name = $("#articleImageFile").val();
+            formData.append("file",$("#articleImageFile")[0].files[0]);
+            formData.append("name",name);//这个地方可以传递多个参数
+            $.ajax({
+                url : "/aidog/api/batchdogregexcel",
+                type : 'POST',
+                async : false,
+                data : formData,
+                // 告诉jQuery不要去处理发送的数据
+                processData : false,
+                // 告诉jQuery不要去设置Content-Type请求头
+                contentType : false,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                    console.log("正在进行，请稍候");
+                },
+                success : function(data) {
+                    if(data.success==true){
+                        alert("导入成功");
+                        $("#testbatch").html(data.data);
+                    }else{
+                        alert("导入失败");
+                    }
+                }
+            });
+        });
+    })
+
+</script>
+</body>
+</html>

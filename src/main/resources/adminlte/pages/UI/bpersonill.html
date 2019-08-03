@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>人群患病情况</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/all-skins.css">
+    <!--bootstrap table-->
+    <link rel="stylesheet" type="text/css" href="../../DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.print.min.js"></script>
+    <style type="text/css">
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #cfcfcf !important;
+        }
+        th{
+            font-weight:bold;
+        }
+        /*td{*/
+        /*height:30px;*/
+        /*}*/
+        .table td, .table th {
+            font-style: normal;
+            /*text-align:center;*/
+        }
+        input[type=checkbox]{
+            margin-right: 3px;
+        }
+        /*.bcolor{*/
+        /*background-color: #ecf0f5;*/
+        /*}*/
+        .box{
+            margin-bottom: 3px !important;
+        }
+        td.details-control {
+            background: url('../ui_css/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url('../ui_css/details_close.png') no-repeat center center;
+        }
+        @media (min-width:768px) {
+            .model80{
+                width:80% !important;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="../ui_css/datatableios.css">
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<!-- Content Header (Page header) -->
+    <div class="bcolor" >
+    <div class="row" style="padding-top: 20px;margin-top: 20px">
+        <div class="col-md-12">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success select-5">
+                        <style>
+                            @media (min-width: 992px){
+                                .select-5 .form-control{
+                                    width:18%;
+                                    margin-left:15px;
+                                }
+                            }
+
+                        </style>
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <div class="row">
+                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <!--<option value="-1">请选择</option>-->
+                                <option value="0" style="color: #00a65a">全国</option>
+                                <option value="150000000000">内蒙古自治区</option>
+                                <option value="510000000000">四川省</option>
+                                <option value="530000000000">云南省</option>
+                                <option value="540000000000">西藏自治区</option>
+                                <option value="610000000000">陕西省</option>
+                                <option value="620000000000">甘肃省</option>
+                                <option value="630000000000">青海省</option>
+                                <option value="640000000000">宁夏回族自治区</option>
+                                <option value="650000000000">新疆维吾尔族自治区</option>
+                                <option value="660000000">建设兵团</option>
+                            </select>
+                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <option value="-1">请选择</option>
+                            </select>
+                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px" disabled><option value="-1">请选择</option></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-8">
+                <button type="button" id="a_getillstalist" class="btn btn-info btn-flat">获取当前区域人群患病列表</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main content -->
+    <section class="content">
+        <!-- Info boxes -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box-body">
+                    <div class="box box-solid">
+                        <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                            <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>行政名</th>
+                                <th>B超筛查人数(人)</th>
+                                <th>患病人数(人)</th>
+                                <th>检出率(%)</th>
+                                <th>标化患病率(%)</th>
+                                <th>调查年份</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+</div>
+    <div id="illid" style="display: none">0</div>
+    <div class="modal fade" id="illModifyDiv" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">信息录入详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="alert alert-info alert-dismissible" style="padding:2px;">
+                            <h5><i class="icon fa fa-info"></i>人群患病情况录入</h5>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>当前行政名：</label>
+                            <input type="text" class="form-control" placeholder="当前行政名" id="modalinput_districtname" disabled>
+                        </div>
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>B超筛查人数（人）：</label>
+                            <input type="text" class="form-control" placeholder="B超筛查人数" id="modalinput_bpersonnum">
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>患病人数（人）</label>
+                            <input type="text" class="form-control" placeholder="患病人数" id="modalinput_bpersonillnum">
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检出率（%）</label>
+                            <input type="text" class="form-control" placeholder="检出率" id="modalinput_checklv" disabled/>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>标化患病率（%）</label>
+                            <input type="text" class="form-control" placeholder="标化患病率" id="modalinput_illlv" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>调查年份</label>
+                            <input type="text" class="form-control" placeholder="调查年份" id="modalinput_pchechyear">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8">
+                                    <button type="button" id="a_illmodify" class="btn btn-info btn-flat">录入抽检信息</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script type="text/javascript" src="../ui_js/bpersonill.js"></script>
+</body>
+</html>

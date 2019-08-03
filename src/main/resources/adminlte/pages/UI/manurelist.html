@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>犬粪检测结果</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/all-skins.css">
+    <!--bootstrap table-->
+    <link rel="stylesheet" type="text/css" href="../../DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="../ui_js/manurelist.js"></script>
+    <style type="text/css">
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #cfcfcf !important;
+        }
+        th{
+            font-weight:bold;
+        }
+        /*td{*/
+        /*height:30px;*/
+        /*}*/
+        .table td, .table th {
+            font-style: normal;
+            /*text-align:center;*/
+        }
+        input[type=checkbox]{
+            margin-right: 3px;
+        }
+        /*.bcolor{*/
+        /*background-color: #ecf0f5;*/
+        /*}*/
+        .box{
+            margin-bottom: 3px !important;
+        }
+        td.details-control {
+            background: url('../ui_css/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url('../ui_css/details_close.png') no-repeat center center;
+        }
+        @media (min-width:768px) {
+            .model80{
+                width:80% !important;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="../ui_css/datatableios.css">
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" >
+    <!-- Content Header (Page header) -->
+    <div class="bcolor" >
+        <div class="row" style="padding-top: 20px;margin-top: 20px">
+            <div class="col-md-12">
+                <div class="box-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success select-5">
+                            <style>
+                                @media (min-width: 992px){
+                                    .select-5 .form-control{
+                                        width:18%;
+                                        margin-left:15px;
+                                    }
+                                }
+
+                            </style>
+                            <label style="padding-bottom: 5px">所属区域(*)</label>
+                            <div class="row">
+                                <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
+                                    <!--<option value="-1">请选择</option>-->
+                                    <option value="0" style="color: #00a65a">全国</option>
+                                    <option value="150000000000">内蒙古自治区</option>
+                                    <option value="510000000000">四川省</option>
+                                    <option value="530000000000">云南省</option>
+                                    <option value="540000000000">西藏自治区</option>
+                                    <option value="610000000000">陕西省</option>
+                                    <option value="620000000000">甘肃省</option>
+                                    <option value="630000000000">青海省</option>
+                                    <option value="640000000000">宁夏回族自治区</option>
+                                    <option value="650000000000">新疆维吾尔族自治区</option>
+                                    <option value="660000000">建设兵团</option>
+                                </select>
+                                <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
+                                    <option value="-1">请选择</option>
+                                </select>
+                                <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                                <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                                <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8" style="margin-left: 20px">
+                    <button type="button" id="a_getmanurelist" class="btn btn-info btn-flat">获取当前区域犬粪列表</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-body">
+                        <div class="box box-solid">
+                            <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>犬粪编号</th>
+                                    <th>犬主姓名</th>
+                                    <!--<th>身份证号</th>-->
+                                    <th>犬只政府编码</th>
+                                    <th>防控方式</th>
+                                    <th>硬件编码</th>
+                                    <!--<th>采集日期</th>-->
+                                    <th>检测方法</th>
+                                    <th>检测结果</th>
+                                    <th>检测人</th>
+                                    <th>检测日期</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <div id="manureid" style="display: none">0</div>
+    <div class="modal fade" id="manureInfoDiv" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">犬粪详细信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>犬粪编号：</label>
+                            <input type="text" class="form-control" placeholder="犬粪编号"  id="input_manurecode" disabled/>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>犬主姓名：</label>
+                            <input type="text" class="form-control" placeholder="犬主姓名" id="input_ownername" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>身份证号：</label>
+                            <input type="text" class="form-control" placeholder="身份证号" id="input_ownerindentity" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>犬只政府编码：</label>
+                            <input type="text" class="form-control" placeholder="犬只政府编码" id="input_doggovcode" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>防控方式：</label>
+                            <input type="text" class="form-control" placeholder="防控方式" id="input_managemethod" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>硬件编号：</label>
+                            <input type="text" class="form-control" placeholder="硬件编号" id="input_deviceid" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>采集日期：</label>
+                            <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="采集日期" id="input_collectiondate" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>采集人：</label>
+                            <input type="text" class="form-control" placeholder="采集人" id="input_collectionperson" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测日期：</label>
+                            <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="检测日期" id="input_testdate" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测方法：</label>
+                            <input type="text" class="form-control" placeholder="检测方法" id="input_testmethod" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测结果：</label>
+                            <input type="text" class="form-control" placeholder="检测结果" id="input_testresult" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测人：</label>
+                            <input type="text" class="form-control" placeholder="检测人" id="input_testperson" disabled>
+                        </div>
+                        <div class="form-group  has-success" id="div_sqjqdcnum">
+                            <label>PCR阳性石渠棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="input_sqjqdcnum" disabled>
+                        </div>
+                        <div class="form-group  has-success pcryang" id="div_dfjqdcnum">
+                            <label>PCR阳性多房棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="input_dfjqdcnum" disabled>
+                        </div>
+                        <div class="form-group  has-success pcryang" id="div_xljqdcnum">
+                            <label>PCR阳性细粒棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="input_xljqdcnum" disabled>
+                        </div>
+                    </form>
+                    <!--<form role="form">-->
+                        <!--<div class="alert alert-info alert-dismissible">-->
+                            <!--<h4><i class="icon fa fa-info"></i>设备基本信息</h4>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; text input &ndash;&gt;-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>项圈编号：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="项圈编号" id="input_neckletid" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>喂饲器编号：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="喂饲器编号" id="input_appid" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>电量信息：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="电量信息" id="input_power" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>剩余驱虫次数：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="剩余驱虫次数" id="input_medleft" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>最后驱虫时间：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="最后驱虫时间" id="input_endmedtime" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>位置反馈周期(天)：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="位置反馈周期(天)" id="input_areacycle" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>投药反馈周期(天)：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="投药反馈周期(天)" id="input_dosingcycle" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>初次投药时间：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="初次投药时间" id="input_firstmedtime" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>上次投药时间：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="上次投药时间" id="input_lastmedtime" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>下次投药时间：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="下次投药时间" id="input_nextmedtime" disabled>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="col-md-offset-2 col-md-8">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button type="button" id="a_devicemodify" class="btn btn-info btn-flat">修改设备信息</button>&ndash;&gt;-->
+                        <!--&lt;!&ndash;&lt;!&ndash;<button type="button" id="a_neckletmodify" data-toggle="modal" href="#collarDiv" class="btn btn-info btn-flat" style="float: left">修改项圈信息</button>&ndash;&gt;&ndash;&gt;-->
+                        <!--&lt;!&ndash;&lt;!&ndash;<button type="button" id="a_feedermodify" data-toggle="modal" href="#feederDiv" class="btn btn-info btn-flat" style="float: right">修改喂饲器信息</button>&ndash;&gt;&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</form>-->
+                    <!--<form role="form">-->
+                        <!--<div class="alert alert-info alert-dismissible">-->
+                            <!--<h4><i class="icon fa fa-info"></i>主人基本信息</h4>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash; text input &ndash;&gt;-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>姓名：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="姓名" id="input_ownername" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>主人身份证（选）：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="主人身份证（选）" id="input_owneridentity" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>性别：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="性别" id="input_ownersex" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>年龄：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="年龄" id="input_ownerage" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>职业：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="职业" id="input_ownerjob" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>家庭住址(村)：</label>-->
+                            <!--<input type="text" class="form-control" placeholder="家庭住址(村)" id="input_homeaddress" disabled>-->
+                        <!--</div>-->
+                        <!--<div class="form-group  has-success">-->
+                            <!--<label>联系方式：</label>-->
+                            <!--<div class="has-success" id="input_ownertel" style="padding-top:7px;"></div>-->
+                            <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<div class="col-md-offset-2 col-md-8">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<button type="button" id="a_ownermodify" data-toggle="modal" href="#dogownerDiv" class="btn btn-info btn-flat">修改主人信息</button>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</form>-->
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="dogManureReg" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">录入检测结果</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>犬粪编号：</label>
+                            <input type="text" class="form-control" placeholder="犬粪编号"  id="reginput_manurecode" disabled/>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>犬主姓名：</label>
+                            <input type="text" class="form-control" placeholder="犬主姓名" id="reginput_ownername" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测日期：</label>
+                            <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="检测日期" id="reginput_testdate">
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测方法：</label>
+                            <!--<input type="text" class="form-control" placeholder="检测方法" id="reginput_testmethod">-->
+                            <select class="form-control select2"  id="regselect_testmethod" style="width: 100%;">
+                                <option value="ELISA">ELISA</option>
+                                <option value="剖检">剖检</option>
+                                <option value="槟榔碱导泄">槟榔碱导泄</option>
+                                <option value="PCR">PCR</option>
+                            </select>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测结果：</label>
+                            <!--<input type="text" class="form-control" placeholder="检测结果" id="reginput_testresult">-->
+                            <select class="form-control select2"  id="regselect_testresult" style="width: 100%;">
+                                <option value="阴性">阴性</option>
+                                <option value="阳性">阳性</option>
+                            </select>
+                        </div>
+                        <div class="form-group  has-success" id="div_regsqjqdcnum">
+                            <label>PCR阳性石渠棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="reginput_sqjqdcnum" />
+                        </div>
+                        <div class="form-group  has-success pcryang" id="div_regdfjqdcnum">
+                            <label>PCR阳性多房棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="reginput_dfjqdcnum" />
+                        </div>
+                        <div class="form-group  has-success pcryang" id="div_regxljqdcnum">
+                            <label>PCR阳性细粒棘球绦虫数量：</label>
+                            <input type="text" class="form-control" placeholder="PCR阳性石渠棘球绦虫数量" id="reginput_xljqdcnum" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>检测人：</label>
+                            <input type="text" class="form-control" placeholder="检测人" id="reginput_testperson">
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8">
+                                    <button type="button" id="a_manurereg" class="btn btn-info btn-flat">录入检测结果</button>
+                                </div>
+                            </div>
+                        </div>
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-md-offset-2 col-md-8">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button type="button" id="a_dogmodify" data-toggle="modal" href="#dogDiv" class="btn btn-info btn-flat">修改牧犬信息</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</form>-->
+                    <!--<form role="form">-->
+                    <!--<div class="alert alert-info alert-dismissible">-->
+                    <!--<h4><i class="icon fa fa-info"></i>设备基本信息</h4>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; text input &ndash;&gt;-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>项圈编号：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="项圈编号" id="input_neckletid" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>喂饲器编号：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="喂饲器编号" id="input_appid" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>电量信息：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="电量信息" id="input_power" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>剩余驱虫次数：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="剩余驱虫次数" id="input_medleft" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>最后驱虫时间：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="最后驱虫时间" id="input_endmedtime" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>位置反馈周期(天)：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="位置反馈周期(天)" id="input_areacycle" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>投药反馈周期(天)：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="投药反馈周期(天)" id="input_dosingcycle" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>初次投药时间：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="初次投药时间" id="input_firstmedtime" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>上次投药时间：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="上次投药时间" id="input_lastmedtime" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>下次投药时间：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="下次投药时间" id="input_nextmedtime" disabled>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-md-offset-2 col-md-8">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button type="button" id="a_devicemodify" class="btn btn-info btn-flat">修改设备信息</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<button type="button" id="a_neckletmodify" data-toggle="modal" href="#collarDiv" class="btn btn-info btn-flat" style="float: left">修改项圈信息</button>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;&lt;!&ndash;<button type="button" id="a_feedermodify" data-toggle="modal" href="#feederDiv" class="btn btn-info btn-flat" style="float: right">修改喂饲器信息</button>&ndash;&gt;&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</form>-->
+                    <!--<form role="form">-->
+                    <!--<div class="alert alert-info alert-dismissible">-->
+                    <!--<h4><i class="icon fa fa-info"></i>主人基本信息</h4>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash; text input &ndash;&gt;-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>姓名：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="姓名" id="input_ownername" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>主人身份证（选）：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="主人身份证（选）" id="input_owneridentity" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>性别：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="性别" id="input_ownersex" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>年龄：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="年龄" id="input_ownerage" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>职业：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="职业" id="input_ownerjob" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>家庭住址(村)：</label>-->
+                    <!--<input type="text" class="form-control" placeholder="家庭住址(村)" id="input_homeaddress" disabled>-->
+                    <!--</div>-->
+                    <!--<div class="form-group  has-success">-->
+                    <!--<label>联系方式：</label>-->
+                    <!--<div class="has-success" id="input_ownertel" style="padding-top:7px;"></div>-->
+                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div class="col-md-offset-2 col-md-8">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button type="button" id="a_ownermodify" data-toggle="modal" href="#dogownerDiv" class="btn btn-info btn-flat">修改主人信息</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--</div>-->
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+</html>

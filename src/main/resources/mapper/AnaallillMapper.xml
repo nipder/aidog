@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.AnaallillMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Anaallill" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="district_level" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="district_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="epidemic" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="lng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="lat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="echartname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bcheckpnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pillnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pcheckoutlv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pilllv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pchechyear" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bcheckcnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="cillnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ccheckoutlv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ccheckyear" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bchecknum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="byangnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="bcheckoutlv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bcheckyear" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="achecknum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="aillnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ailllv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="acheckyear" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mchecknum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="myangnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="myanglv" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mcheckyear" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="note" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, districtcode, district_level, district_name, epidemic, lng, lat, echartname, 
+    bcheckpnum, pillnum, pcheckoutlv, pilllv, pchechyear, bcheckcnum, cillnum, ccheckoutlv, 
+    ccheckyear, bchecknum, byangnum, bcheckoutlv, bcheckyear, achecknum, aillnum, ailllv, 
+    acheckyear, mchecknum, myangnum, myanglv, mcheckyear, note
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.AnaallillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from anaallill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from anaallill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from anaallill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.AnaallillExample" >
+    delete from anaallill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Anaallill" >
+    insert into anaallill (id, districtcode, district_level, 
+      district_name, epidemic, lng, 
+      lat, echartname, bcheckpnum, 
+      pillnum, pcheckoutlv, pilllv, 
+      pchechyear, bcheckcnum, cillnum, 
+      ccheckoutlv, ccheckyear, bchecknum, 
+      byangnum, bcheckoutlv, bcheckyear, 
+      achecknum, aillnum, ailllv, 
+      acheckyear, mchecknum, myangnum, 
+      myanglv, mcheckyear, note
+      )
+    values (#{id,jdbcType=INTEGER}, #{districtcode,jdbcType=VARCHAR}, #{districtLevel,jdbcType=INTEGER}, 
+      #{districtName,jdbcType=VARCHAR}, #{epidemic,jdbcType=INTEGER}, #{lng,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{echartname,jdbcType=VARCHAR}, #{bcheckpnum,jdbcType=INTEGER}, 
+      #{pillnum,jdbcType=INTEGER}, #{pcheckoutlv,jdbcType=VARCHAR}, #{pilllv,jdbcType=VARCHAR}, 
+      #{pchechyear,jdbcType=VARCHAR}, #{bcheckcnum,jdbcType=INTEGER}, #{cillnum,jdbcType=INTEGER}, 
+      #{ccheckoutlv,jdbcType=VARCHAR}, #{ccheckyear,jdbcType=VARCHAR}, #{bchecknum,jdbcType=INTEGER}, 
+      #{byangnum,jdbcType=INTEGER}, #{bcheckoutlv,jdbcType=VARCHAR}, #{bcheckyear,jdbcType=VARCHAR}, 
+      #{achecknum,jdbcType=INTEGER}, #{aillnum,jdbcType=INTEGER}, #{ailllv,jdbcType=VARCHAR}, 
+      #{acheckyear,jdbcType=VARCHAR}, #{mchecknum,jdbcType=INTEGER}, #{myangnum,jdbcType=INTEGER}, 
+      #{myanglv,jdbcType=VARCHAR}, #{mcheckyear,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Anaallill" >
+    insert into anaallill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+      <if test="districtLevel != null" >
+        district_level,
+      </if>
+      <if test="districtName != null" >
+        district_name,
+      </if>
+      <if test="epidemic != null" >
+        epidemic,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="echartname != null" >
+        echartname,
+      </if>
+      <if test="bcheckpnum != null" >
+        bcheckpnum,
+      </if>
+      <if test="pillnum != null" >
+        pillnum,
+      </if>
+      <if test="pcheckoutlv != null" >
+        pcheckoutlv,
+      </if>
+      <if test="pilllv != null" >
+        pilllv,
+      </if>
+      <if test="pchechyear != null" >
+        pchechyear,
+      </if>
+      <if test="bcheckcnum != null" >
+        bcheckcnum,
+      </if>
+      <if test="cillnum != null" >
+        cillnum,
+      </if>
+      <if test="ccheckoutlv != null" >
+        ccheckoutlv,
+      </if>
+      <if test="ccheckyear != null" >
+        ccheckyear,
+      </if>
+      <if test="bchecknum != null" >
+        bchecknum,
+      </if>
+      <if test="byangnum != null" >
+        byangnum,
+      </if>
+      <if test="bcheckoutlv != null" >
+        bcheckoutlv,
+      </if>
+      <if test="bcheckyear != null" >
+        bcheckyear,
+      </if>
+      <if test="achecknum != null" >
+        achecknum,
+      </if>
+      <if test="aillnum != null" >
+        aillnum,
+      </if>
+      <if test="ailllv != null" >
+        ailllv,
+      </if>
+      <if test="acheckyear != null" >
+        acheckyear,
+      </if>
+      <if test="mchecknum != null" >
+        mchecknum,
+      </if>
+      <if test="myangnum != null" >
+        myangnum,
+      </if>
+      <if test="myanglv != null" >
+        myanglv,
+      </if>
+      <if test="mcheckyear != null" >
+        mcheckyear,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        #{districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="epidemic != null" >
+        #{epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="echartname != null" >
+        #{echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckpnum != null" >
+        #{bcheckpnum,jdbcType=INTEGER},
+      </if>
+      <if test="pillnum != null" >
+        #{pillnum,jdbcType=INTEGER},
+      </if>
+      <if test="pcheckoutlv != null" >
+        #{pcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="pilllv != null" >
+        #{pilllv,jdbcType=VARCHAR},
+      </if>
+      <if test="pchechyear != null" >
+        #{pchechyear,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckcnum != null" >
+        #{bcheckcnum,jdbcType=INTEGER},
+      </if>
+      <if test="cillnum != null" >
+        #{cillnum,jdbcType=INTEGER},
+      </if>
+      <if test="ccheckoutlv != null" >
+        #{ccheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="ccheckyear != null" >
+        #{ccheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="bchecknum != null" >
+        #{bchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="byangnum != null" >
+        #{byangnum,jdbcType=INTEGER},
+      </if>
+      <if test="bcheckoutlv != null" >
+        #{bcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckyear != null" >
+        #{bcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="achecknum != null" >
+        #{achecknum,jdbcType=INTEGER},
+      </if>
+      <if test="aillnum != null" >
+        #{aillnum,jdbcType=INTEGER},
+      </if>
+      <if test="ailllv != null" >
+        #{ailllv,jdbcType=VARCHAR},
+      </if>
+      <if test="acheckyear != null" >
+        #{acheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="mchecknum != null" >
+        #{mchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="myangnum != null" >
+        #{myangnum,jdbcType=INTEGER},
+      </if>
+      <if test="myanglv != null" >
+        #{myanglv,jdbcType=VARCHAR},
+      </if>
+      <if test="mcheckyear != null" >
+        #{mcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.AnaallillExample" resultType="java.lang.Integer" >
+    select count(*) from anaallill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update anaallill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtLevel != null" >
+        district_level = #{record.districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtName != null" >
+        district_name = #{record.districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epidemic != null" >
+        epidemic = #{record.epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="record.lng != null" >
+        lng = #{record.lng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.echartname != null" >
+        echartname = #{record.echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcheckpnum != null" >
+        bcheckpnum = #{record.bcheckpnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pillnum != null" >
+        pillnum = #{record.pillnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.pcheckoutlv != null" >
+        pcheckoutlv = #{record.pcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pilllv != null" >
+        pilllv = #{record.pilllv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pchechyear != null" >
+        pchechyear = #{record.pchechyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcheckcnum != null" >
+        bcheckcnum = #{record.bcheckcnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.cillnum != null" >
+        cillnum = #{record.cillnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccheckoutlv != null" >
+        ccheckoutlv = #{record.ccheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ccheckyear != null" >
+        ccheckyear = #{record.ccheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bchecknum != null" >
+        bchecknum = #{record.bchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="record.byangnum != null" >
+        byangnum = #{record.byangnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.bcheckoutlv != null" >
+        bcheckoutlv = #{record.bcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcheckyear != null" >
+        bcheckyear = #{record.bcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.achecknum != null" >
+        achecknum = #{record.achecknum,jdbcType=INTEGER},
+      </if>
+      <if test="record.aillnum != null" >
+        aillnum = #{record.aillnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.ailllv != null" >
+        ailllv = #{record.ailllv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acheckyear != null" >
+        acheckyear = #{record.acheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mchecknum != null" >
+        mchecknum = #{record.mchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="record.myangnum != null" >
+        myangnum = #{record.myangnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.myanglv != null" >
+        myanglv = #{record.myanglv,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mcheckyear != null" >
+        mcheckyear = #{record.mcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update anaallill
+    set id = #{record.id,jdbcType=INTEGER},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      district_level = #{record.districtLevel,jdbcType=INTEGER},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
+      epidemic = #{record.epidemic,jdbcType=INTEGER},
+      lng = #{record.lng,jdbcType=VARCHAR},
+      lat = #{record.lat,jdbcType=VARCHAR},
+      echartname = #{record.echartname,jdbcType=VARCHAR},
+      bcheckpnum = #{record.bcheckpnum,jdbcType=INTEGER},
+      pillnum = #{record.pillnum,jdbcType=INTEGER},
+      pcheckoutlv = #{record.pcheckoutlv,jdbcType=VARCHAR},
+      pilllv = #{record.pilllv,jdbcType=VARCHAR},
+      pchechyear = #{record.pchechyear,jdbcType=VARCHAR},
+      bcheckcnum = #{record.bcheckcnum,jdbcType=INTEGER},
+      cillnum = #{record.cillnum,jdbcType=INTEGER},
+      ccheckoutlv = #{record.ccheckoutlv,jdbcType=VARCHAR},
+      ccheckyear = #{record.ccheckyear,jdbcType=VARCHAR},
+      bchecknum = #{record.bchecknum,jdbcType=INTEGER},
+      byangnum = #{record.byangnum,jdbcType=INTEGER},
+      bcheckoutlv = #{record.bcheckoutlv,jdbcType=VARCHAR},
+      bcheckyear = #{record.bcheckyear,jdbcType=VARCHAR},
+      achecknum = #{record.achecknum,jdbcType=INTEGER},
+      aillnum = #{record.aillnum,jdbcType=INTEGER},
+      ailllv = #{record.ailllv,jdbcType=VARCHAR},
+      acheckyear = #{record.acheckyear,jdbcType=VARCHAR},
+      mchecknum = #{record.mchecknum,jdbcType=INTEGER},
+      myangnum = #{record.myangnum,jdbcType=INTEGER},
+      myanglv = #{record.myanglv,jdbcType=VARCHAR},
+      mcheckyear = #{record.mcheckyear,jdbcType=VARCHAR},
+      note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Anaallill" >
+    update anaallill
+    <set >
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        district_level = #{districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="epidemic != null" >
+        epidemic = #{epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="echartname != null" >
+        echartname = #{echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckpnum != null" >
+        bcheckpnum = #{bcheckpnum,jdbcType=INTEGER},
+      </if>
+      <if test="pillnum != null" >
+        pillnum = #{pillnum,jdbcType=INTEGER},
+      </if>
+      <if test="pcheckoutlv != null" >
+        pcheckoutlv = #{pcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="pilllv != null" >
+        pilllv = #{pilllv,jdbcType=VARCHAR},
+      </if>
+      <if test="pchechyear != null" >
+        pchechyear = #{pchechyear,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckcnum != null" >
+        bcheckcnum = #{bcheckcnum,jdbcType=INTEGER},
+      </if>
+      <if test="cillnum != null" >
+        cillnum = #{cillnum,jdbcType=INTEGER},
+      </if>
+      <if test="ccheckoutlv != null" >
+        ccheckoutlv = #{ccheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="ccheckyear != null" >
+        ccheckyear = #{ccheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="bchecknum != null" >
+        bchecknum = #{bchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="byangnum != null" >
+        byangnum = #{byangnum,jdbcType=INTEGER},
+      </if>
+      <if test="bcheckoutlv != null" >
+        bcheckoutlv = #{bcheckoutlv,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckyear != null" >
+        bcheckyear = #{bcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="achecknum != null" >
+        achecknum = #{achecknum,jdbcType=INTEGER},
+      </if>
+      <if test="aillnum != null" >
+        aillnum = #{aillnum,jdbcType=INTEGER},
+      </if>
+      <if test="ailllv != null" >
+        ailllv = #{ailllv,jdbcType=VARCHAR},
+      </if>
+      <if test="acheckyear != null" >
+        acheckyear = #{acheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="mchecknum != null" >
+        mchecknum = #{mchecknum,jdbcType=INTEGER},
+      </if>
+      <if test="myangnum != null" >
+        myangnum = #{myangnum,jdbcType=INTEGER},
+      </if>
+      <if test="myanglv != null" >
+        myanglv = #{myanglv,jdbcType=VARCHAR},
+      </if>
+      <if test="mcheckyear != null" >
+        mcheckyear = #{mcheckyear,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Anaallill" >
+    update anaallill
+    set districtcode = #{districtcode,jdbcType=VARCHAR},
+      district_level = #{districtLevel,jdbcType=INTEGER},
+      district_name = #{districtName,jdbcType=VARCHAR},
+      epidemic = #{epidemic,jdbcType=INTEGER},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      echartname = #{echartname,jdbcType=VARCHAR},
+      bcheckpnum = #{bcheckpnum,jdbcType=INTEGER},
+      pillnum = #{pillnum,jdbcType=INTEGER},
+      pcheckoutlv = #{pcheckoutlv,jdbcType=VARCHAR},
+      pilllv = #{pilllv,jdbcType=VARCHAR},
+      pchechyear = #{pchechyear,jdbcType=VARCHAR},
+      bcheckcnum = #{bcheckcnum,jdbcType=INTEGER},
+      cillnum = #{cillnum,jdbcType=INTEGER},
+      ccheckoutlv = #{ccheckoutlv,jdbcType=VARCHAR},
+      ccheckyear = #{ccheckyear,jdbcType=VARCHAR},
+      bchecknum = #{bchecknum,jdbcType=INTEGER},
+      byangnum = #{byangnum,jdbcType=INTEGER},
+      bcheckoutlv = #{bcheckoutlv,jdbcType=VARCHAR},
+      bcheckyear = #{bcheckyear,jdbcType=VARCHAR},
+      achecknum = #{achecknum,jdbcType=INTEGER},
+      aillnum = #{aillnum,jdbcType=INTEGER},
+      ailllv = #{ailllv,jdbcType=VARCHAR},
+      acheckyear = #{acheckyear,jdbcType=VARCHAR},
+      mchecknum = #{mchecknum,jdbcType=INTEGER},
+      myangnum = #{myangnum,jdbcType=INTEGER},
+      myanglv = #{myanglv,jdbcType=VARCHAR},
+      mcheckyear = #{mcheckyear,jdbcType=VARCHAR},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

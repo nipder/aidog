@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>包虫病防控犬驱虫远程管理系统</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+        <!--地图适配-->
+        <link rel="stylesheet" href="../../dist/css/index.css">
+        <title>村级地图</title>
+        <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="../ui_js/echarts.js"></script>
+        <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.0&key=39f6a5bd38f3167dc032e09b8e6d2a12&plugin=AMap.MarkerClusterer"></script>
+        <script src="https://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+        <script src="../../bootstrap/js/bootstrap.js"></script>
+        <script src="../ui_js/hamletmap.js"></script>
+    </head>
+</head>
+<body>
+    <button type="button" id="back"  class="btn btn-block btn-success">返回上级地图</button>
+    <div class="content">
+        <div id="pad-wrapper" class="users-list">
+            <div class="row chart">
+                <div class="col-md-12">
+                    <div style="text-align: center;">
+                        <h4 id="h3_logtitle"></h4>
+                    </div>
+                    <div id="statsChart" style="height:750px"></div>
+                </div>
+            </div>
+        </div>
+        <div id="dogid" style="display: none">0</div>
+        <div class="modal fade" id="dogInfoDiv" tabindex="-1" role="dialog">
+            <div class="modal-dialog model80" >
+
+                <div class="modal-content">
+                    <div class="modal-body">
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+    </div>
+    <script>
+        $(function () {
+            $("#back").click(function () {
+                history.go(-1);
+            });
+        })
+    </script>
+</body>
+</html>

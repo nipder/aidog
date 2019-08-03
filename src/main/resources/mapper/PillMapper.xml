@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.PillMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Pill" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="pill_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_factory" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_spec" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_batchnum" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_expdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="pill_buydate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="pill_buyer" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_buyertel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, pill_code, pill_name, pill_factory, pill_spec, pill_batchnum, pill_expdate, pill_buydate, 
+    pill_buyer, pill_buyertel, districtcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.PillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from pill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from pill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from pill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.PillExample" >
+    delete from pill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Pill" >
+    insert into pill (id, pill_code, pill_name, 
+      pill_factory, pill_spec, pill_batchnum, 
+      pill_expdate, pill_buydate, pill_buyer, 
+      pill_buyertel, districtcode)
+    values (#{id,jdbcType=INTEGER}, #{pillCode,jdbcType=VARCHAR}, #{pillName,jdbcType=VARCHAR}, 
+      #{pillFactory,jdbcType=VARCHAR}, #{pillSpec,jdbcType=VARCHAR}, #{pillBatchnum,jdbcType=VARCHAR}, 
+      #{pillExpdate,jdbcType=TIMESTAMP}, #{pillBuydate,jdbcType=TIMESTAMP}, #{pillBuyer,jdbcType=VARCHAR}, 
+      #{pillBuyertel,jdbcType=VARCHAR}, #{districtcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Pill" >
+    insert into pill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="pillCode != null" >
+        pill_code,
+      </if>
+      <if test="pillName != null" >
+        pill_name,
+      </if>
+      <if test="pillFactory != null" >
+        pill_factory,
+      </if>
+      <if test="pillSpec != null" >
+        pill_spec,
+      </if>
+      <if test="pillBatchnum != null" >
+        pill_batchnum,
+      </if>
+      <if test="pillExpdate != null" >
+        pill_expdate,
+      </if>
+      <if test="pillBuydate != null" >
+        pill_buydate,
+      </if>
+      <if test="pillBuyer != null" >
+        pill_buyer,
+      </if>
+      <if test="pillBuyertel != null" >
+        pill_buyertel,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="pillCode != null" >
+        #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pillName != null" >
+        #{pillName,jdbcType=VARCHAR},
+      </if>
+      <if test="pillFactory != null" >
+        #{pillFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="pillSpec != null" >
+        #{pillSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="pillBatchnum != null" >
+        #{pillBatchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pillExpdate != null" >
+        #{pillExpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pillBuydate != null" >
+        #{pillBuydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pillBuyer != null" >
+        #{pillBuyer,jdbcType=VARCHAR},
+      </if>
+      <if test="pillBuyertel != null" >
+        #{pillBuyertel,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.PillExample" resultType="java.lang.Integer" >
+    select count(*) from pill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update pill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.pillCode != null" >
+        pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillName != null" >
+        pill_name = #{record.pillName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillFactory != null" >
+        pill_factory = #{record.pillFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillSpec != null" >
+        pill_spec = #{record.pillSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillBatchnum != null" >
+        pill_batchnum = #{record.pillBatchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillExpdate != null" >
+        pill_expdate = #{record.pillExpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pillBuydate != null" >
+        pill_buydate = #{record.pillBuydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.pillBuyer != null" >
+        pill_buyer = #{record.pillBuyer,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillBuyertel != null" >
+        pill_buyertel = #{record.pillBuyertel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update pill
+    set id = #{record.id,jdbcType=INTEGER},
+      pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      pill_name = #{record.pillName,jdbcType=VARCHAR},
+      pill_factory = #{record.pillFactory,jdbcType=VARCHAR},
+      pill_spec = #{record.pillSpec,jdbcType=VARCHAR},
+      pill_batchnum = #{record.pillBatchnum,jdbcType=VARCHAR},
+      pill_expdate = #{record.pillExpdate,jdbcType=TIMESTAMP},
+      pill_buydate = #{record.pillBuydate,jdbcType=TIMESTAMP},
+      pill_buyer = #{record.pillBuyer,jdbcType=VARCHAR},
+      pill_buyertel = #{record.pillBuyertel,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Pill" >
+    update pill
+    <set >
+      <if test="pillCode != null" >
+        pill_code = #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="pillName != null" >
+        pill_name = #{pillName,jdbcType=VARCHAR},
+      </if>
+      <if test="pillFactory != null" >
+        pill_factory = #{pillFactory,jdbcType=VARCHAR},
+      </if>
+      <if test="pillSpec != null" >
+        pill_spec = #{pillSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="pillBatchnum != null" >
+        pill_batchnum = #{pillBatchnum,jdbcType=VARCHAR},
+      </if>
+      <if test="pillExpdate != null" >
+        pill_expdate = #{pillExpdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pillBuydate != null" >
+        pill_buydate = #{pillBuydate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pillBuyer != null" >
+        pill_buyer = #{pillBuyer,jdbcType=VARCHAR},
+      </if>
+      <if test="pillBuyertel != null" >
+        pill_buyertel = #{pillBuyertel,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Pill" >
+    update pill
+    set pill_code = #{pillCode,jdbcType=VARCHAR},
+      pill_name = #{pillName,jdbcType=VARCHAR},
+      pill_factory = #{pillFactory,jdbcType=VARCHAR},
+      pill_spec = #{pillSpec,jdbcType=VARCHAR},
+      pill_batchnum = #{pillBatchnum,jdbcType=VARCHAR},
+      pill_expdate = #{pillExpdate,jdbcType=TIMESTAMP},
+      pill_buydate = #{pillBuydate,jdbcType=TIMESTAMP},
+      pill_buyer = #{pillBuyer,jdbcType=VARCHAR},
+      pill_buyertel = #{pillBuyertel,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

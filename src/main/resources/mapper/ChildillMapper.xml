@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.ChildillMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Childill" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="num" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="school" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="age" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="classname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="bcheckres" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="checkperson" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="checkdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="note" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, num, school, name, age, sex, classname, bcheckres, checkperson, checkdate, note
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.ChildillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from childill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from childill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from childill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.ChildillExample" >
+    delete from childill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Childill" >
+    insert into childill (id, num, school, 
+      name, age, sex, classname, 
+      bcheckres, checkperson, checkdate, 
+      note)
+    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, #{school,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{sex,jdbcType=VARCHAR}, #{classname,jdbcType=VARCHAR}, 
+      #{bcheckres,jdbcType=VARCHAR}, #{checkperson,jdbcType=VARCHAR}, #{checkdate,jdbcType=TIMESTAMP}, 
+      #{note,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Childill" >
+    insert into childill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="school != null" >
+        school,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="classname != null" >
+        classname,
+      </if>
+      <if test="bcheckres != null" >
+        bcheckres,
+      </if>
+      <if test="checkperson != null" >
+        checkperson,
+      </if>
+      <if test="checkdate != null" >
+        checkdate,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null" >
+        #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckres != null" >
+        #{bcheckres,jdbcType=VARCHAR},
+      </if>
+      <if test="checkperson != null" >
+        #{checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.ChildillExample" resultType="java.lang.Integer" >
+    select count(*) from childill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update childill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=VARCHAR},
+      </if>
+      <if test="record.school != null" >
+        school = #{record.school,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.classname != null" >
+        classname = #{record.classname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bcheckres != null" >
+        bcheckres = #{record.bcheckres,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkperson != null" >
+        checkperson = #{record.checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkdate != null" >
+        checkdate = #{record.checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update childill
+    set id = #{record.id,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=VARCHAR},
+      school = #{record.school,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      classname = #{record.classname,jdbcType=VARCHAR},
+      bcheckres = #{record.bcheckres,jdbcType=VARCHAR},
+      checkperson = #{record.checkperson,jdbcType=VARCHAR},
+      checkdate = #{record.checkdate,jdbcType=TIMESTAMP},
+      note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Childill" >
+    update childill
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="school != null" >
+        school = #{school,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="classname != null" >
+        classname = #{classname,jdbcType=VARCHAR},
+      </if>
+      <if test="bcheckres != null" >
+        bcheckres = #{bcheckres,jdbcType=VARCHAR},
+      </if>
+      <if test="checkperson != null" >
+        checkperson = #{checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        checkdate = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Childill" >
+    update childill
+    set num = #{num,jdbcType=VARCHAR},
+      school = #{school,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      sex = #{sex,jdbcType=VARCHAR},
+      classname = #{classname,jdbcType=VARCHAR},
+      bcheckres = #{bcheckres,jdbcType=VARCHAR},
+      checkperson = #{checkperson,jdbcType=VARCHAR},
+      checkdate = #{checkdate,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

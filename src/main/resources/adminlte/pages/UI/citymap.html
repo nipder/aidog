@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>包虫病防控犬驱虫远程管理系统</title>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- bootstrap -->
+        <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+        <!--地图适配-->
+        <link rel="stylesheet" href="../../dist/css/index.css">
+        <title>市级地图</title>
+        <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+        <script src="../ui_js/echarts.js"></script>
+        <script src="../ui_js/citymap.js"></script>
+    </head>
+</head>
+<body>
+    <button type="button" id="back"  class="btn btn-block btn-success">返回上级地图</button>
+    <div class="content">
+
+        <!-- upper main stats -->
+        <!-- end upper main stats -->
+
+        <div id="pad-wrapper">
+            <!-- statistics chart built with jQuery Flot -->
+            <div class="row chart">
+                <div class="col-md-9">
+                    <div style="text-align: center;">
+                        <h4 id="h3_logtitle"></h4>
+                    </div>
+                    <div id="statsChart"></div>
+                </div>
+                <div class="col-md-3">
+                    <table class="table table-hover text-center" style="margin:20px auto">
+                        <tbody>
+                        <!-- row -->
+                        <tr class="success">
+                            <td>
+                                流行区
+                            </td>
+                            <td>
+                                数量（个）
+                            </td>
+                        </tr>
+                        <tr id="tr_epidemiccounty">
+                            <td>
+                                县级
+                            </td>
+                            <td id="countyepidemictotal"></td>
+                        </tr>
+                        <tr id="tr_epidemicvillage">
+                            <td>
+                                乡级
+                            </td>
+                            <td id="villageepidemictotal"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                村级
+                            </td>
+                            <td id="hamletepidemictotal"></td>
+                        </tr>
+                        <tr class="success" id="tr_admin" style="cursor:pointer">
+                            <td>
+                                管理人员
+                            </td>
+                            <td>
+                                数量（人）
+                            </td>
+                        </tr>
+                        <tr id="tr_admincity">
+                            <td>
+                                地市级
+                            </td>
+                            <td id="cityadmintotal"></td>
+                        </tr>
+                        <tr id="tr_admincounty">
+                            <td>
+                                县级
+                            </td>
+                            <td id="countyadmintotal"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                乡级
+                            </td>
+                            <td id="villageadmintotal"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                村级
+                            </td>
+                            <td id="hamletadmintotal"></td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                人群患病率
+                            </td>
+                            <td>
+                                单位（%）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_peopleilllevel">
+                                全市平均患病率
+                            </td>
+                            <td id="peopleilllevel">1.03</td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                犬只信息
+                            </td>
+                            <td>
+                                单位（只/%）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_areaalldognumtotal">
+                                全市总数量
+                            </td>
+                            <td id="countryalldognumtotal"></td>
+                        </tr>
+                        <tr>
+                            <td id="td_dogilllevel">
+                                全市平均感染率
+                            </td>
+                            <td id="dogilllevel">5.78</td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                佩戴项圈犬只情况
+                            </td>
+                            <td>
+                                单位（只/%）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_areadognumtotal">
+                                全市总数量
+                            </td>
+                            <td id="neckdognumtotal"></td>
+                        </tr>
+                        <tr>
+                            <td id="td_necdogilllevel">
+                                全市平均感染率
+                            </td>
+                            <td id="necdogilllevel">0</td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                使用喂饲器犬只情况
+                            </td>
+                            <td>
+                                单位（只/%）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_areawsqdognumtotal">
+                                全市总数量
+                            </td>
+                            <td id="citywsqdognumtotal"></td>
+                        </tr>
+                        <tr>
+                            <td id="td_appdogilllevel">
+                                全市平均感染率
+                            </td>
+                            <td id="appdogilllevel">0</td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                智能驱虫总次数
+                            </td>
+                            <td>
+                                数量（次）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_areamednumtotal">
+                                全市总次数
+                            </td>
+                            <td id="countrymednumtotal"></td>
+                        </tr>
+                        <tr class="success">
+                            <td>
+                                使用硬件驱虫比
+                            </td>
+                            <td>
+                                单位（%）
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="td_arearatedognumtotal">
+                                全市平均驱虫比
+                            </td>
+                            <td id="countryratedognumtotal"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("#back").click(function () {
+                history.go(-1);
+            });
+        })
+    </script>
+</body>
+</html>

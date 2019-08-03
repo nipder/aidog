@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>行政分级统计图 获取数据</title>
+    <link rel="stylesheet" href="https://cache.amap.com/lbs/static/main1119.css"/>
+</head>
+<body>
+<div id="container" class="container"></div>
+<div class="button-group">
+    <input id="up-btn" type="button" class="button" value="行政区上浮"/>
+</div>
+<script src="https://webapi.amap.com/loca?v=1.2.0&key=a95f2a626d3afd67fb6ae4231c8997d5"></script>
+<script src="https://a.amap.com/Loca/static/dist/jquery.min.js"></script>
+<script>
+
+    var locaMap = Loca.create('container', {
+        mapStyle: 'amap://styles/twilight',
+        features: ['bg', 'road'],
+        center: [107.4976, 32.1697],
+        zoom: 4,
+        // Loca 自 1.2.0 起 viewMode 模式默认为 3D，如需 2D 模式，请显示配置。
+        // viewMode: '3D'
+    });
+
+    var infoWin;
+
+    locaMap.on('mapload', function () {
+        infoWin = new AMap.InfoWindow({
+            closeWhenClickMap: true
+        });
+    });
+
+    var vLayer = Loca.visualLayer({
+        fitView: true,
+        eventSupport: true,
+        drillDown: false,
+        container: locaMap,
+        type: 'heatmap',
+        shape: 'district'
+    });
+
+    vLayer.on('click', function (ev) {
+        var originalEv = ev.originalEvent;
+        var amap = locaMap.getMap();
+        var lnglat = amap.containerToLngLat(new AMap.Pixel(originalEv.clientX, originalEv.clientY));
+        var feature = ev.feature;
+        var value = ev.value;
+        var property = feature.subFeature.properties;
+
+        infoWin.open(amap, lnglat);
+        var content = [
+            '行政区：' + property.name,
+            '<br>',
+            '数据：' + value,
+            '<br>',
+            property.childrenNum ? '<button onclick="go2Adcode(event, ' + property.adcode + ')">下钻</button>' : ''
+        ];
+        infoWin.setContent(content.join(''));
+    });
+
+    function go2Adcode(event, code) {
+        event.stopPropagation();
+        infoWin.close();
+        vLayer.goto(code);
+    }
+
+    $.get('https://a.amap.com/Loca/static/mock/tourist_attractions.csv', function (data) {
+
+        vLayer.setData(data, {
+            type: 'csv',
+            lnglat: '经纬度',
+            value: '省内5A景区数量'
+        });
+
+        vLayer.setOptions({
+            mode: 'count',
+            style: {
+                color: ['#ecda9a', '#efc47e', '#f3ad6a', '#f7945d', '#f97b57', '#f66356', '#ee4d5a']
+            },
+            selectStyle: false
+        });
+
+        vLayer.render();
+
+    });
+
+    $('#up-btn').click(function () {
+        vLayer.goto(-1);
+    });
+
+</script>
+</body>
+</html>

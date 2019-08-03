@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.ManagerMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Manager" >
+    <constructor >
+      <idArg column="manager_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="username" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="manager_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="register_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="manager_tel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="officetel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="password" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="privilegelevel" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="manager_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="province" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="city" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="county" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="village" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="hamlet" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="manager_addr" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="workplace" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="manager_identity" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="manager_email" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    manager_id, username, manager_name, register_time, manager_tel, officetel, password, 
+    privilegelevel, manager_status, province, city, county, village, hamlet, manager_addr, 
+    workplace, manager_identity, manager_email, districtcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.ManagerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manager
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.ManagerExample" >
+    delete from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Manager" >
+    insert into manager (manager_id, username, manager_name, 
+      register_time, manager_tel, officetel, 
+      password, privilegelevel, manager_status, 
+      province, city, county, 
+      village, hamlet, manager_addr, 
+      workplace, manager_identity, manager_email, 
+      districtcode)
+    values (#{managerId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, 
+      #{registerTime,jdbcType=TIMESTAMP}, #{managerTel,jdbcType=VARCHAR}, #{officetel,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{privilegelevel,jdbcType=INTEGER}, #{managerStatus,jdbcType=INTEGER}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{county,jdbcType=VARCHAR}, 
+      #{village,jdbcType=VARCHAR}, #{hamlet,jdbcType=VARCHAR}, #{managerAddr,jdbcType=VARCHAR}, 
+      #{workplace,jdbcType=VARCHAR}, #{managerIdentity,jdbcType=VARCHAR}, #{managerEmail,jdbcType=VARCHAR}, 
+      #{districtcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Manager" >
+    insert into manager
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        manager_id,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="managerName != null" >
+        manager_name,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="managerTel != null" >
+        manager_tel,
+      </if>
+      <if test="officetel != null" >
+        officetel,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="privilegelevel != null" >
+        privilegelevel,
+      </if>
+      <if test="managerStatus != null" >
+        manager_status,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="county != null" >
+        county,
+      </if>
+      <if test="village != null" >
+        village,
+      </if>
+      <if test="hamlet != null" >
+        hamlet,
+      </if>
+      <if test="managerAddr != null" >
+        manager_addr,
+      </if>
+      <if test="workplace != null" >
+        workplace,
+      </if>
+      <if test="managerIdentity != null" >
+        manager_identity,
+      </if>
+      <if test="managerEmail != null" >
+        manager_email,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="managerId != null" >
+        #{managerId,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerTel != null" >
+        #{managerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="officetel != null" >
+        #{officetel,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegelevel != null" >
+        #{privilegelevel,jdbcType=INTEGER},
+      </if>
+      <if test="managerStatus != null" >
+        #{managerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null" >
+        #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="village != null" >
+        #{village,jdbcType=VARCHAR},
+      </if>
+      <if test="hamlet != null" >
+        #{hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="managerAddr != null" >
+        #{managerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="workplace != null" >
+        #{workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="managerIdentity != null" >
+        #{managerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="managerEmail != null" >
+        #{managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.ManagerExample" resultType="java.lang.Integer" >
+    select count(*) from manager
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update manager
+    <set >
+      <if test="record.managerId != null" >
+        manager_id = #{record.managerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.username != null" >
+        username = #{record.username,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerName != null" >
+        manager_name = #{record.managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.registerTime != null" >
+        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.managerTel != null" >
+        manager_tel = #{record.managerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officetel != null" >
+        officetel = #{record.officetel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.privilegelevel != null" >
+        privilegelevel = #{record.privilegelevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.managerStatus != null" >
+        manager_status = #{record.managerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.county != null" >
+        county = #{record.county,jdbcType=VARCHAR},
+      </if>
+      <if test="record.village != null" >
+        village = #{record.village,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hamlet != null" >
+        hamlet = #{record.hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerAddr != null" >
+        manager_addr = #{record.managerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workplace != null" >
+        workplace = #{record.workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerIdentity != null" >
+        manager_identity = #{record.managerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerEmail != null" >
+        manager_email = #{record.managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update manager
+    set manager_id = #{record.managerId,jdbcType=INTEGER},
+      username = #{record.username,jdbcType=VARCHAR},
+      manager_name = #{record.managerName,jdbcType=VARCHAR},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      manager_tel = #{record.managerTel,jdbcType=VARCHAR},
+      officetel = #{record.officetel,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      privilegelevel = #{record.privilegelevel,jdbcType=INTEGER},
+      manager_status = #{record.managerStatus,jdbcType=INTEGER},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      county = #{record.county,jdbcType=VARCHAR},
+      village = #{record.village,jdbcType=VARCHAR},
+      hamlet = #{record.hamlet,jdbcType=VARCHAR},
+      manager_addr = #{record.managerAddr,jdbcType=VARCHAR},
+      workplace = #{record.workplace,jdbcType=VARCHAR},
+      manager_identity = #{record.managerIdentity,jdbcType=VARCHAR},
+      manager_email = #{record.managerEmail,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Manager" >
+    update manager
+    <set >
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        manager_name = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="managerTel != null" >
+        manager_tel = #{managerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="officetel != null" >
+        officetel = #{officetel,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="privilegelevel != null" >
+        privilegelevel = #{privilegelevel,jdbcType=INTEGER},
+      </if>
+      <if test="managerStatus != null" >
+        manager_status = #{managerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="county != null" >
+        county = #{county,jdbcType=VARCHAR},
+      </if>
+      <if test="village != null" >
+        village = #{village,jdbcType=VARCHAR},
+      </if>
+      <if test="hamlet != null" >
+        hamlet = #{hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="managerAddr != null" >
+        manager_addr = #{managerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="workplace != null" >
+        workplace = #{workplace,jdbcType=VARCHAR},
+      </if>
+      <if test="managerIdentity != null" >
+        manager_identity = #{managerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="managerEmail != null" >
+        manager_email = #{managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Manager" >
+    update manager
+    set username = #{username,jdbcType=VARCHAR},
+      manager_name = #{managerName,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      manager_tel = #{managerTel,jdbcType=VARCHAR},
+      officetel = #{officetel,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      privilegelevel = #{privilegelevel,jdbcType=INTEGER},
+      manager_status = #{managerStatus,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      county = #{county,jdbcType=VARCHAR},
+      village = #{village,jdbcType=VARCHAR},
+      hamlet = #{hamlet,jdbcType=VARCHAR},
+      manager_addr = #{managerAddr,jdbcType=VARCHAR},
+      workplace = #{workplace,jdbcType=VARCHAR},
+      manager_identity = #{managerIdentity,jdbcType=VARCHAR},
+      manager_email = #{managerEmail,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR}
+    where manager_id = #{managerId,jdbcType=INTEGER}
+  </update>
+</mapper>

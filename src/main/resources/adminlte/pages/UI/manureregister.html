@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../../bootstrap/js/bootstrap.js">
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <title>犬粪采集</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+            width:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="padding-top: 20px;margin-top: 20px">
+        <div class="col-md-12">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success select-5">
+                        <style>
+                            @media (min-width: 992px){
+                                .select-5 .form-control{
+                                    width:18%;
+                                    margin-left:15px;
+                                }
+                            }
+
+                        </style>
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <div class="row">
+                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <!--<option value="-1">请选择</option>-->
+                                <option value="0" style="color: #00a65a">全国</option>
+                                <option value="150000000000">内蒙古自治区</option>
+                                <option value="510000000000">四川省</option>
+                                <option value="530000000000">云南省</option>
+                                <option value="540000000000">西藏自治区</option>
+                                <option value="610000000000">陕西省</option>
+                                <option value="620000000000">甘肃省</option>
+                                <option value="630000000000">青海省</option>
+                                <option value="640000000000">宁夏回族自治区</option>
+                                <option value="650000000000">新疆维吾尔族自治区</option>
+                                <option value="660000000">建设兵团</option>
+                            </select>
+                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <option value="-1">请选择</option>
+                            </select>
+                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>采集犬粪信息</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>犬粪编号：</label>
+                        <input type="text" class="form-control" placeholder="犬粪编号"  id="input_manurecode" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>主人名称：</label>
+                        <select class="form-control select2"  id="select_dogownername" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>防控类型：</label>
+                        <input type="text" class="form-control" placeholder="人工管理"  id="input_managetype" readonly/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="form-group  has-success">
+                        <label>所属村：</label>
+                        <input type="text" class="form-control" placeholder="所属村" id="input_dogbelonghamlet" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>项圈编号：</label>
+                        <select class="form-control select2"  id="select_dognecid" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>采集人：</label>
+                        <input type="text" class="form-control" placeholder="采集人" id="collection_person">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>采集时间：</label>
+                        <input id="manure_getdate"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-8">
+                <button type="button" id="a_addmanure" class="btn btn-info btn-flat">确认采集</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //注册相关
+        var datares = {};
+//        $.ajax({
+//            url: "/aidog/api/register/4",
+//            async:false,
+//            type: "GET",
+//            success: function (data) {
+//                datares = eval("(" + data + ")");
+//            }
+//        });
+        $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
+        {
+            datares = data;
+        });
+
+        $("#select_province").on('change', function () {
+            var selectvalue = $(this).find('option:selected').val();
+            selectvalue = selectvalue.substring(0,2);
+            $("#select_city").find("option").remove();
+            var select_city = document.getElementById("select_city");
+            select_city.options.add(new Option("请选择", "-1"));
+            if ($('#modalselect_adminlevel').find('option:selected').text()!="省级") {
+                for (var i = 0; i < datares.data1.length; i++) {
+                    if (datares.data1[i].districtcode.toString().substring(0, 2) == selectvalue) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        select_city.options.add(new Option(datares.data1[i].districtname, datares.data1[i].districtcode));
+                    }
+                }
+            }
+            $("#select_county").find("option").remove();
+            var select_county = document.getElementById("select_county");
+            select_county.options.add(new Option("请选择", "-1"));
+
+            $("#select_village").find("option").remove();
+            var select_village = document.getElementById("select_village");
+            select_village.options.add(new Option("请选择", "-1"));
+
+            $("#select_hamlet").find("option").remove();
+            var select_hamlet = document.getElementById("select_hamlet");
+            select_hamlet.options.add(new Option("请选择", "-1"));
+        });
+        $("#select_city").on('change', function () {
+            var selectvalue = $(this).find('option:selected').val();
+            $("#select_county").find("option").remove();
+            selectvalue = selectvalue.substring(0, 4);
+            var select_county = document.getElementById("select_county");
+            select_county.options.add(new Option("请选择", "-1"));
+            if ($('#modalselect_adminlevel').find('option:selected').text() != "市级") {
+                for (var i = 0; i < datares.data2.length; i++) {
+                    if (datares.data2[i].districtcode.toString().substring(0, 4) == selectvalue) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        select_county.options.add(new Option(datares.data2[i].districtname, datares.data2[i].districtcode));
+                    }
+                }
+            }
+            $("#select_village").find("option").remove();
+            var select_village = document.getElementById("select_village");
+            select_village.options.add(new Option("请选择", "-1"));
+
+            $("#select_hamlet").find("option").remove();
+            var select_hamlet = document.getElementById("select_hamlet");
+            select_hamlet.options.add(new Option("请选择", "-1"));
+        });
+        $("#select_county").on('change', function () {
+            var selectvalue = $(this).find('option:selected').val();
+            $("#select_village").find("option").remove();
+            selectvalue = selectvalue.substring(0, 6);
+            var select_village = document.getElementById("select_village");
+            select_village.options.add(new Option("请选择", "-1"));
+            if ($('#modalselect_adminlevel').find('option:selected').text() != "县级") {
+                for (var i = 0; i < datares.data3.length; i++) {
+                    if (datares.data3[i].districtcode.toString().substring(0, 6) == selectvalue) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        select_village.options.add(new Option(datares.data3[i].districtname, datares.data3[i].districtcode));
+                    }
+                }
+            }
+            $("#select_hamlet").find("option").remove();
+            var select_hamlet = document.getElementById("select_hamlet");
+            select_hamlet.options.add(new Option("请选择", "-1"));
+        });
+        $("#select_village").on('change', function () {
+            var selectvalue = $(this).find('option:selected').val();
+            $("#select_hamlet").find("option").remove();
+            selectvalue = selectvalue.substring(0, 9);
+            var select_hamlet = document.getElementById("select_hamlet");
+            select_hamlet.options.add(new Option("请选择", "-1"));
+            if ($('#modalselect_adminlevel').find('option:selected').text() != "乡级") {
+                for (var i = 0; i < datares.data4.length; i++) {
+                    if (datares.data4[i].districtcode.toString().substring(0, 9) == selectvalue) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        select_hamlet.options.add(new Option(datares.data4[i].districtname, datares.data4[i].districtcode));
+                    }
+                }
+            }
+        });
+        var hamletcode = "";
+        var ownerid = 0;
+        $("#select_hamlet").on('change', function () {
+            hamletcode = $(this).find('option:selected').val();
+            var selectvalue = $(this).find('option:selected').text();
+            $("#input_dogbelonghamlet").val(selectvalue);
+            var senddata = {};
+            senddata.hamletcode = hamletcode;
+            $.ajax({
+                url:  "/aidog/api/gethamletownerlist",
+                type: "POST",
+                data:  senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    var modalselect_dogownername = document.getElementById("select_dogownername");
+                    data.data = objToArray(data.data);
+                    for (var i = 0; i < data.data.length; i++) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        modalselect_dogownername.options.add(new Option(data.data[i].ownername, data.data[i].ownerid));
+                    }
+                    var necsenddata = {};
+                    ownerid = modalselect_dogownername.options[0].value;
+                    necsenddata.hamletcode = hamletcode;
+                    necsenddata.ownerid = ownerid;
+                    getNecList(necsenddata);
+                }
+            })
+
+            $("#select_dogownername").on('change', function () {
+                ownerid = $(this).find('option:selected').val();
+                var necsenddata = {};
+                necsenddata.hamletcode = hamletcode;
+                necsenddata.ownerid = ownerid;
+                getNecList(necsenddata);
+            });
+        });
+
+        function getNecList(necsenddata) {
+            $.ajax({
+                url:  "/aidog/api/gethamletneclist",
+                type: "POST",
+                data:  necsenddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    var select_dognecid = document.getElementById("select_dognecid");
+                    select_dognecid.length = 0;
+                    data.data = objToArray(data.data);
+                    for (var i = 0; i < data.data.length; i++) {
+                        //遍历后台传回的结果，一项项往select中添加option
+                        select_dognecid.options.add(new Option(data.data[i].nec, data.data[i].id));
+                        $("#input_managetype").val(data.data[i].managetype);
+                    }
+                }
+            })
+        }
+
+
+        //采集犬粪
+        $("#a_addmanure").click(function () {
+            var clicktype = "manureadd";
+            if(hamletcode == ""){
+                alert("请先选择主人所属行政村！");
+                return;
+            }
+            var dogmanure_code = $("#input_manurecode").val();
+            if(ownerid == 0){
+                alert("请选择主人！");
+                return;
+            }
+            var dogowner_id = ownerid;
+            var dog_id = $("#select_dognecid").val();
+            var collection_person = $("#collection_person").val();
+            var districtcode = hamletcode;
+            var manure_getdate = $("#manure_getdate").val()+":00";
+            var senddata = {};
+            senddata.clicktype = clicktype;
+            senddata.dogmanure_code = dogmanure_code;
+            senddata.dogowner_id = dogowner_id;
+            senddata.dog_id = dog_id;
+            senddata.collection_person =  collection_person;
+            senddata.districtcode = districtcode;
+            senddata.manure_getdate = manure_getdate;
+            senddata.managetype = $("#input_managetype").val();
+            $.ajax({
+                url: "/aidog/api/bindoraddapi",
+                type: "POST",
+                data:  JSON.stringify(senddata),
+                contentType: "application/json",
+                dataType: "text",    // 控制回来的数据类型
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    alert(data);
+                    window.location.reload();
+                }
+            })
+        });
+
+    })
+
+
+    function objToArray(array) {
+        var arr = []
+        for (var i in array) {
+            arr.push(array[i]);
+        }
+        return arr;
+    }
+</script>
+</body>
+</html>

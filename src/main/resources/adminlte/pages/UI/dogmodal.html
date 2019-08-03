@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>犬只信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>犬只信息</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>犬只基本信息</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>犬只名称：</label>
+                        <input type="text" class="form-control" placeholder="犬只名称"  id="input_dogname" disabled/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>犬只性别：</label>
+                        <input type="text" class="form-control" placeholder="犬只性别" id="input_dogsex" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>所属村：</label>
+                        <input type="text" class="form-control" placeholder="所属村" id="input_dogbelonghamlet" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>重量：</label>
+                        <input type="text" class="form-control" placeholder="重量" id="input_dogweight" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>毛色：</label>
+                        <input type="text" class="form-control" placeholder="毛色" id="input_dogcolor" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>年龄：</label>
+                        <input type="text" class="form-control" placeholder="年龄" id="input_dogage" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>管理员名称：</label>
+                        <input type="text" class="form-control" placeholder="管理员名称" id="input_adminname" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>管理员电话：</label>
+                        <div class="has-success" id="input_adminphone"  style="padding-top:7px;">
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-md-offset-2 col-md-8">-->
+                            <!--<button type="button" id="a_dogmodify" data-toggle="modal" href="#dogDiv" class="btn btn-info btn-flat">修改牧犬信息</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>设备基本信息</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>项圈编号：</label>
+                        <input type="text" class="form-control" placeholder="项圈编号" id="input_neckletid" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>喂饲器编号：</label>
+                        <input type="text" class="form-control" placeholder="喂饲器编号" id="input_appid" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>电量信息：</label>
+                        <input type="text" class="form-control" placeholder="电量信息" id="input_power" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>剩余驱虫次数：</label>
+                        <input type="text" class="form-control" placeholder="剩余驱虫次数" id="input_medleft" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>最后驱虫时间：</label>
+                        <input type="datetime-local" value="1970-01-01T00:00"  class="form-control" placeholder="最后驱虫时间" id="input_endmedtime" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>反馈周期(分钟)：</label>
+                        <input type="text" class="form-control" placeholder="反馈周期(分钟)" id="input_areacycle" disabled>
+                    </div>
+                    <!--<div class="form-group  has-success">-->
+                        <!--<label>投药反馈周期(天)：</label>-->
+                        <!--<input type="text" class="form-control" placeholder="投药反馈周期(天)" id="input_dosingcycle" disabled>-->
+                    <!--</div>-->
+                    <div class="form-group  has-success">
+                        <label>初次投药时间：</label>
+                        <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="初次投药时间" id="input_firstmedtime" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>上次投药时间：</label>
+                        <input type="datetime-local" value="1970-01-01T00:00"  class="form-control" placeholder="上次投药时间" id="input_lastmedtime" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>下次投药时间：</label>
+                        <input type="datetime-local" value="1970-01-01T00:00"  class="form-control" placeholder="下次投药时间" id="input_nextmedtime" disabled>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-md-offset-2 col-md-8">-->
+                            <!--<button type="button" id="a_devicemodify" class="btn btn-info btn-flat">修改设备信息</button>-->
+                            <!--&lt;!&ndash;<button type="button" id="a_neckletmodify" data-toggle="modal" href="#collarDiv" class="btn btn-info btn-flat" style="float: left">修改项圈信息</button>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<button type="button" id="a_feedermodify" data-toggle="modal" href="#feederDiv" class="btn btn-info btn-flat" style="float: right">修改喂饲器信息</button>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>主人基本信息</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>姓名：</label>
+                        <input type="text" class="form-control" placeholder="姓名" id="input_ownername" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>主人身份证（选）：</label>
+                        <input type="text" class="form-control" placeholder="主人身份证（选）" id="input_owneridentity" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>性别：</label>
+                        <input type="text" class="form-control" placeholder="性别" id="input_ownersex" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>年龄：</label>
+                        <input type="text" class="form-control" placeholder="年龄" id="input_ownerage" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>职业：</label>
+                        <input type="text" class="form-control" placeholder="职业" id="input_ownerjob" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>家庭住址(村)：</label>
+                        <input type="text" class="form-control" placeholder="家庭住址(村)" id="input_homeaddress" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>联系方式：</label>
+                        <div class="has-success" id="input_ownertel" style="padding-top:7px;"></div>
+                    <!--<div class="form-group">-->
+                        <!--<div class="col-md-offset-2 col-md-8">-->
+                            <!--<button type="button" id="a_ownermodify" data-toggle="modal" href="#dogownerDiv" class="btn btn-info btn-flat">修改主人信息</button>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        $(function () {
+            $("#dogInfoDiv .modal-content").prepend('<div class="modal-header">'+
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                '<h4 class="modal-title">信息详情</h4></div>');
+            var senddata = {};
+            var dogid = $('#dogid').html();
+            senddata.dogid = dogid;
+            $.ajax({
+                url: "/aidog/api/getdoginfo",
+                method: "POST",
+                data: senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    if (data.data != null) {
+                        //牧犬信息
+                        $("#input_dogname").val(data.data.dog.dogName);
+                        $("#input_dogsex").val(data.data.dog.dogSex);
+                        $("#input_dogbelonghamlet").val(data.data.hamlet);
+                        $("#input_dogweight").val(data.data.dog.dogWeight);
+                        $("#input_dogcolor").val(data.data.dog.dogColor);
+                        $("#input_dogage").val(data.data.dog.dogAge);
+                        $("#input_adminname").val(data.data.dog.managerName);
+                        $("#input_adminphone").html("<a href=\"tel:" + data.data.admintel + "\">" + data.data.admintel + "</a>");
+
+                        //设备信息
+                        if(data.data.nec!=null && data.data.app==null){
+                            $("#input_neckletid").val(data.data.nec.necId);
+                            $("#input_appid").val("---");
+                            if(data.data.nec.power == null){
+                                $("#input_power").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                //$("#input_power").val(((data.data.nec.powerleft)/6).toFixed(2)*100+"%");
+                                $("#input_power").val(data.data.nec.power);
+                            }
+                            if(data.data.nec.leftNum == null){
+                                $("#input_medleft").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_medleft").val(data.data.nec.leftNum);
+                            }
+                            if(data.data.nec.enddosingTime == null){
+                                $("#input_endmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_endmedtime").val(timetrans(data.data.nec.enddosingTime));
+                            }
+                            if(data.data.nec.positioncycle == null){
+                                $("#input_areacycle").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_areacycle").val(data.data.nec.positioncycle);
+                            }
+//                            if(data.data.nec.dosingcycle == null){
+//                                $("#input_dosingcycle").val("未设置参数！");
+//                            }else{
+//                                $("#input_dosingcycle").val(data.data.nec.dosingcycle);
+//                            }
+                            if(data.data.nec.firstdosingTime == null){
+                                $("#input_firstmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_firstmedtime").val(timetrans(data.data.nec.firstdosingTime));
+                            }
+                            if(data.data.nec.lastdosingTime == null){
+                                $("#input_lastmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_lastmedtime").val(timetrans(data.data.nec.lastdosingTime));
+                            }
+                            if(data.data.nec.nextdosingTime == null){
+                                $("#input_nextmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_nextmedtime").val(timetrans(data.data.nec.nextdosingTime));
+                            }
+                        }else if(data.data.nec==null && data.data.app!=null){
+                            $("#input_neckletid").val("---");
+                            $("#input_appid").val(data.data.app.appId);
+                            if(data.data.app.power == null){
+                                $("#input_power").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                //$("#input_power").val(((data.data.app.powerleft)/6).toFixed(2)*100+"%");
+                                $("#input_power").val(data.data.app.power);
+                            }
+                            if(data.data.app.leftNum == null){
+                                $("#input_medleft").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_medleft").val(data.data.app.leftNum);
+                            }
+                            if(data.data.app.enddosingTime == null){
+                                $("#input_endmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_endmedtime").val(timetrans(data.data.app.enddosingTime));
+                            }
+                            if(data.data.app.positioncycle == null){
+                                $("#input_areacycle").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_areacycle").val(data.data.app.positioncycle);
+                            }
+//                            if(data.data.app.dosingcycle == null){
+//                                $("#input_dosingcycle").val("未设置参数！");
+//                            }else{
+//                                $("#input_dosingcycle").val(data.data.app.dosingcycle);
+//                            }
+                            if(data.data.app.firstdosingTime == null){
+                                $("#input_firstmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_firstmedtime").val(timetrans(data.data.app.firstdosingTime));
+                            }
+                            if(data.data.app.lastdosingTime == null){
+                                $("#input_lastmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_lastmedtime").val(timetrans(data.data.app.lastdosingTime));
+                            }
+                            if(data.data.app.nextdosingTime == null){
+                                $("#input_nextmedtime").val("未设置参数或未得到硬件反馈！");
+                            }else{
+                                $("#input_nextmedtime").val(timetrans(data.data.app.nextdosingTime));
+                            }
+                        }else{
+                            $("#input_neckletid").val("---");
+                            $("#input_appid").val("---");
+                            $("#input_power").val("未绑定设备！");
+                            $("#input_medleft").val("未绑定设备！");
+                            $("#input_endmedtime").val("未绑定设备！");
+                            $("#input_areacycle").val("未绑定设备！");
+//                            $("#input_dosingcycle").val("未绑定设备！");
+                            $("#input_firstmedtime").val("未绑定设备！");
+                            $("#input_lastmedtime").val("未绑定设备！");
+                            $("#input_nextmedtime").val("未绑定设备！");
+                        }
+                        //主人信息
+                        $("#input_ownername").val(data.data.owner.ownerName);
+                        $("#input_owneridentity").val(data.data.owner.ownerIdentity);
+                        $("#input_ownersex").val(data.data.owner.ownerSex);
+                        $("#input_ownerage").val(data.data.owner.ownerAge);
+                        $("#input_ownerjob").val(data.data.owner.ownerJob);
+                        $("#input_homeaddress").val(data.data.owner.ownerAddr);
+                        $("#input_ownertel").html("<a href=\"tel:" + data.data.owner.ownerTel + "\">" + data.data.owner.ownerTel + "</a>");
+                    }
+                }
+            })
+        })
+
+
+        function timetrans(date){
+//    var date = new Date(date*1000);//如果date为13位不需要乘1000
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+            var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
+    </script>
+</body>
+</html>

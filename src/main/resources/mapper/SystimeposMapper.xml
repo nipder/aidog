@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.SystimeposMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Systimepos" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="mid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="one" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="onelng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="onelat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="two" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="twolng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="twolat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="three" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="threelng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="threelat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="four" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="fourlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fourlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="five" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="fivelng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="fivelat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="six" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="sixlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sixlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="seven" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="sevenlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sevenlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eight" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="eightlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eightlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="nine" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ninelng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ninelat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ten" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="tenlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="tenlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eleven" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="elevenlng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="elevenlat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="twelve" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="twelvelng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="twelvelat" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mid, one, onelng, onelat, two, twolng, twolat, three, threelng, threelat, four, 
+    fourlng, fourlat, five, fivelng, fivelat, six, sixlng, sixlat, seven, sevenlng, sevenlat, 
+    eight, eightlng, eightlat, nine, ninelng, ninelat, ten, tenlng, tenlat, eleven, elevenlng, 
+    elevenlat, twelve, twelvelng, twelvelat
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.SystimeposExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from systimepos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from systimepos
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from systimepos
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.SystimeposExample" >
+    delete from systimepos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Systimepos" >
+    insert into systimepos (id, mid, one, 
+      onelng, onelat, two, 
+      twolng, twolat, three, 
+      threelng, threelat, four, 
+      fourlng, fourlat, five, 
+      fivelng, fivelat, six, 
+      sixlng, sixlat, seven, 
+      sevenlng, sevenlat, eight, 
+      eightlng, eightlat, nine, 
+      ninelng, ninelat, ten, 
+      tenlng, tenlat, eleven, 
+      elevenlng, elevenlat, twelve, 
+      twelvelng, twelvelat)
+    values (#{id,jdbcType=INTEGER}, #{mid,jdbcType=VARCHAR}, #{one,jdbcType=TIMESTAMP}, 
+      #{onelng,jdbcType=VARCHAR}, #{onelat,jdbcType=VARCHAR}, #{two,jdbcType=TIMESTAMP}, 
+      #{twolng,jdbcType=VARCHAR}, #{twolat,jdbcType=VARCHAR}, #{three,jdbcType=TIMESTAMP}, 
+      #{threelng,jdbcType=VARCHAR}, #{threelat,jdbcType=VARCHAR}, #{four,jdbcType=TIMESTAMP}, 
+      #{fourlng,jdbcType=VARCHAR}, #{fourlat,jdbcType=VARCHAR}, #{five,jdbcType=TIMESTAMP}, 
+      #{fivelng,jdbcType=VARCHAR}, #{fivelat,jdbcType=VARCHAR}, #{six,jdbcType=TIMESTAMP}, 
+      #{sixlng,jdbcType=VARCHAR}, #{sixlat,jdbcType=VARCHAR}, #{seven,jdbcType=TIMESTAMP}, 
+      #{sevenlng,jdbcType=VARCHAR}, #{sevenlat,jdbcType=VARCHAR}, #{eight,jdbcType=TIMESTAMP}, 
+      #{eightlng,jdbcType=VARCHAR}, #{eightlat,jdbcType=VARCHAR}, #{nine,jdbcType=TIMESTAMP}, 
+      #{ninelng,jdbcType=VARCHAR}, #{ninelat,jdbcType=VARCHAR}, #{ten,jdbcType=TIMESTAMP}, 
+      #{tenlng,jdbcType=VARCHAR}, #{tenlat,jdbcType=VARCHAR}, #{eleven,jdbcType=TIMESTAMP}, 
+      #{elevenlng,jdbcType=VARCHAR}, #{elevenlat,jdbcType=VARCHAR}, #{twelve,jdbcType=TIMESTAMP}, 
+      #{twelvelng,jdbcType=VARCHAR}, #{twelvelat,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Systimepos" >
+    insert into systimepos
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="one != null" >
+        one,
+      </if>
+      <if test="onelng != null" >
+        onelng,
+      </if>
+      <if test="onelat != null" >
+        onelat,
+      </if>
+      <if test="two != null" >
+        two,
+      </if>
+      <if test="twolng != null" >
+        twolng,
+      </if>
+      <if test="twolat != null" >
+        twolat,
+      </if>
+      <if test="three != null" >
+        three,
+      </if>
+      <if test="threelng != null" >
+        threelng,
+      </if>
+      <if test="threelat != null" >
+        threelat,
+      </if>
+      <if test="four != null" >
+        four,
+      </if>
+      <if test="fourlng != null" >
+        fourlng,
+      </if>
+      <if test="fourlat != null" >
+        fourlat,
+      </if>
+      <if test="five != null" >
+        five,
+      </if>
+      <if test="fivelng != null" >
+        fivelng,
+      </if>
+      <if test="fivelat != null" >
+        fivelat,
+      </if>
+      <if test="six != null" >
+        six,
+      </if>
+      <if test="sixlng != null" >
+        sixlng,
+      </if>
+      <if test="sixlat != null" >
+        sixlat,
+      </if>
+      <if test="seven != null" >
+        seven,
+      </if>
+      <if test="sevenlng != null" >
+        sevenlng,
+      </if>
+      <if test="sevenlat != null" >
+        sevenlat,
+      </if>
+      <if test="eight != null" >
+        eight,
+      </if>
+      <if test="eightlng != null" >
+        eightlng,
+      </if>
+      <if test="eightlat != null" >
+        eightlat,
+      </if>
+      <if test="nine != null" >
+        nine,
+      </if>
+      <if test="ninelng != null" >
+        ninelng,
+      </if>
+      <if test="ninelat != null" >
+        ninelat,
+      </if>
+      <if test="ten != null" >
+        ten,
+      </if>
+      <if test="tenlng != null" >
+        tenlng,
+      </if>
+      <if test="tenlat != null" >
+        tenlat,
+      </if>
+      <if test="eleven != null" >
+        eleven,
+      </if>
+      <if test="elevenlng != null" >
+        elevenlng,
+      </if>
+      <if test="elevenlat != null" >
+        elevenlat,
+      </if>
+      <if test="twelve != null" >
+        twelve,
+      </if>
+      <if test="twelvelng != null" >
+        twelvelng,
+      </if>
+      <if test="twelvelat != null" >
+        twelvelat,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="one != null" >
+        #{one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onelng != null" >
+        #{onelng,jdbcType=VARCHAR},
+      </if>
+      <if test="onelat != null" >
+        #{onelat,jdbcType=VARCHAR},
+      </if>
+      <if test="two != null" >
+        #{two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twolng != null" >
+        #{twolng,jdbcType=VARCHAR},
+      </if>
+      <if test="twolat != null" >
+        #{twolat,jdbcType=VARCHAR},
+      </if>
+      <if test="three != null" >
+        #{three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="threelng != null" >
+        #{threelng,jdbcType=VARCHAR},
+      </if>
+      <if test="threelat != null" >
+        #{threelat,jdbcType=VARCHAR},
+      </if>
+      <if test="four != null" >
+        #{four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fourlng != null" >
+        #{fourlng,jdbcType=VARCHAR},
+      </if>
+      <if test="fourlat != null" >
+        #{fourlat,jdbcType=VARCHAR},
+      </if>
+      <if test="five != null" >
+        #{five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fivelng != null" >
+        #{fivelng,jdbcType=VARCHAR},
+      </if>
+      <if test="fivelat != null" >
+        #{fivelat,jdbcType=VARCHAR},
+      </if>
+      <if test="six != null" >
+        #{six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sixlng != null" >
+        #{sixlng,jdbcType=VARCHAR},
+      </if>
+      <if test="sixlat != null" >
+        #{sixlat,jdbcType=VARCHAR},
+      </if>
+      <if test="seven != null" >
+        #{seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sevenlng != null" >
+        #{sevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="sevenlat != null" >
+        #{sevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="eight != null" >
+        #{eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eightlng != null" >
+        #{eightlng,jdbcType=VARCHAR},
+      </if>
+      <if test="eightlat != null" >
+        #{eightlat,jdbcType=VARCHAR},
+      </if>
+      <if test="nine != null" >
+        #{nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ninelng != null" >
+        #{ninelng,jdbcType=VARCHAR},
+      </if>
+      <if test="ninelat != null" >
+        #{ninelat,jdbcType=VARCHAR},
+      </if>
+      <if test="ten != null" >
+        #{ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenlng != null" >
+        #{tenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="tenlat != null" >
+        #{tenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="eleven != null" >
+        #{eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elevenlng != null" >
+        #{elevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="elevenlat != null" >
+        #{elevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="twelve != null" >
+        #{twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twelvelng != null" >
+        #{twelvelng,jdbcType=VARCHAR},
+      </if>
+      <if test="twelvelat != null" >
+        #{twelvelat,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.SystimeposExample" resultType="java.lang.Integer" >
+    select count(*) from systimepos
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update systimepos
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mid != null" >
+        mid = #{record.mid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.one != null" >
+        one = #{record.one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.onelng != null" >
+        onelng = #{record.onelng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.onelat != null" >
+        onelat = #{record.onelat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.two != null" >
+        two = #{record.two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.twolng != null" >
+        twolng = #{record.twolng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.twolat != null" >
+        twolat = #{record.twolat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.three != null" >
+        three = #{record.three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.threelng != null" >
+        threelng = #{record.threelng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.threelat != null" >
+        threelat = #{record.threelat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.four != null" >
+        four = #{record.four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fourlng != null" >
+        fourlng = #{record.fourlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fourlat != null" >
+        fourlat = #{record.fourlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.five != null" >
+        five = #{record.five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.fivelng != null" >
+        fivelng = #{record.fivelng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fivelat != null" >
+        fivelat = #{record.fivelat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.six != null" >
+        six = #{record.six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sixlng != null" >
+        sixlng = #{record.sixlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sixlat != null" >
+        sixlat = #{record.sixlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.seven != null" >
+        seven = #{record.seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sevenlng != null" >
+        sevenlng = #{record.sevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sevenlat != null" >
+        sevenlat = #{record.sevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eight != null" >
+        eight = #{record.eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eightlng != null" >
+        eightlng = #{record.eightlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eightlat != null" >
+        eightlat = #{record.eightlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nine != null" >
+        nine = #{record.nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ninelng != null" >
+        ninelng = #{record.ninelng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ninelat != null" >
+        ninelat = #{record.ninelat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ten != null" >
+        ten = #{record.ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tenlng != null" >
+        tenlng = #{record.tenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tenlat != null" >
+        tenlat = #{record.tenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eleven != null" >
+        eleven = #{record.eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.elevenlng != null" >
+        elevenlng = #{record.elevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.elevenlat != null" >
+        elevenlat = #{record.elevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.twelve != null" >
+        twelve = #{record.twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.twelvelng != null" >
+        twelvelng = #{record.twelvelng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.twelvelat != null" >
+        twelvelat = #{record.twelvelat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update systimepos
+    set id = #{record.id,jdbcType=INTEGER},
+      mid = #{record.mid,jdbcType=VARCHAR},
+      one = #{record.one,jdbcType=TIMESTAMP},
+      onelng = #{record.onelng,jdbcType=VARCHAR},
+      onelat = #{record.onelat,jdbcType=VARCHAR},
+      two = #{record.two,jdbcType=TIMESTAMP},
+      twolng = #{record.twolng,jdbcType=VARCHAR},
+      twolat = #{record.twolat,jdbcType=VARCHAR},
+      three = #{record.three,jdbcType=TIMESTAMP},
+      threelng = #{record.threelng,jdbcType=VARCHAR},
+      threelat = #{record.threelat,jdbcType=VARCHAR},
+      four = #{record.four,jdbcType=TIMESTAMP},
+      fourlng = #{record.fourlng,jdbcType=VARCHAR},
+      fourlat = #{record.fourlat,jdbcType=VARCHAR},
+      five = #{record.five,jdbcType=TIMESTAMP},
+      fivelng = #{record.fivelng,jdbcType=VARCHAR},
+      fivelat = #{record.fivelat,jdbcType=VARCHAR},
+      six = #{record.six,jdbcType=TIMESTAMP},
+      sixlng = #{record.sixlng,jdbcType=VARCHAR},
+      sixlat = #{record.sixlat,jdbcType=VARCHAR},
+      seven = #{record.seven,jdbcType=TIMESTAMP},
+      sevenlng = #{record.sevenlng,jdbcType=VARCHAR},
+      sevenlat = #{record.sevenlat,jdbcType=VARCHAR},
+      eight = #{record.eight,jdbcType=TIMESTAMP},
+      eightlng = #{record.eightlng,jdbcType=VARCHAR},
+      eightlat = #{record.eightlat,jdbcType=VARCHAR},
+      nine = #{record.nine,jdbcType=TIMESTAMP},
+      ninelng = #{record.ninelng,jdbcType=VARCHAR},
+      ninelat = #{record.ninelat,jdbcType=VARCHAR},
+      ten = #{record.ten,jdbcType=TIMESTAMP},
+      tenlng = #{record.tenlng,jdbcType=VARCHAR},
+      tenlat = #{record.tenlat,jdbcType=VARCHAR},
+      eleven = #{record.eleven,jdbcType=TIMESTAMP},
+      elevenlng = #{record.elevenlng,jdbcType=VARCHAR},
+      elevenlat = #{record.elevenlat,jdbcType=VARCHAR},
+      twelve = #{record.twelve,jdbcType=TIMESTAMP},
+      twelvelng = #{record.twelvelng,jdbcType=VARCHAR},
+      twelvelat = #{record.twelvelat,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Systimepos" >
+    update systimepos
+    <set >
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="one != null" >
+        one = #{one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="onelng != null" >
+        onelng = #{onelng,jdbcType=VARCHAR},
+      </if>
+      <if test="onelat != null" >
+        onelat = #{onelat,jdbcType=VARCHAR},
+      </if>
+      <if test="two != null" >
+        two = #{two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twolng != null" >
+        twolng = #{twolng,jdbcType=VARCHAR},
+      </if>
+      <if test="twolat != null" >
+        twolat = #{twolat,jdbcType=VARCHAR},
+      </if>
+      <if test="three != null" >
+        three = #{three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="threelng != null" >
+        threelng = #{threelng,jdbcType=VARCHAR},
+      </if>
+      <if test="threelat != null" >
+        threelat = #{threelat,jdbcType=VARCHAR},
+      </if>
+      <if test="four != null" >
+        four = #{four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fourlng != null" >
+        fourlng = #{fourlng,jdbcType=VARCHAR},
+      </if>
+      <if test="fourlat != null" >
+        fourlat = #{fourlat,jdbcType=VARCHAR},
+      </if>
+      <if test="five != null" >
+        five = #{five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="fivelng != null" >
+        fivelng = #{fivelng,jdbcType=VARCHAR},
+      </if>
+      <if test="fivelat != null" >
+        fivelat = #{fivelat,jdbcType=VARCHAR},
+      </if>
+      <if test="six != null" >
+        six = #{six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sixlng != null" >
+        sixlng = #{sixlng,jdbcType=VARCHAR},
+      </if>
+      <if test="sixlat != null" >
+        sixlat = #{sixlat,jdbcType=VARCHAR},
+      </if>
+      <if test="seven != null" >
+        seven = #{seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sevenlng != null" >
+        sevenlng = #{sevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="sevenlat != null" >
+        sevenlat = #{sevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="eight != null" >
+        eight = #{eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eightlng != null" >
+        eightlng = #{eightlng,jdbcType=VARCHAR},
+      </if>
+      <if test="eightlat != null" >
+        eightlat = #{eightlat,jdbcType=VARCHAR},
+      </if>
+      <if test="nine != null" >
+        nine = #{nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ninelng != null" >
+        ninelng = #{ninelng,jdbcType=VARCHAR},
+      </if>
+      <if test="ninelat != null" >
+        ninelat = #{ninelat,jdbcType=VARCHAR},
+      </if>
+      <if test="ten != null" >
+        ten = #{ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tenlng != null" >
+        tenlng = #{tenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="tenlat != null" >
+        tenlat = #{tenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="eleven != null" >
+        eleven = #{eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elevenlng != null" >
+        elevenlng = #{elevenlng,jdbcType=VARCHAR},
+      </if>
+      <if test="elevenlat != null" >
+        elevenlat = #{elevenlat,jdbcType=VARCHAR},
+      </if>
+      <if test="twelve != null" >
+        twelve = #{twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twelvelng != null" >
+        twelvelng = #{twelvelng,jdbcType=VARCHAR},
+      </if>
+      <if test="twelvelat != null" >
+        twelvelat = #{twelvelat,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Systimepos" >
+    update systimepos
+    set mid = #{mid,jdbcType=VARCHAR},
+      one = #{one,jdbcType=TIMESTAMP},
+      onelng = #{onelng,jdbcType=VARCHAR},
+      onelat = #{onelat,jdbcType=VARCHAR},
+      two = #{two,jdbcType=TIMESTAMP},
+      twolng = #{twolng,jdbcType=VARCHAR},
+      twolat = #{twolat,jdbcType=VARCHAR},
+      three = #{three,jdbcType=TIMESTAMP},
+      threelng = #{threelng,jdbcType=VARCHAR},
+      threelat = #{threelat,jdbcType=VARCHAR},
+      four = #{four,jdbcType=TIMESTAMP},
+      fourlng = #{fourlng,jdbcType=VARCHAR},
+      fourlat = #{fourlat,jdbcType=VARCHAR},
+      five = #{five,jdbcType=TIMESTAMP},
+      fivelng = #{fivelng,jdbcType=VARCHAR},
+      fivelat = #{fivelat,jdbcType=VARCHAR},
+      six = #{six,jdbcType=TIMESTAMP},
+      sixlng = #{sixlng,jdbcType=VARCHAR},
+      sixlat = #{sixlat,jdbcType=VARCHAR},
+      seven = #{seven,jdbcType=TIMESTAMP},
+      sevenlng = #{sevenlng,jdbcType=VARCHAR},
+      sevenlat = #{sevenlat,jdbcType=VARCHAR},
+      eight = #{eight,jdbcType=TIMESTAMP},
+      eightlng = #{eightlng,jdbcType=VARCHAR},
+      eightlat = #{eightlat,jdbcType=VARCHAR},
+      nine = #{nine,jdbcType=TIMESTAMP},
+      ninelng = #{ninelng,jdbcType=VARCHAR},
+      ninelat = #{ninelat,jdbcType=VARCHAR},
+      ten = #{ten,jdbcType=TIMESTAMP},
+      tenlng = #{tenlng,jdbcType=VARCHAR},
+      tenlat = #{tenlat,jdbcType=VARCHAR},
+      eleven = #{eleven,jdbcType=TIMESTAMP},
+      elevenlng = #{elevenlng,jdbcType=VARCHAR},
+      elevenlat = #{elevenlat,jdbcType=VARCHAR},
+      twelve = #{twelve,jdbcType=TIMESTAMP},
+      twelvelng = #{twelvelng,jdbcType=VARCHAR},
+      twelvelat = #{twelvelat,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

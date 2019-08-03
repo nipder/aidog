@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.SysLayconfigMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.SysLayconfig" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="mid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="one" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="two" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="three" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="four" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="five" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="six" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="seven" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="eight" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="nine" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ten" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="eleven" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="twelve" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="uimodifyflag" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="hardmodifyflag" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mid, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, 
+    uimodifyflag, hardmodifyflag, updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.SysLayconfigExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_layconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_layconfig
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_layconfig
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.SysLayconfigExample" >
+    delete from sys_layconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.SysLayconfig" >
+    insert into sys_layconfig (id, mid, one, 
+      two, three, four, 
+      five, six, seven, 
+      eight, nine, ten, 
+      eleven, twelve, uimodifyflag, 
+      hardmodifyflag, updatetime)
+    values (#{id,jdbcType=INTEGER}, #{mid,jdbcType=VARCHAR}, #{one,jdbcType=TIMESTAMP}, 
+      #{two,jdbcType=TIMESTAMP}, #{three,jdbcType=TIMESTAMP}, #{four,jdbcType=TIMESTAMP}, 
+      #{five,jdbcType=TIMESTAMP}, #{six,jdbcType=TIMESTAMP}, #{seven,jdbcType=TIMESTAMP}, 
+      #{eight,jdbcType=TIMESTAMP}, #{nine,jdbcType=TIMESTAMP}, #{ten,jdbcType=TIMESTAMP}, 
+      #{eleven,jdbcType=TIMESTAMP}, #{twelve,jdbcType=TIMESTAMP}, #{uimodifyflag,jdbcType=TINYINT}, 
+      #{hardmodifyflag,jdbcType=TINYINT}, #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.SysLayconfig" >
+    insert into sys_layconfig
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="one != null" >
+        one,
+      </if>
+      <if test="two != null" >
+        two,
+      </if>
+      <if test="three != null" >
+        three,
+      </if>
+      <if test="four != null" >
+        four,
+      </if>
+      <if test="five != null" >
+        five,
+      </if>
+      <if test="six != null" >
+        six,
+      </if>
+      <if test="seven != null" >
+        seven,
+      </if>
+      <if test="eight != null" >
+        eight,
+      </if>
+      <if test="nine != null" >
+        nine,
+      </if>
+      <if test="ten != null" >
+        ten,
+      </if>
+      <if test="eleven != null" >
+        eleven,
+      </if>
+      <if test="twelve != null" >
+        twelve,
+      </if>
+      <if test="uimodifyflag != null" >
+        uimodifyflag,
+      </if>
+      <if test="hardmodifyflag != null" >
+        hardmodifyflag,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="one != null" >
+        #{one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="two != null" >
+        #{two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="three != null" >
+        #{three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="four != null" >
+        #{four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="five != null" >
+        #{five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="six != null" >
+        #{six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seven != null" >
+        #{seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eight != null" >
+        #{eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nine != null" >
+        #{nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ten != null" >
+        #{ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eleven != null" >
+        #{eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twelve != null" >
+        #{twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uimodifyflag != null" >
+        #{uimodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="hardmodifyflag != null" >
+        #{hardmodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.SysLayconfigExample" resultType="java.lang.Integer" >
+    select count(*) from sys_layconfig
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_layconfig
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mid != null" >
+        mid = #{record.mid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.one != null" >
+        one = #{record.one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.two != null" >
+        two = #{record.two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.three != null" >
+        three = #{record.three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.four != null" >
+        four = #{record.four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.five != null" >
+        five = #{record.five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.six != null" >
+        six = #{record.six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.seven != null" >
+        seven = #{record.seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eight != null" >
+        eight = #{record.eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nine != null" >
+        nine = #{record.nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ten != null" >
+        ten = #{record.ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eleven != null" >
+        eleven = #{record.eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.twelve != null" >
+        twelve = #{record.twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uimodifyflag != null" >
+        uimodifyflag = #{record.uimodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="record.hardmodifyflag != null" >
+        hardmodifyflag = #{record.hardmodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_layconfig
+    set id = #{record.id,jdbcType=INTEGER},
+      mid = #{record.mid,jdbcType=VARCHAR},
+      one = #{record.one,jdbcType=TIMESTAMP},
+      two = #{record.two,jdbcType=TIMESTAMP},
+      three = #{record.three,jdbcType=TIMESTAMP},
+      four = #{record.four,jdbcType=TIMESTAMP},
+      five = #{record.five,jdbcType=TIMESTAMP},
+      six = #{record.six,jdbcType=TIMESTAMP},
+      seven = #{record.seven,jdbcType=TIMESTAMP},
+      eight = #{record.eight,jdbcType=TIMESTAMP},
+      nine = #{record.nine,jdbcType=TIMESTAMP},
+      ten = #{record.ten,jdbcType=TIMESTAMP},
+      eleven = #{record.eleven,jdbcType=TIMESTAMP},
+      twelve = #{record.twelve,jdbcType=TIMESTAMP},
+      uimodifyflag = #{record.uimodifyflag,jdbcType=TINYINT},
+      hardmodifyflag = #{record.hardmodifyflag,jdbcType=TINYINT},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.SysLayconfig" >
+    update sys_layconfig
+    <set >
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="one != null" >
+        one = #{one,jdbcType=TIMESTAMP},
+      </if>
+      <if test="two != null" >
+        two = #{two,jdbcType=TIMESTAMP},
+      </if>
+      <if test="three != null" >
+        three = #{three,jdbcType=TIMESTAMP},
+      </if>
+      <if test="four != null" >
+        four = #{four,jdbcType=TIMESTAMP},
+      </if>
+      <if test="five != null" >
+        five = #{five,jdbcType=TIMESTAMP},
+      </if>
+      <if test="six != null" >
+        six = #{six,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seven != null" >
+        seven = #{seven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eight != null" >
+        eight = #{eight,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nine != null" >
+        nine = #{nine,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ten != null" >
+        ten = #{ten,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eleven != null" >
+        eleven = #{eleven,jdbcType=TIMESTAMP},
+      </if>
+      <if test="twelve != null" >
+        twelve = #{twelve,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uimodifyflag != null" >
+        uimodifyflag = #{uimodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="hardmodifyflag != null" >
+        hardmodifyflag = #{hardmodifyflag,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.SysLayconfig" >
+    update sys_layconfig
+    set mid = #{mid,jdbcType=VARCHAR},
+      one = #{one,jdbcType=TIMESTAMP},
+      two = #{two,jdbcType=TIMESTAMP},
+      three = #{three,jdbcType=TIMESTAMP},
+      four = #{four,jdbcType=TIMESTAMP},
+      five = #{five,jdbcType=TIMESTAMP},
+      six = #{six,jdbcType=TIMESTAMP},
+      seven = #{seven,jdbcType=TIMESTAMP},
+      eight = #{eight,jdbcType=TIMESTAMP},
+      nine = #{nine,jdbcType=TIMESTAMP},
+      ten = #{ten,jdbcType=TIMESTAMP},
+      eleven = #{eleven,jdbcType=TIMESTAMP},
+      twelve = #{twelve,jdbcType=TIMESTAMP},
+      uimodifyflag = #{uimodifyflag,jdbcType=TINYINT},
+      hardmodifyflag = #{hardmodifyflag,jdbcType=TINYINT},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--<select id="selectLayConfigByMid" resultMap="BaseResultMap" parameterType="java.lang.String" >-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from sys_layconfig-->
+    <!--where mid = #{mid,jdbcType=VARCHAR} order by updatetime desc limit 1-->
+  <!--</select>-->
+
+  <delete id="deleteOldestLayConfigByMid" parameterType="java.lang.String" >
+    delete from sys_layconfig
+    where mid = #{mid,jdbcType=VARCHAR} order by updatetime limit 1
+  </delete>
+
+
+  <update id="updateOtherLayConfigflag" parameterType="java.lang.String" >
+    update sys_layconfig
+    set uimodifyflag = 0,
+    hardmodifyflag = 0
+    where mid = #{mid,jdbcType=VARCHAR}
+  </update>
+</mapper>

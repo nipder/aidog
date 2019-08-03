@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.ManureMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Manure" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dogmanure_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="dogowner_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dog_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="collection_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="collection_person" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="testing_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="testing_method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="testing_result" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="testing_person" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="manage_method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_sqjqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_dfjqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_xljqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, dogmanure_code, dogowner_id, dog_id, collection_date, collection_person, districtcode, 
+    testing_date, testing_method, testing_result, testing_person, manage_method, pcr, 
+    pcr_sqjqdc, pcr_dfjqdc, pcr_xljqdc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.ManureExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from manure
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from manure
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from manure
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.ManureExample" >
+    delete from manure
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Manure" >
+    insert into manure (id, dogmanure_code, dogowner_id, 
+      dog_id, collection_date, collection_person, 
+      districtcode, testing_date, testing_method, 
+      testing_result, testing_person, manage_method, 
+      pcr, pcr_sqjqdc, pcr_dfjqdc, 
+      pcr_xljqdc)
+    values (#{id,jdbcType=INTEGER}, #{dogmanureCode,jdbcType=VARCHAR}, #{dogownerId,jdbcType=INTEGER}, 
+      #{dogId,jdbcType=INTEGER}, #{collectionDate,jdbcType=TIMESTAMP}, #{collectionPerson,jdbcType=VARCHAR}, 
+      #{districtcode,jdbcType=VARCHAR}, #{testingDate,jdbcType=TIMESTAMP}, #{testingMethod,jdbcType=VARCHAR}, 
+      #{testingResult,jdbcType=VARCHAR}, #{testingPerson,jdbcType=VARCHAR}, #{manageMethod,jdbcType=VARCHAR}, 
+      #{pcr,jdbcType=VARCHAR}, #{pcrSqjqdc,jdbcType=VARCHAR}, #{pcrDfjqdc,jdbcType=VARCHAR}, 
+      #{pcrXljqdc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Manure" >
+    insert into manure
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="dogmanureCode != null" >
+        dogmanure_code,
+      </if>
+      <if test="dogownerId != null" >
+        dogowner_id,
+      </if>
+      <if test="dogId != null" >
+        dog_id,
+      </if>
+      <if test="collectionDate != null" >
+        collection_date,
+      </if>
+      <if test="collectionPerson != null" >
+        collection_person,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+      <if test="testingDate != null" >
+        testing_date,
+      </if>
+      <if test="testingMethod != null" >
+        testing_method,
+      </if>
+      <if test="testingResult != null" >
+        testing_result,
+      </if>
+      <if test="testingPerson != null" >
+        testing_person,
+      </if>
+      <if test="manageMethod != null" >
+        manage_method,
+      </if>
+      <if test="pcr != null" >
+        pcr,
+      </if>
+      <if test="pcrSqjqdc != null" >
+        pcr_sqjqdc,
+      </if>
+      <if test="pcrDfjqdc != null" >
+        pcr_dfjqdc,
+      </if>
+      <if test="pcrXljqdc != null" >
+        pcr_xljqdc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dogmanureCode != null" >
+        #{dogmanureCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dogownerId != null" >
+        #{dogownerId,jdbcType=INTEGER},
+      </if>
+      <if test="dogId != null" >
+        #{dogId,jdbcType=INTEGER},
+      </if>
+      <if test="collectionDate != null" >
+        #{collectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectionPerson != null" >
+        #{collectionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="testingDate != null" >
+        #{testingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testingMethod != null" >
+        #{testingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="testingResult != null" >
+        #{testingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="testingPerson != null" >
+        #{testingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="manageMethod != null" >
+        #{manageMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="pcr != null" >
+        #{pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrSqjqdc != null" >
+        #{pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrDfjqdc != null" >
+        #{pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrXljqdc != null" >
+        #{pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.ManureExample" resultType="java.lang.Integer" >
+    select count(*) from manure
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update manure
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogmanureCode != null" >
+        dogmanure_code = #{record.dogmanureCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dogownerId != null" >
+        dogowner_id = #{record.dogownerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogId != null" >
+        dog_id = #{record.dogId,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectionDate != null" >
+        collection_date = #{record.collectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.collectionPerson != null" >
+        collection_person = #{record.collectionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testingDate != null" >
+        testing_date = #{record.testingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.testingMethod != null" >
+        testing_method = #{record.testingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testingResult != null" >
+        testing_result = #{record.testingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testingPerson != null" >
+        testing_person = #{record.testingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.manageMethod != null" >
+        manage_method = #{record.manageMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcr != null" >
+        pcr = #{record.pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrSqjqdc != null" >
+        pcr_sqjqdc = #{record.pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrDfjqdc != null" >
+        pcr_dfjqdc = #{record.pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrXljqdc != null" >
+        pcr_xljqdc = #{record.pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update manure
+    set id = #{record.id,jdbcType=INTEGER},
+      dogmanure_code = #{record.dogmanureCode,jdbcType=VARCHAR},
+      dogowner_id = #{record.dogownerId,jdbcType=INTEGER},
+      dog_id = #{record.dogId,jdbcType=INTEGER},
+      collection_date = #{record.collectionDate,jdbcType=TIMESTAMP},
+      collection_person = #{record.collectionPerson,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      testing_date = #{record.testingDate,jdbcType=TIMESTAMP},
+      testing_method = #{record.testingMethod,jdbcType=VARCHAR},
+      testing_result = #{record.testingResult,jdbcType=VARCHAR},
+      testing_person = #{record.testingPerson,jdbcType=VARCHAR},
+      manage_method = #{record.manageMethod,jdbcType=VARCHAR},
+      pcr = #{record.pcr,jdbcType=VARCHAR},
+      pcr_sqjqdc = #{record.pcrSqjqdc,jdbcType=VARCHAR},
+      pcr_dfjqdc = #{record.pcrDfjqdc,jdbcType=VARCHAR},
+      pcr_xljqdc = #{record.pcrXljqdc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Manure" >
+    update manure
+    <set >
+      <if test="dogmanureCode != null" >
+        dogmanure_code = #{dogmanureCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dogownerId != null" >
+        dogowner_id = #{dogownerId,jdbcType=INTEGER},
+      </if>
+      <if test="dogId != null" >
+        dog_id = #{dogId,jdbcType=INTEGER},
+      </if>
+      <if test="collectionDate != null" >
+        collection_date = #{collectionDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="collectionPerson != null" >
+        collection_person = #{collectionPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="testingDate != null" >
+        testing_date = #{testingDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="testingMethod != null" >
+        testing_method = #{testingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="testingResult != null" >
+        testing_result = #{testingResult,jdbcType=VARCHAR},
+      </if>
+      <if test="testingPerson != null" >
+        testing_person = #{testingPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="manageMethod != null" >
+        manage_method = #{manageMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="pcr != null" >
+        pcr = #{pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrSqjqdc != null" >
+        pcr_sqjqdc = #{pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrDfjqdc != null" >
+        pcr_dfjqdc = #{pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrXljqdc != null" >
+        pcr_xljqdc = #{pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Manure" >
+    update manure
+    set dogmanure_code = #{dogmanureCode,jdbcType=VARCHAR},
+      dogowner_id = #{dogownerId,jdbcType=INTEGER},
+      dog_id = #{dogId,jdbcType=INTEGER},
+      collection_date = #{collectionDate,jdbcType=TIMESTAMP},
+      collection_person = #{collectionPerson,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR},
+      testing_date = #{testingDate,jdbcType=TIMESTAMP},
+      testing_method = #{testingMethod,jdbcType=VARCHAR},
+      testing_result = #{testingResult,jdbcType=VARCHAR},
+      testing_person = #{testingPerson,jdbcType=VARCHAR},
+      manage_method = #{manageMethod,jdbcType=VARCHAR},
+      pcr = #{pcr,jdbcType=VARCHAR},
+      pcr_sqjqdc = #{pcrSqjqdc,jdbcType=VARCHAR},
+      pcr_dfjqdc = #{pcrDfjqdc,jdbcType=VARCHAR},
+      pcr_xljqdc = #{pcrXljqdc,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.SysLaytimeMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.SysLaytime" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="mid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="latitude" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="longitude" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="grantgmt" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="err" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="voltage" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="temperature" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="type" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="timegmt" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="islay" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="signallevel" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="updatetime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, mid, latitude, longitude, grantgmt, err, voltage, temperature, type, timegmt, 
+    islay, signallevel, updatetime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.SysLaytimeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sys_laytime
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_laytime
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_laytime
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.SysLaytimeExample" >
+    delete from sys_laytime
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.SysLaytime" >
+    insert into sys_laytime (id, mid, latitude, 
+      longitude, grantgmt, err, 
+      voltage, temperature, type, 
+      timegmt, islay, signallevel, 
+      updatetime)
+    values (#{id,jdbcType=INTEGER}, #{mid,jdbcType=VARCHAR}, #{latitude,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=VARCHAR}, #{grantgmt,jdbcType=TIMESTAMP}, #{err,jdbcType=VARCHAR}, 
+      #{voltage,jdbcType=DOUBLE}, #{temperature,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, 
+      #{timegmt,jdbcType=TIMESTAMP}, #{islay,jdbcType=TINYINT}, #{signallevel,jdbcType=TINYINT}, 
+      #{updatetime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.SysLaytime" >
+    insert into sys_laytime
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="grantgmt != null" >
+        grantgmt,
+      </if>
+      <if test="err != null" >
+        err,
+      </if>
+      <if test="voltage != null" >
+        voltage,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="timegmt != null" >
+        timegmt,
+      </if>
+      <if test="islay != null" >
+        islay,
+      </if>
+      <if test="signallevel != null" >
+        signallevel,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="grantgmt != null" >
+        #{grantgmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="err != null" >
+        #{err,jdbcType=VARCHAR},
+      </if>
+      <if test="voltage != null" >
+        #{voltage,jdbcType=DOUBLE},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="timegmt != null" >
+        #{timegmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islay != null" >
+        #{islay,jdbcType=TINYINT},
+      </if>
+      <if test="signallevel != null" >
+        #{signallevel,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.SysLaytimeExample" resultType="java.lang.Integer" >
+    select count(*) from sys_laytime
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update sys_laytime
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.mid != null" >
+        mid = #{record.mid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.latitude != null" >
+        latitude = #{record.latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null" >
+        longitude = #{record.longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grantgmt != null" >
+        grantgmt = #{record.grantgmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.err != null" >
+        err = #{record.err,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voltage != null" >
+        voltage = #{record.voltage,jdbcType=DOUBLE},
+      </if>
+      <if test="record.temperature != null" >
+        temperature = #{record.temperature,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.timegmt != null" >
+        timegmt = #{record.timegmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.islay != null" >
+        islay = #{record.islay,jdbcType=TINYINT},
+      </if>
+      <if test="record.signallevel != null" >
+        signallevel = #{record.signallevel,jdbcType=TINYINT},
+      </if>
+      <if test="record.updatetime != null" >
+        updatetime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update sys_laytime
+    set id = #{record.id,jdbcType=INTEGER},
+      mid = #{record.mid,jdbcType=VARCHAR},
+      latitude = #{record.latitude,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=VARCHAR},
+      grantgmt = #{record.grantgmt,jdbcType=TIMESTAMP},
+      err = #{record.err,jdbcType=VARCHAR},
+      voltage = #{record.voltage,jdbcType=DOUBLE},
+      temperature = #{record.temperature,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      timegmt = #{record.timegmt,jdbcType=TIMESTAMP},
+      islay = #{record.islay,jdbcType=TINYINT},
+      signallevel = #{record.signallevel,jdbcType=TINYINT},
+      updatetime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.SysLaytime" >
+    update sys_laytime
+    <set >
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
+      <if test="grantgmt != null" >
+        grantgmt = #{grantgmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="err != null" >
+        err = #{err,jdbcType=VARCHAR},
+      </if>
+      <if test="voltage != null" >
+        voltage = #{voltage,jdbcType=DOUBLE},
+      </if>
+      <if test="temperature != null" >
+        temperature = #{temperature,jdbcType=TINYINT},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="timegmt != null" >
+        timegmt = #{timegmt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="islay != null" >
+        islay = #{islay,jdbcType=TINYINT},
+      </if>
+      <if test="signallevel != null" >
+        signallevel = #{signallevel,jdbcType=TINYINT},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.SysLaytime" >
+    update sys_laytime
+    set mid = #{mid,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
+      grantgmt = #{grantgmt,jdbcType=TIMESTAMP},
+      err = #{err,jdbcType=VARCHAR},
+      voltage = #{voltage,jdbcType=DOUBLE},
+      temperature = #{temperature,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      timegmt = #{timegmt,jdbcType=TIMESTAMP},
+      islay = #{islay,jdbcType=TINYINT},
+      signallevel = #{signallevel,jdbcType=TINYINT},
+      updatetime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

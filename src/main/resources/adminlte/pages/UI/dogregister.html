@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="../../plugins/select2/select2.min.css">
+
+    <script src="../../plugins/select2/select2.full.js"></script>
+    <script src="../ui_js/dogregister.js"></script>
+    <title>犬只注册</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="padding-top: 20px;margin-top: 20px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <select id="select_province" class="form-control" style="margin-bottom: 5px">
+                            <!--<option value="-1">请选择</option>-->
+                            <option value="0" style="color: #00a65a">全国</option>
+                            <option value="150000000000">内蒙古自治区</option>
+                            <option value="510000000000">四川省</option>
+                            <option value="530000000000">云南省</option>
+                            <option value="540000000000">西藏自治区</option>
+                            <option value="610000000000">陕西省</option>
+                            <option value="620000000000">甘肃省</option>
+                            <option value="630000000000">青海省</option>
+                            <option value="640000000000">宁夏回族自治区</option>
+                            <option value="650000000000">新疆维吾尔族自治区</option>
+                            <option value="660000000">建设兵团</option>
+                        </select>
+                        <select id="select_city" class="form-control" style="margin-bottom: 5px">
+                            <option value="-1">请选择</option>
+                        </select>
+                        <select id="select_county" class="form-control" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                        <select id="select_village" class="form-control" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                        <select id="select_hamlet" class="form-control" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>犬只名称：</label>
+                        <input type="text" class="form-control" placeholder="犬只名称"  id="input_dogname" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>犬只编码：</label>
+                        <input type="text" class="form-control" placeholder="犬只编码" id="input_doggovcode">
+                    </div>
+
+                    <div class="form-group  has-success">
+                        <label>犬只性别：</label>
+                        <select class="form-control select2"  id="select_dogsex" style="width: 100%;">
+                            <option selected="selected">公狗</option>
+                            <option>母狗</option>
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>所属村：</label>
+                        <input type="text" class="form-control" placeholder="所属村" id="input_dogbelonghamlet" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>村管理员：</label>
+                        <select class="form-control select2"  id="select_managername" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>犬只主人：</label>
+                        <select class="form-control select2"  id="select_dogownername" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>重量：</label>
+                        <input type="text" class="form-control" placeholder="重量" id="input_dogweight">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>毛色：</label>
+                        <input type="text" class="form-control" placeholder="毛色" id="input_dogcolor">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>年龄：</label>
+                        <input type="text" class="form-control" placeholder="年龄" id="input_dogage">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="button" id="a_adddog" class="btn btn-info btn-flat">添加牧犬</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

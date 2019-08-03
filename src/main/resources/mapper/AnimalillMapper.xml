@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.AnimalillMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Animalill" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="num" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="killplace" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="type" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="age" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_sqjqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_dfjqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pcr_xljqdc" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eye_illplace" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eye_size" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="eye_num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="checkres" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="checkperson" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="checkdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="note" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, num, killplace, code, type, sex, age, method, pcr, pcr_sqjqdc, pcr_dfjqdc, pcr_xljqdc, 
+    eye_illplace, eye_size, eye_num, checkres, checkperson, checkdate, note
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.AnimalillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from animalill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from animalill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from animalill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.AnimalillExample" >
+    delete from animalill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Animalill" >
+    insert into animalill (id, num, killplace, 
+      code, type, sex, age, 
+      method, pcr, pcr_sqjqdc, 
+      pcr_dfjqdc, pcr_xljqdc, eye_illplace, 
+      eye_size, eye_num, checkres, 
+      checkperson, checkdate, note
+      )
+    values (#{id,jdbcType=INTEGER}, #{num,jdbcType=VARCHAR}, #{killplace,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, 
+      #{method,jdbcType=VARCHAR}, #{pcr,jdbcType=VARCHAR}, #{pcrSqjqdc,jdbcType=VARCHAR}, 
+      #{pcrDfjqdc,jdbcType=VARCHAR}, #{pcrXljqdc,jdbcType=VARCHAR}, #{eyeIllplace,jdbcType=VARCHAR}, 
+      #{eyeSize,jdbcType=VARCHAR}, #{eyeNum,jdbcType=INTEGER}, #{checkres,jdbcType=VARCHAR}, 
+      #{checkperson,jdbcType=VARCHAR}, #{checkdate,jdbcType=TIMESTAMP}, #{note,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Animalill" >
+    insert into animalill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="killplace != null" >
+        killplace,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="pcr != null" >
+        pcr,
+      </if>
+      <if test="pcrSqjqdc != null" >
+        pcr_sqjqdc,
+      </if>
+      <if test="pcrDfjqdc != null" >
+        pcr_dfjqdc,
+      </if>
+      <if test="pcrXljqdc != null" >
+        pcr_xljqdc,
+      </if>
+      <if test="eyeIllplace != null" >
+        eye_illplace,
+      </if>
+      <if test="eyeSize != null" >
+        eye_size,
+      </if>
+      <if test="eyeNum != null" >
+        eye_num,
+      </if>
+      <if test="checkres != null" >
+        checkres,
+      </if>
+      <if test="checkperson != null" >
+        checkperson,
+      </if>
+      <if test="checkdate != null" >
+        checkdate,
+      </if>
+      <if test="note != null" >
+        note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="killplace != null" >
+        #{killplace,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="pcr != null" >
+        #{pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrSqjqdc != null" >
+        #{pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrDfjqdc != null" >
+        #{pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrXljqdc != null" >
+        #{pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeIllplace != null" >
+        #{eyeIllplace,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeSize != null" >
+        #{eyeSize,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeNum != null" >
+        #{eyeNum,jdbcType=INTEGER},
+      </if>
+      <if test="checkres != null" >
+        #{checkres,jdbcType=VARCHAR},
+      </if>
+      <if test="checkperson != null" >
+        #{checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        #{note,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.AnimalillExample" resultType="java.lang.Integer" >
+    select count(*) from animalill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update animalill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=VARCHAR},
+      </if>
+      <if test="record.killplace != null" >
+        killplace = #{record.killplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.age != null" >
+        age = #{record.age,jdbcType=INTEGER},
+      </if>
+      <if test="record.method != null" >
+        method = #{record.method,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcr != null" >
+        pcr = #{record.pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrSqjqdc != null" >
+        pcr_sqjqdc = #{record.pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrDfjqdc != null" >
+        pcr_dfjqdc = #{record.pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pcrXljqdc != null" >
+        pcr_xljqdc = #{record.pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eyeIllplace != null" >
+        eye_illplace = #{record.eyeIllplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eyeSize != null" >
+        eye_size = #{record.eyeSize,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eyeNum != null" >
+        eye_num = #{record.eyeNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.checkres != null" >
+        checkres = #{record.checkres,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkperson != null" >
+        checkperson = #{record.checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkdate != null" >
+        checkdate = #{record.checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.note != null" >
+        note = #{record.note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update animalill
+    set id = #{record.id,jdbcType=INTEGER},
+      num = #{record.num,jdbcType=VARCHAR},
+      killplace = #{record.killplace,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      age = #{record.age,jdbcType=INTEGER},
+      method = #{record.method,jdbcType=VARCHAR},
+      pcr = #{record.pcr,jdbcType=VARCHAR},
+      pcr_sqjqdc = #{record.pcrSqjqdc,jdbcType=VARCHAR},
+      pcr_dfjqdc = #{record.pcrDfjqdc,jdbcType=VARCHAR},
+      pcr_xljqdc = #{record.pcrXljqdc,jdbcType=VARCHAR},
+      eye_illplace = #{record.eyeIllplace,jdbcType=VARCHAR},
+      eye_size = #{record.eyeSize,jdbcType=VARCHAR},
+      eye_num = #{record.eyeNum,jdbcType=INTEGER},
+      checkres = #{record.checkres,jdbcType=VARCHAR},
+      checkperson = #{record.checkperson,jdbcType=VARCHAR},
+      checkdate = #{record.checkdate,jdbcType=TIMESTAMP},
+      note = #{record.note,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Animalill" >
+    update animalill
+    <set >
+      <if test="num != null" >
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="killplace != null" >
+        killplace = #{killplace,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="pcr != null" >
+        pcr = #{pcr,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrSqjqdc != null" >
+        pcr_sqjqdc = #{pcrSqjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrDfjqdc != null" >
+        pcr_dfjqdc = #{pcrDfjqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="pcrXljqdc != null" >
+        pcr_xljqdc = #{pcrXljqdc,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeIllplace != null" >
+        eye_illplace = #{eyeIllplace,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeSize != null" >
+        eye_size = #{eyeSize,jdbcType=VARCHAR},
+      </if>
+      <if test="eyeNum != null" >
+        eye_num = #{eyeNum,jdbcType=INTEGER},
+      </if>
+      <if test="checkres != null" >
+        checkres = #{checkres,jdbcType=VARCHAR},
+      </if>
+      <if test="checkperson != null" >
+        checkperson = #{checkperson,jdbcType=VARCHAR},
+      </if>
+      <if test="checkdate != null" >
+        checkdate = #{checkdate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="note != null" >
+        note = #{note,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Animalill" >
+    update animalill
+    set num = #{num,jdbcType=VARCHAR},
+      killplace = #{killplace,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      method = #{method,jdbcType=VARCHAR},
+      pcr = #{pcr,jdbcType=VARCHAR},
+      pcr_sqjqdc = #{pcrSqjqdc,jdbcType=VARCHAR},
+      pcr_dfjqdc = #{pcrDfjqdc,jdbcType=VARCHAR},
+      pcr_xljqdc = #{pcrXljqdc,jdbcType=VARCHAR},
+      eye_illplace = #{eyeIllplace,jdbcType=VARCHAR},
+      eye_size = #{eyeSize,jdbcType=VARCHAR},
+      eye_num = #{eyeNum,jdbcType=INTEGER},
+      checkres = #{checkres,jdbcType=VARCHAR},
+      checkperson = #{checkperson,jdbcType=VARCHAR},
+      checkdate = #{checkdate,jdbcType=TIMESTAMP},
+      note = #{note,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

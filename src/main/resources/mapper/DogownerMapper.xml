@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.DogownerMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Dogowner" >
+    <constructor >
+      <idArg column="owner_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_tel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_addr" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_identity" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_sex" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="owner_age" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="owner_job" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    owner_id, owner_name, owner_tel, owner_addr, owner_status, owner_identity, owner_sex, 
+    owner_age, owner_job, districtcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.DogownerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from dogowner
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from dogowner
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from dogowner
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.DogownerExample" >
+    delete from dogowner
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Dogowner" >
+    insert into dogowner (owner_id, owner_name, owner_tel, 
+      owner_addr, owner_status, owner_identity, 
+      owner_sex, owner_age, owner_job, 
+      districtcode)
+    values (#{ownerId,jdbcType=INTEGER}, #{ownerName,jdbcType=VARCHAR}, #{ownerTel,jdbcType=VARCHAR}, 
+      #{ownerAddr,jdbcType=VARCHAR}, #{ownerStatus,jdbcType=INTEGER}, #{ownerIdentity,jdbcType=VARCHAR}, 
+      #{ownerSex,jdbcType=VARCHAR}, #{ownerAge,jdbcType=INTEGER}, #{ownerJob,jdbcType=VARCHAR}, 
+      #{districtcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Dogowner" >
+    insert into dogowner
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="ownerId != null" >
+        owner_id,
+      </if>
+      <if test="ownerName != null" >
+        owner_name,
+      </if>
+      <if test="ownerTel != null" >
+        owner_tel,
+      </if>
+      <if test="ownerAddr != null" >
+        owner_addr,
+      </if>
+      <if test="ownerStatus != null" >
+        owner_status,
+      </if>
+      <if test="ownerIdentity != null" >
+        owner_identity,
+      </if>
+      <if test="ownerSex != null" >
+        owner_sex,
+      </if>
+      <if test="ownerAge != null" >
+        owner_age,
+      </if>
+      <if test="ownerJob != null" >
+        owner_job,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="ownerId != null" >
+        #{ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="ownerName != null" >
+        #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerTel != null" >
+        #{ownerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAddr != null" >
+        #{ownerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerStatus != null" >
+        #{ownerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ownerIdentity != null" >
+        #{ownerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerSex != null" >
+        #{ownerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAge != null" >
+        #{ownerAge,jdbcType=INTEGER},
+      </if>
+      <if test="ownerJob != null" >
+        #{ownerJob,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.DogownerExample" resultType="java.lang.Integer" >
+    select count(*) from dogowner
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update dogowner
+    <set >
+      <if test="record.ownerId != null" >
+        owner_id = #{record.ownerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.ownerName != null" >
+        owner_name = #{record.ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerTel != null" >
+        owner_tel = #{record.ownerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerAddr != null" >
+        owner_addr = #{record.ownerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerStatus != null" >
+        owner_status = #{record.ownerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.ownerIdentity != null" >
+        owner_identity = #{record.ownerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerSex != null" >
+        owner_sex = #{record.ownerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ownerAge != null" >
+        owner_age = #{record.ownerAge,jdbcType=INTEGER},
+      </if>
+      <if test="record.ownerJob != null" >
+        owner_job = #{record.ownerJob,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update dogowner
+    set owner_id = #{record.ownerId,jdbcType=INTEGER},
+      owner_name = #{record.ownerName,jdbcType=VARCHAR},
+      owner_tel = #{record.ownerTel,jdbcType=VARCHAR},
+      owner_addr = #{record.ownerAddr,jdbcType=VARCHAR},
+      owner_status = #{record.ownerStatus,jdbcType=INTEGER},
+      owner_identity = #{record.ownerIdentity,jdbcType=VARCHAR},
+      owner_sex = #{record.ownerSex,jdbcType=VARCHAR},
+      owner_age = #{record.ownerAge,jdbcType=INTEGER},
+      owner_job = #{record.ownerJob,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Dogowner" >
+    update dogowner
+    <set >
+      <if test="ownerName != null" >
+        owner_name = #{ownerName,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerTel != null" >
+        owner_tel = #{ownerTel,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAddr != null" >
+        owner_addr = #{ownerAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerStatus != null" >
+        owner_status = #{ownerStatus,jdbcType=INTEGER},
+      </if>
+      <if test="ownerIdentity != null" >
+        owner_identity = #{ownerIdentity,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerSex != null" >
+        owner_sex = #{ownerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="ownerAge != null" >
+        owner_age = #{ownerAge,jdbcType=INTEGER},
+      </if>
+      <if test="ownerJob != null" >
+        owner_job = #{ownerJob,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Dogowner" >
+    update dogowner
+    set owner_name = #{ownerName,jdbcType=VARCHAR},
+      owner_tel = #{ownerTel,jdbcType=VARCHAR},
+      owner_addr = #{ownerAddr,jdbcType=VARCHAR},
+      owner_status = #{ownerStatus,jdbcType=INTEGER},
+      owner_identity = #{ownerIdentity,jdbcType=VARCHAR},
+      owner_sex = #{ownerSex,jdbcType=VARCHAR},
+      owner_age = #{ownerAge,jdbcType=INTEGER},
+      owner_job = #{ownerJob,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR}
+    where owner_id = #{ownerId,jdbcType=INTEGER}
+  </update>
+</mapper>

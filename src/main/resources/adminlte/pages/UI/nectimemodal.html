@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项圈信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>项圈信息</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>项圈时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>第1次投药时间：</label>
+                        <input id="input_lay1" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第2次投药时间：</label>
+                        <input id="input_lay2" class="form-control" type="datetime-local" value="2019-05-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第3次投药时间：</label>
+                        <input id="input_lay3" class="form-control" type="datetime-local" value="2019-06-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第4次投药时间：</label>
+                        <input id="input_lay4" class="form-control" type="datetime-local" value="2019-07-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第5次投药时间：</label>
+                        <input id="input_lay5" class="form-control" type="datetime-local" value="2019-08-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第6次投药时间：</label>
+                        <input id="input_lay6" class="form-control" type="datetime-local" value="2019-09-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>项圈时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>第7次投药时间：</label>
+                        <input id="input_lay7" class="form-control" type="datetime-local" value="2019-10-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第8次投药时间：</label>
+                        <input id="input_lay8" class="form-control" type="datetime-local" value="2019-11-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第9次投药时间：</label>
+                        <input id="input_lay9" class="form-control" type="datetime-local" value="2019-12-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第10次投药时间：</label>
+                        <input id="input_lay10" class="form-control" type="datetime-local" value="2020-01-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第11次投药时间：</label>
+                        <input id="input_lay11" class="form-control" type="datetime-local" value="2020-02-28T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>第12次投药时间：</label>
+                        <input id="input_lay12" class="form-control" type="datetime-local" value="2020-03-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        $(function () {
+            $("#necTimeDiv .modal-content").prepend('<div class="modal-header">'+
+                '<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>'+
+                '<h4 class="modal-title">时间配置详情</h4></div>');
+            var senddata = {};
+            var necid = $("#necid").html();
+            senddata.necid = necid;
+            $.ajax({
+                url: "/aidog/api/timeconfigbynecid",
+                method: "POST",
+                data: senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    if (data.data == null) {
+                        alert(data.msg);
+                        return;
+                    }else{
+                        if(data.data.timeconfig == null){
+                            alert("投药时间尚未配置，请修改下面时间配置！");
+                        }else{
+                            $("#input_lay1").val((timetrans(data.data.timeconfig.one)));
+                            $("#input_lay2").val((timetrans(data.data.timeconfig.two)));
+                            $("#input_lay3").val((timetrans(data.data.timeconfig.three)));
+                            $("#input_lay4").val((timetrans(data.data.timeconfig.four)));
+                            $("#input_lay5").val((timetrans(data.data.timeconfig.five)));
+                            $("#input_lay6").val((timetrans(data.data.timeconfig.six)));
+                            $("#input_lay7").val((timetrans(data.data.timeconfig.seven)));
+                            $("#input_lay8").val((timetrans(data.data.timeconfig.eight)));
+                            $("#input_lay9").val((timetrans(data.data.timeconfig.nine)));
+                            $("#input_lay10").val((timetrans(data.data.timeconfig.ten)));
+                            $("#input_lay11").val((timetrans(data.data.timeconfig.eleven)));
+                            $("#input_lay12").val((timetrans(data.data.timeconfig.twelve)));
+                        }
+                        $("#input_neckletid").val(necid);
+                        if(data.data.areacycle == null){
+                            alert("反馈周期尚未配置，请进行配置，单位（分钟）！");
+                        }else{
+                            $("#input_areacycle").val(data.data.areacycle);
+                        }
+                    }
+                }
+            })
+        })
+
+
+        function timetrans(date){
+//    var date = new Date(date*1000);//如果date为13位不需要乘1000
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+            var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
+    </script>
+</body>
+</html>

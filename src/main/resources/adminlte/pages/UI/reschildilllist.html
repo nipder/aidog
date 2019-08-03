@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>6-12岁儿童患病情况</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="../../dist/css/skins/all-skins.css">
+    <!--bootstrap table-->
+    <link rel="stylesheet" type="text/css" href="../../DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/Buttons-1.5.4/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="../ui_js/reschildilllist.js"></script>
+    <style type="text/css">
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #cfcfcf !important;
+        }
+        th{
+            font-weight:bold;
+        }
+        /*td{*/
+        /*height:30px;*/
+        /*}*/
+        .table td, .table th {
+            font-style: normal;
+            /*text-align:center;*/
+        }
+        input[type=checkbox]{
+            margin-right: 3px;
+        }
+        /*.bcolor{*/
+        /*background-color: #ecf0f5;*/
+        /*}*/
+        .box{
+            margin-bottom: 3px !important;
+        }
+        td.details-control {
+            background: url('../ui_css/details_open.png') no-repeat center center;
+            cursor: pointer;
+        }
+        tr.details td.details-control {
+            background: url('../ui_css/details_close.png') no-repeat center center;
+        }
+        @media (min-width:768px) {
+            .model80{
+                width:80% !important;
+            }
+
+        }
+    </style>
+    <link rel="stylesheet" href="../ui_css/datatableios.css">
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini" >
+    <!-- Content Header (Page header) -->
+    <div class="bcolor" >
+        <div class="row" style="padding-top: 20px;margin-top: 20px">
+            <div class="col-md-12">
+                <div class="box-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success select-5">
+                            <style>
+                                @media (min-width: 992px){
+                                    .select-5 .form-control{
+                                        width:18%;
+                                        margin-left:15px;
+                                    }
+                                }
+
+                            </style>
+                            <label style="padding-bottom: 5px">所属区域(*)</label>
+                            <div class="row">
+                                <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
+                                    <!--<option value="-1">请选择</option>-->
+                                    <option value="0" style="color: #00a65a">全国</option>
+                                    <option value="150000000000">内蒙古自治区</option>
+                                    <option value="510000000000">四川省</option>
+                                    <option value="530000000000">云南省</option>
+                                    <option value="540000000000">西藏自治区</option>
+                                    <option value="610000000000">陕西省</option>
+                                    <option value="620000000000">甘肃省</option>
+                                    <option value="630000000000">青海省</option>
+                                    <option value="640000000000">宁夏回族自治区</option>
+                                    <option value="650000000000">新疆维吾尔族自治区</option>
+                                    <option value="660000000">建设兵团</option>
+                                </select>
+                                <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
+                                    <option value="-1">请选择</option>
+                                </select>
+                                <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                                <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                                <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8" style="margin-left: 20px">
+                    <button type="button" id="a_getchildrenlist" class="btn btn-info btn-flat">获取当前区域6-12岁儿童患病情况列表</button>
+                    <button type="button" id="a_addnew" class="btn btn-info btn-flat">新增当前区域6-12岁儿童患病情况</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- Info boxes -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box-body">
+                        <div class="box box-solid">
+                            <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                                <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>学校</th>
+                                    <th>姓名</th>
+                                    <th>年龄</th>
+                                    <th>班级</th>
+                                    <th>性别</th>
+                                    <th>B超检测结果</th>
+                                    <th>筛查人</th>
+                                    <th>筛查日期</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+
+    <div id="illid" style="display: none">0</div>
+    <div class="modal fade" id="manureInfoDiv" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">患病儿童详细信息</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>学校：</label>
+                            <input type="text" class="form-control" placeholder="学校"  id="input_school" disabled/>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>姓名：</label>
+                            <input type="text" class="form-control" placeholder="姓名" id="input_name" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>年龄：</label>
+                            <input type="text" class="form-control" placeholder="年龄" id="input_age" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>班级：</label>
+                            <input type="text" class="form-control" placeholder="班级" id="input_classname" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>性别：</label>
+                            <select class="form-control select2"  id="modalselect_sex" style="width: 100%;">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>B超检测结果：</label>
+                            <input type="text" class="form-control" placeholder="B超检测结果" id="input_bcheckres" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>筛查人：</label>
+                            <input type="text" class="form-control" placeholder="筛查人" id="input_checkperson" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>筛查日期：</label>
+                            <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="筛查日期" id="input_checkdate" disabled>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="illModifyDiv" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">录入检测结果</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>学校：</label>
+                            <input type="text" class="form-control" placeholder="学校"  id="reginput_school" disabled/>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>姓名：</label>
+                            <input type="text" class="form-control" placeholder="姓名" id="reginput_name" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>年龄：</label>
+                            <input type="text" class="form-control" placeholder="年龄" id="reginput_age" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>班级：</label>
+                            <input type="text" class="form-control" placeholder="班级" id="reginput_classname" disabled>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>性别：</label>
+                            <select class="form-control select2"  id="regmodalselect_sex" style="width: 100%;">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>B超检测结果：</label>
+                            <select class="form-control select2"  id="regmodalselect_bcheckres" style="width: 100%;">
+                                <option value="阴性">阴性</option>
+                                <option value="阳性">阳性</option>
+                            </select>
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>筛查人：</label>
+                            <input type="text" class="form-control" placeholder="筛查人" id="reginput_checkperson" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>筛查日期：</label>
+                            <input type="datetime-local" value="1970-01-01T00:00" class="form-control" placeholder="筛查日期" id="reginput_checkdate" />
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8">
+                                    <button type="button" id="a_childmodify" class="btn btn-info btn-flat">录入检测结果</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+    <div class="modal fade" id="addNew" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">添加新检测儿童</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <!-- text input -->
+                        <div class="form-group  has-success">
+                            <label>学校：</label>
+                            <input type="text" class="form-control" placeholder="学校"  id="addinput_school" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>姓名：</label>
+                            <input type="text" class="form-control" placeholder="姓名" id="addinput_name" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>年龄：</label>
+                            <input type="text" class="form-control" placeholder="年龄" id="addinput_age" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>班级：</label>
+                            <input type="text" class="form-control" placeholder="班级" id="addinput_classname" />
+                        </div>
+                        <div class="form-group  has-success">
+                            <label>性别：</label>
+                            <select class="form-control select2"  id="addmodalselect_sex" style="width: 100%;">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-offset-2 col-md-8">
+                                    <button type="button" id="a_addchildill" class="btn btn-info btn-flat">确认添加</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+</html>

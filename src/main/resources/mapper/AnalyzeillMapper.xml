@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.AnalyzeillMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Analyzeill" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="district_level" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="district_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="epidemic" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="lng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="lat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="echartname" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="personnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="personillnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="personilllevel" jdbcType="DOUBLE" javaType="java.lang.Double" />
+      <arg column="dognum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dogillnum" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dogilllevel" jdbcType="DOUBLE" javaType="java.lang.Double" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, districtcode, district_level, district_name, epidemic, lng, lat, echartname, 
+    personnum, personillnum, personilllevel, dognum, dogillnum, dogilllevel
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.AnalyzeillExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from analyzeill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from analyzeill
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from analyzeill
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.AnalyzeillExample" >
+    delete from analyzeill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Analyzeill" >
+    insert into analyzeill (id, districtcode, district_level, 
+      district_name, epidemic, lng, 
+      lat, echartname, personnum, 
+      personillnum, personilllevel, dognum, 
+      dogillnum, dogilllevel)
+    values (#{id,jdbcType=INTEGER}, #{districtcode,jdbcType=VARCHAR}, #{districtLevel,jdbcType=INTEGER}, 
+      #{districtName,jdbcType=VARCHAR}, #{epidemic,jdbcType=INTEGER}, #{lng,jdbcType=VARCHAR}, 
+      #{lat,jdbcType=VARCHAR}, #{echartname,jdbcType=VARCHAR}, #{personnum,jdbcType=INTEGER}, 
+      #{personillnum,jdbcType=INTEGER}, #{personilllevel,jdbcType=DOUBLE}, #{dognum,jdbcType=INTEGER}, 
+      #{dogillnum,jdbcType=INTEGER}, #{dogilllevel,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Analyzeill" >
+    insert into analyzeill
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+      <if test="districtLevel != null" >
+        district_level,
+      </if>
+      <if test="districtName != null" >
+        district_name,
+      </if>
+      <if test="epidemic != null" >
+        epidemic,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="echartname != null" >
+        echartname,
+      </if>
+      <if test="personnum != null" >
+        personnum,
+      </if>
+      <if test="personillnum != null" >
+        personillnum,
+      </if>
+      <if test="personilllevel != null" >
+        personilllevel,
+      </if>
+      <if test="dognum != null" >
+        dognum,
+      </if>
+      <if test="dogillnum != null" >
+        dogillnum,
+      </if>
+      <if test="dogilllevel != null" >
+        dogilllevel,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        #{districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="epidemic != null" >
+        #{epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="echartname != null" >
+        #{echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="personnum != null" >
+        #{personnum,jdbcType=INTEGER},
+      </if>
+      <if test="personillnum != null" >
+        #{personillnum,jdbcType=INTEGER},
+      </if>
+      <if test="personilllevel != null" >
+        #{personilllevel,jdbcType=DOUBLE},
+      </if>
+      <if test="dognum != null" >
+        #{dognum,jdbcType=INTEGER},
+      </if>
+      <if test="dogillnum != null" >
+        #{dogillnum,jdbcType=INTEGER},
+      </if>
+      <if test="dogilllevel != null" >
+        #{dogilllevel,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.AnalyzeillExample" resultType="java.lang.Integer" >
+    select count(*) from analyzeill
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update analyzeill
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtLevel != null" >
+        district_level = #{record.districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtName != null" >
+        district_name = #{record.districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epidemic != null" >
+        epidemic = #{record.epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="record.lng != null" >
+        lng = #{record.lng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.echartname != null" >
+        echartname = #{record.echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.personnum != null" >
+        personnum = #{record.personnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.personillnum != null" >
+        personillnum = #{record.personillnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.personilllevel != null" >
+        personilllevel = #{record.personilllevel,jdbcType=DOUBLE},
+      </if>
+      <if test="record.dognum != null" >
+        dognum = #{record.dognum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogillnum != null" >
+        dogillnum = #{record.dogillnum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dogilllevel != null" >
+        dogilllevel = #{record.dogilllevel,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update analyzeill
+    set id = #{record.id,jdbcType=INTEGER},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      district_level = #{record.districtLevel,jdbcType=INTEGER},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
+      epidemic = #{record.epidemic,jdbcType=INTEGER},
+      lng = #{record.lng,jdbcType=VARCHAR},
+      lat = #{record.lat,jdbcType=VARCHAR},
+      echartname = #{record.echartname,jdbcType=VARCHAR},
+      personnum = #{record.personnum,jdbcType=INTEGER},
+      personillnum = #{record.personillnum,jdbcType=INTEGER},
+      personilllevel = #{record.personilllevel,jdbcType=DOUBLE},
+      dognum = #{record.dognum,jdbcType=INTEGER},
+      dogillnum = #{record.dogillnum,jdbcType=INTEGER},
+      dogilllevel = #{record.dogilllevel,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Analyzeill" >
+    update analyzeill
+    <set >
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtLevel != null" >
+        district_level = #{districtLevel,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="epidemic != null" >
+        epidemic = #{epidemic,jdbcType=INTEGER},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="echartname != null" >
+        echartname = #{echartname,jdbcType=VARCHAR},
+      </if>
+      <if test="personnum != null" >
+        personnum = #{personnum,jdbcType=INTEGER},
+      </if>
+      <if test="personillnum != null" >
+        personillnum = #{personillnum,jdbcType=INTEGER},
+      </if>
+      <if test="personilllevel != null" >
+        personilllevel = #{personilllevel,jdbcType=DOUBLE},
+      </if>
+      <if test="dognum != null" >
+        dognum = #{dognum,jdbcType=INTEGER},
+      </if>
+      <if test="dogillnum != null" >
+        dogillnum = #{dogillnum,jdbcType=INTEGER},
+      </if>
+      <if test="dogilllevel != null" >
+        dogilllevel = #{dogilllevel,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Analyzeill" >
+    update analyzeill
+    set districtcode = #{districtcode,jdbcType=VARCHAR},
+      district_level = #{districtLevel,jdbcType=INTEGER},
+      district_name = #{districtName,jdbcType=VARCHAR},
+      epidemic = #{epidemic,jdbcType=INTEGER},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      echartname = #{echartname,jdbcType=VARCHAR},
+      personnum = #{personnum,jdbcType=INTEGER},
+      personillnum = #{personillnum,jdbcType=INTEGER},
+      personilllevel = #{personilllevel,jdbcType=DOUBLE},
+      dognum = #{dognum,jdbcType=INTEGER},
+      dogillnum = #{dogillnum,jdbcType=INTEGER},
+      dogilllevel = #{dogilllevel,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

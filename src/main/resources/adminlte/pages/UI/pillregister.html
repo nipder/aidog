@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../../bootstrap/js/bootstrap.js">
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+    <title>药饵注册</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+            width:100%;
+        }
+    </style>
+    <script src="../ui_js/pillregister.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="padding-top: 20px;margin-top: 20px">
+        <div class="col-md-12">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success select-5">
+                        <style>
+                            @media (min-width: 992px){
+                                .select-5 .form-control{
+                                    width:18%;
+                                    margin-left:15px;
+                                }
+                            }
+
+                        </style>
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <div class="row">
+                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <!--<option value="-1">请选择</option>-->
+                                <option value="0" style="color: #00a65a">全国</option>
+                                <option value="150000000000">内蒙古自治区</option>
+                                <option value="510000000000">四川省</option>
+                                <option value="530000000000">云南省</option>
+                                <option value="540000000000">西藏自治区</option>
+                                <option value="610000000000">陕西省</option>
+                                <option value="620000000000">甘肃省</option>
+                                <option value="630000000000">青海省</option>
+                                <option value="640000000000">宁夏回族自治区</option>
+                                <option value="650000000000">新疆维吾尔族自治区</option>
+                                <option value="660000000">建设兵团</option>
+                            </select>
+                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
+                                <option value="-1">请选择</option>
+                            </select>
+                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>药饵信息注册</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>药饵编号：</label>
+                        <input type="text" class="form-control" placeholder="药饵编号"  id="input_pillcode" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>药饵名称：</label>
+                        <input type="text" class="form-control" placeholder="药饵名称" id="input_pillname">
+                    </div>
+
+                    <div class="form-group  has-success">
+                        <label>生产厂家：</label>
+                        <input type="text" class="form-control" placeholder="生产厂家" id="input_pillfactory">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>规格：</label>
+                        <input type="text" class="form-control" placeholder="规格" id="select_pillspec">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>生产批号：</label>
+                        <input type="text" class="form-control" placeholder="生产批号" id="input_batchnum">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="form-group  has-success">
+                        <label>失效日期：</label>
+                        <input id="pill_expdate"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>采购日期：</label>
+                        <input id="pill_buydate"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>采购人姓名：</label>
+                        <input type="text" class="form-control" placeholder="采购人姓名" id="input_pillbuyer">
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>采购人电话：</label>
+                        <input type="text" class="form-control" placeholder="采购人姓名" id="input_pillbuyertel">
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="button" id="a_addpill" class="btn btn-info btn-flat">确认药饵信息</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改犬只信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--bootstrap table-->
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <title>修改犬只信息</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="row" id="searchRow" style="padding-top: 30px;padding-bottom: 20px;">
+        <div class="col-md-5">
+            <!-- Profile Image -->
+            <div class="input-group input-group-sm">
+                <input type="text" id="dogid" class="form-control" placeholder="输入犬只政府编码">
+                <span class="input-group-btn">
+                  <button type="button" id="aaa" class="btn btn-info btn-flat">搜索</button>
+                </span>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>犬只基本信息</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>犬只名称：</label>
+                        <input type="text" class="form-control" placeholder="犬只名称"  id="input_dogname"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>犬只性别：</label>
+                        <select class="form-control select2"  id="select_dogsex" style="width: 100%;">
+                            <option selected="selected">公狗</option>
+                            <option>母狗</option>
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>所属村：</label>
+                        <input type="text" class="form-control" placeholder="所属村" id="input_dogbelonghamlet" disabled>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>重量：</label>
+                        <input type="text" class="form-control" placeholder="重量" id="input_dogweight" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>毛色：</label>
+                        <input type="text" class="form-control" placeholder="毛色" id="input_dogcolor" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>年龄：</label>
+                        <input type="text" class="form-control" placeholder="年龄" id="input_dogage" />
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="button" id="a_dogmodify" class="btn btn-info btn-flat">修改牧犬信息</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        function ChangeTimeFormat(logintime) {
+            //	20170926084552 ---> 2017.09.26 08:45:52
+            var year = logintime.substring(0, 4);
+            var month = logintime.substring(4, 6);
+            var day = logintime.substring(6, 8);
+            var hour = logintime.substring(8, 10);
+            var min = logintime.substring(10, 12);
+            var sec = logintime.substring(12);
+            return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+        }
+    </script>
+</body>
+</html>
