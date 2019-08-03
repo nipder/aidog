@@ -25,7 +25,11 @@ $(function () {
         districtcode = $(this).find('option:selected').val();
         level = "province";
         var selectvalue = $(this).find('option:selected').val();
-        selectvalue = selectvalue.substring(0,2);
+        if(selectvalue == "0"){
+            level = "";
+        }else{
+            selectvalue = selectvalue.substring(0,2);
+        }
         $("#select_city").find("option").remove();
         var select_city = document.getElementById("select_city");
         select_city.options.add(new Option("请选择", "-1"));
@@ -117,16 +121,17 @@ $(function () {
         var selectvalue = $(this).find('option:selected').text();
     });
 
-    $("#a_getdogstalist").click(function () {
+
+    var dt = $('#datatable').dataTable();
+
+    $("#a_getillstalist").click(function () {
         var senddata = {};
         senddata.startitem = 1;
         senddata.pagesize = 100000;
         senddata.districtcode = districtcode;
         senddata.level = level;
-        var managemethod = $("#select_managemethod").find("option:selected").text();
-        senddata.managemethod = managemethod;
         $.ajax({
-            url:  "/aidog/api/getdogstalist",
+            url:  "/aidog/api/getanadogillStaList",
             type: "POST",
             data:  senddata,
             beforeSend: function (request) {
@@ -138,20 +143,13 @@ $(function () {
                     return;
                 }else{
                     for(var i = 0;i<data.data.data.length;i++){
-                        // data.data.data[i].manurenum = 10;
-                        // data.data.data[i].manuretestnum = 10;
-                        // data.data.data[i].manurebadnum = 8;
-                        // data.data.data[i].manurebadper = "80%";
-                        // data.data.data[i].managemethod = managemethod;
-
-                        data.data.data[i].manurenum = 10;
-                        data.data.data[i].manuretestnum = 10;
-                        data.data.data[i].manurebadnum = 8;
-                        data.data.data[i].manurebadper = "80%";
-                        data.data.data[i].managemethod = managemethod;
-                    }
+                        data.data.data[i].countnum = i+1;
+                        data.data.data[i].bchecknum = data.data.data[i].bchecknum || 0;
+                        data.data.data[i].illnum = data.data.data[i].illnum || 0;
+                        data.data.data[i].checklv = data.data.data[i].checklv || 0;
+                     }
                     viewdata = $.extend(true,[],data.data.data);
-                    var dt = $('#datatable').DataTable({
+                    dt = $('#datatable').dataTable({
                         data: data.data.data,
                         "jQueryUI": true,
                         'paging'      : true,
@@ -194,20 +192,11 @@ $(function () {
                         "dom": 'Bfrtip',
                         "processing": true,
                         "columns": [
-                            // {
-                            //     "class":          "details-control",
-                            //     "orderable":      false,
-                            //     "data":           null,
-                            //     "defaultContent": "",
-                            //     "width": "1px"
-                            // },
-                            { "data": "countnum","width":"50px" },
-                            { "data": "districtname","width":"130px"  },
-                            { "data": "managemethod","width":"70px"  },
-                            { "data": "manurenum","width":"120px" },
-                            { "data": "manuretestnum","width":"120px" },
-                            { "data": "manurebadnum","width":"130px" },
-                            { "data": "manurebadper","width":"110px" }
+                            { "data": "countnum","width":"40px" },
+                            { "data": "districtname","width":"125px"  },
+                            { "data": "bchecknum","width":"85px"},
+                            { "data": "illnum","width":"75px" },
+                            { "data": "checklv","width":"70px" }
                         ],
                         buttons: [
                             'pageLength',
@@ -288,8 +277,6 @@ $(function () {
         var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
         return Y+M+D+h+m+s;
     }
-
 })
-
 
 
