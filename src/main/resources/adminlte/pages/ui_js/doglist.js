@@ -188,14 +188,18 @@ $(function () {
         return province+city+county+village+hamlet;
     }
 
-    var dt = $('#datatable').dataTable();
+    var dataTable;
 
     $("#a_getdoglist").click(function () {
         var senddata = {};
         senddata.startitem = 1;
         senddata.pagesize = 100000;
-        senddata.districtcode = districtcode;
-        senddata.level = level;
+        // @chg zyj 2019.07.30 begin
+        //senddata.districtcode = districtcode;
+		//senddata.level = level;
+        senddata.districtcode = districtcode == "0" ? "" : districtcode;
+        senddata.level = districtcode == "0" ? "" : level;
+        // @chg zyj 2019.07.30 end
         $.ajax({
             url:  "/aidog/api/getdoglist",
             type: "POST",
@@ -222,7 +226,15 @@ $(function () {
                         data.data.data[i].detailaddr = distrctcodetoaddr(data.data.data[i].districtcode);
                     }
                     viewdata = $.extend(true,[],data.data.data);
-                    dt = $('#datatable').dataTable({
+                    
+                    // @add zyj 2019.07.31 begin
+                    if(dataTable){
+                    	dataTable.clear();//清空数据.fnClearTable();//清空数据
+                    	dataTable.destroy(); //还原初始化了的datatable
+                    }
+                    // @add zyj 2019.07.31 end
+                    
+                    dataTable = $('#datatable').DataTable({
                         data: data.data.data,
                         "jQueryUI": true,
                         'paging'      : true,
@@ -308,11 +320,11 @@ $(function () {
 
 
                     // Array to track the ids of the details displayed rows
-                    var detailRows = [];
+                    /*var detailRows = [];
 
                     $('#tbody').on( 'click', 'tr td.details-control', function () {
                         var tr = $(this).closest('tr');
-                        var row = dt.api().row( tr );
+                        var row = dataTable.row( tr );
                         var idx = $.inArray( tr.attr('id'), detailRows );
 
                         if ( row.child.isShown() ) {
@@ -334,15 +346,48 @@ $(function () {
                     } );
 
                     // On each draw, loop over the `detailRows` array and show any child rows
-                    dt.on( 'draw', function () {
+                    dataTable.on( 'draw', function () {
                         $.each( detailRows, function ( i, id ) {
                             $('#'+id+' td.details-control').trigger( 'click' );
                         } );
-                    });
+                    });*/
 
                 }
             }
         })
+    });
+	
+	// Array to track the ids of the details displayed rows
+    var detailRows = [];
+
+    $('#tbody').on( 'click', 'tr td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = dataTable.row( tr );
+        var idx = $.inArray( tr.attr('id'), detailRows );
+
+        if ( row.child.isShown() ) {
+            tr.removeClass( 'details' );
+            row.child.hide();
+
+            // Remove from the 'open' array
+            detailRows.splice( idx, 1 );
+        }
+        else {
+            tr.addClass( 'details' );
+            row.child( format( row.index() ) ).show();
+
+            // Add to the 'open' array
+            if ( idx === -1 ) {
+                detailRows.push( tr.attr('id') );
+            }
+        }
+    } );
+
+    // On each draw, loop over the `detailRows` array and show any child rows
+    dataTable.on( 'draw', function () {
+        $.each( detailRows, function ( i, id ) {
+            $('#'+id+' td.details-control').trigger( 'click' );
+        } );
     });
 
     function format ( index ) {
