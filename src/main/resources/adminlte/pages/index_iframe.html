@@ -6,7 +6,7 @@
     <title>包虫病防控犬驱虫远程管理系统</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-
+	<meta name="renderer"  content="webkit">
     <!-- Bootstrap 3.3.6 -->
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome -->
@@ -778,7 +778,7 @@
 <script src="../dist/js/appx.js"></script>
 <script src="../dist/js/bootstrap-tab.js"></script>
 <script src="../dist/js/sidebarMenu.js"></script>-->
-
+<script type="text/javascript" src="ui_js/util.js"></script>
 <script type="text/javascript">
     /**
      * 本地搜索菜单
@@ -1426,6 +1426,9 @@
                     },
                     success: function (data) {
                         if(data == "success"){
+							// @add zyj 2019.07.31 begin
+                        	ssessionUserLogout();
+                        	// @add zyj 2019.07.31 end
                             window.localStorage.removeItem("aidog_token");
                             window.location.href = "login.html";
                         }
