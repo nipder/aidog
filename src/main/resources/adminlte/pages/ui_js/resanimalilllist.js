@@ -184,10 +184,10 @@ $(function () {
     });
 
     $("#a_addanimalill").click(function () {
-        // if(viewdata == null || viewdata){
-        //     alert("请先获取当前区域儿童列表！");
-        //     return;
-        // }
+        if(districtcode == ""){
+            alert("请选择省级或以下行政级别！");
+            return;
+        }
         var clicktype = "addanimalill";
         var killplace = $("#addinput_killplace").val();
         var code = $("#addinput_code").val();
