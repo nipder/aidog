@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="renderer"  content="webkit">
     <title>智能牧犬监控 | 登录</title>
     <!-- 告诉浏览器该页面是自适应布局 -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -186,6 +187,8 @@
 <script src="../bootstrap/js/bootstrap.js"></script>
 <!-- iCheck -->
 <script src="../bootstrap/js/icheck.min.js"></script>
+
+<script type="text/javascript" src="ui_js/util.js"></script>
 <script>
     $(function () {
         var u_p = getCookie("aidoguser");
@@ -231,6 +234,9 @@
                         } else {
                             delCookie("aidoguser");
                         }
+						// @add zyj 2019.07.31 begin
+                        setSessionUserInfo(data.data);
+                        // @add zyj 2019.07.31 end
                         window.localStorage.setItem("aidog_token",data.data.token);
                         window.location.href = "index_iframe.html?user="+escape(usrn);
                         return true;
