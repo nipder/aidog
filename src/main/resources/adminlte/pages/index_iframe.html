@@ -1374,6 +1374,12 @@
                             }
                         ];
 
+                        // @add zyj 2019.08.08 begin
+                        if(data.username != 'admin'){
+                            menus.pop();
+                        }
+                        // @add zyj 2019.08.08 end
+
                         switch (data.privilegelevel){
                             case 1:
 //                                var newData = [];
