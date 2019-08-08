@@ -685,6 +685,126 @@ public class SysDeviceconfExample {
             return (Criteria) this;
         }
 
+        public Criteria andBastimesIsNull() {
+            addCriterion("bastimes is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesIsNotNull() {
+            addCriterion("bastimes is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesEqualTo(Byte value) {
+            addCriterion("bastimes =", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesNotEqualTo(Byte value) {
+            addCriterion("bastimes <>", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesGreaterThan(Byte value) {
+            addCriterion("bastimes >", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesGreaterThanOrEqualTo(Byte value) {
+            addCriterion("bastimes >=", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesLessThan(Byte value) {
+            addCriterion("bastimes <", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesLessThanOrEqualTo(Byte value) {
+            addCriterion("bastimes <=", value, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesIn(List<Byte> values) {
+            addCriterion("bastimes in", values, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesNotIn(List<Byte> values) {
+            addCriterion("bastimes not in", values, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesBetween(Byte value1, Byte value2) {
+            addCriterion("bastimes between", value1, value2, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andBastimesNotBetween(Byte value1, Byte value2) {
+            addCriterion("bastimes not between", value1, value2, "bastimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesIsNull() {
+            addCriterion("gpstimes is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesIsNotNull() {
+            addCriterion("gpstimes is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesEqualTo(Byte value) {
+            addCriterion("gpstimes =", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesNotEqualTo(Byte value) {
+            addCriterion("gpstimes <>", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesGreaterThan(Byte value) {
+            addCriterion("gpstimes >", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesGreaterThanOrEqualTo(Byte value) {
+            addCriterion("gpstimes >=", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesLessThan(Byte value) {
+            addCriterion("gpstimes <", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesLessThanOrEqualTo(Byte value) {
+            addCriterion("gpstimes <=", value, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesIn(List<Byte> values) {
+            addCriterion("gpstimes in", values, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesNotIn(List<Byte> values) {
+            addCriterion("gpstimes not in", values, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesBetween(Byte value1, Byte value2) {
+            addCriterion("gpstimes between", value1, value2, "gpstimes");
+            return (Criteria) this;
+        }
+
+        public Criteria andGpstimesNotBetween(Byte value1, Byte value2) {
+            addCriterion("gpstimes not between", value1, value2, "gpstimes");
+            return (Criteria) this;
+        }
+
         public Criteria andLedenableIsNull() {
             addCriterion("ledenable is null");
             return (Criteria) this;

@@ -19,6 +19,10 @@ public class SysDeviceconf extends SysDeviceconfKey {
 
     private Integer tickcycle;
 
+    private Byte bastimes;
+
+    private Byte gpstimes;
+
     private Byte ledenable;
 
     private Byte temporaryflag;
@@ -35,7 +39,7 @@ public class SysDeviceconf extends SysDeviceconfKey {
 
     private Date updatetime;
 
-    public SysDeviceconf(Integer id, String mid, Integer status, String simccid, String swver, String ip, Integer port, Integer infoupdatecycle, Integer tickcycle, Byte ledenable, Byte temporaryflag, Date temporarygmt, Byte clearerr, Byte factory, Byte uimodifyflag, Byte hardmodifyflag, Date updatetime) {
+    public SysDeviceconf(Integer id, String mid, Integer status, String simccid, String swver, String ip, Integer port, Integer infoupdatecycle, Integer tickcycle, Byte bastimes, Byte gpstimes, Byte ledenable, Byte temporaryflag, Date temporarygmt, Byte clearerr, Byte factory, Byte uimodifyflag, Byte hardmodifyflag, Date updatetime) {
         super(id, mid);
         this.status = status;
         this.simccid = simccid;
@@ -44,6 +48,8 @@ public class SysDeviceconf extends SysDeviceconfKey {
         this.port = port;
         this.infoupdatecycle = infoupdatecycle;
         this.tickcycle = tickcycle;
+        this.bastimes = bastimes;
+        this.gpstimes = gpstimes;
         this.ledenable = ledenable;
         this.temporaryflag = temporaryflag;
         this.temporarygmt = temporarygmt;
@@ -112,6 +118,22 @@ public class SysDeviceconf extends SysDeviceconfKey {
 
     public void setTickcycle(Integer tickcycle) {
         this.tickcycle = tickcycle;
+    }
+
+    public Byte getBastimes() {
+        return bastimes;
+    }
+
+    public void setBastimes(Byte bastimes) {
+        this.bastimes = bastimes;
+    }
+
+    public Byte getGpstimes() {
+        return gpstimes;
+    }
+
+    public void setGpstimes(Byte gpstimes) {
+        this.gpstimes = gpstimes;
     }
 
     public Byte getLedenable() {

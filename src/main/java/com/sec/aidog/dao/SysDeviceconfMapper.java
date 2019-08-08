@@ -1,8 +1,9 @@
 package com.sec.aidog.dao;
 
-import com.sec.aidog.pojo.SysDeviceconf;
 import com.sec.aidog.model.SysDeviceconfExample;
 import com.sec.aidog.model.SysDeviceconfKey;
+import com.sec.aidog.pojo.SysDeviceconf;
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -26,8 +27,6 @@ public interface SysDeviceconfMapper {
 
     SysDeviceconf selectByPrimaryKey(SysDeviceconfKey key);
 
-    SysDeviceconf selectDeviceConfigByMid(String mid);
-
     int updateByExampleSelective(@Param("record") SysDeviceconf record, @Param("example") SysDeviceconfExample example);
 
     int updateByExample(@Param("record") SysDeviceconf record, @Param("example") SysDeviceconfExample example);
@@ -35,4 +34,6 @@ public interface SysDeviceconfMapper {
     int updateByPrimaryKeySelective(SysDeviceconf record);
 
     int updateByPrimaryKey(SysDeviceconf record);
+
+    SysDeviceconf selectDeviceConfigByMid(String mid);
 }
