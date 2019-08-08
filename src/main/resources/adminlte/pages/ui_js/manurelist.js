@@ -15,16 +15,18 @@ $(function () {
     //         datares = eval("(" + data + ")");
     //     }
     // });
+    var districtcode = "";
+    var level = "";
     setDistrictSelectDisabled(true);
     $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
     {
         datares = data;
         setDistrictSelectDisabled(false);
         initSelDistrictCtrl(datares);
+        districtcode = g_districtcode;
+        level = g_level;
     });
-    var districtcode = "";
-    var level = "";
-
+    
     $("#select_province").on('change', function () {
         districtcode = $(this).find('option:selected').val();
         level = "province";
