@@ -67,29 +67,30 @@ public class SysDeviceConfApi {
 	@ApiOperation(value = "通过项圈编号配置项圈信息", notes = "通过项圈编号配置项圈信息")
 	@ApiImplicitParams({
         @ApiImplicitParam(name = "mid", value = "项圈标识", required = true, dataType = "String",paramType = "query"),
-//        @ApiImplicitParam(name = "status", value = "投药状态", required = true, dataType = "Byte",paramType = "query"),
-        @ApiImplicitParam(name = "simccid", value = "SIM_CCID", required = true, dataType = "String",paramType = "query"),
-        @ApiImplicitParam(name = "swver", value = "版本号", required = true, dataType = "String",paramType = "query"),
-        @ApiImplicitParam(name = "ip", value = "ip地址", required = true, dataType = "String",paramType = "query"),
-        @ApiImplicitParam(name = "port", value = "端口号", required = true, dataType = "Integer",paramType = "query"),
-        @ApiImplicitParam(name = "infoupdatecycle", value = "信息上传周期", required = true, dataType = "Integer",paramType = "query"),
-        @ApiImplicitParam(name = "tickcycle", value = "心跳周期", required = true, dataType = "Integer",paramType = "query"),
-        @ApiImplicitParam(name = "ledenable", value = "led使能", required = true, dataType = "Byte",paramType = "query"),
-        @ApiImplicitParam(name = "tempflag", value = "临时投药标志", required = true, dataType = "Byte",paramType = "query"),
-        @ApiImplicitParam(name = "tempgmt", value = "临时投药时间", required = true, dataType = "String",paramType = "query"),
-        @ApiImplicitParam(name = "clearerr", value = "清除故障标志", required = true, dataType = "Byte",paramType = "query"),
-        @ApiImplicitParam(name = "factory", value = "恢复出厂设置", required = true, dataType = "Byte",paramType = "query")
+        @ApiImplicitParam(name = "simccid", value = "SIM_CCID", required = false, dataType = "String",paramType = "query"),
+        @ApiImplicitParam(name = "swver", value = "版本号", required = false, dataType = "String",paramType = "query"),
+        @ApiImplicitParam(name = "ip", value = "ip地址", required = false, dataType = "String",paramType = "query"),
+        @ApiImplicitParam(name = "port", value = "端口号", required = false, dataType = "Integer",paramType = "query"),
+        @ApiImplicitParam(name = "infoupdatecycle", value = "信息上传周期", required = false, dataType = "Integer",paramType = "query"),
+        @ApiImplicitParam(name = "tickcycle", value = "心跳周期", required = false, dataType = "Integer",paramType = "query"),
+		@ApiImplicitParam(name = "bastimes", value = "基站定位时间", required = false, dataType = "Byte",paramType = "query"),
+		@ApiImplicitParam(name = "gpstimes", value = "GPS定位时间", required = false, dataType = "Byte",paramType = "query"),
+        @ApiImplicitParam(name = "ledenable", value = "led使能", required = false, dataType = "Byte",paramType = "query"),
+        @ApiImplicitParam(name = "tempflag", value = "临时投药标志", required = false, dataType = "Byte",paramType = "query"),
+        @ApiImplicitParam(name = "tempgmt", value = "临时投药时间", required = false, dataType = "String",paramType = "query"),
+        @ApiImplicitParam(name = "clearerr", value = "清除故障标志", required = false, dataType = "Byte",paramType = "query"),
+        @ApiImplicitParam(name = "factory", value = "恢复出厂设置", required = false, dataType = "Byte",paramType = "query")
 	})
 	@RequestMapping(value="setdeviceconfigbynecid",method = RequestMethod.POST)
 	@Transactional
     @ResponseBody
-    public ResponseEntity<JsonResult> InsertLayConfigByNeckletId(@RequestParam(value = "mid")String mid,
-    		@RequestParam(value = "status")Byte status,@RequestParam(value = "simccid")String simccid,@RequestParam(value = "swver")String swver,
-    		@RequestParam(value = "ip")String ip,@RequestParam(value = "port")Integer port,
-    		@RequestParam(value = "infoupdatecycle")Integer infoupdatecycle,@RequestParam(value = "tickcycle")Integer tickcycle,
-    		@RequestParam(value = "ledenable")Byte ledenable,@RequestParam(value = "tempflag")Byte tempflag,
-    		@RequestParam(value = "tempgmt")String tempgmt,@RequestParam(value = "clearerr")Byte clearerr,
-    		@RequestParam(value = "factory")Byte factory){
+    public ResponseEntity<JsonResult> InsertLayConfigByNeckletId(@RequestParam(value = "mid")String mid,@RequestParam(value = "simccid",required = false)String simccid,@RequestParam(value = "swver",required = false)String swver,
+    		@RequestParam(value = "ip",required = false)String ip,@RequestParam(value = "port",required = false)Integer port,
+    		@RequestParam(value = "infoupdatecycle",required = false)Integer infoupdatecycle,@RequestParam(value = "tickcycle",required = false)Integer tickcycle,
+			@RequestParam(value = "bastimes",required = false)Byte bastimes,@RequestParam(value = "gpstimes",required = false)Byte gpstimes,
+    		@RequestParam(value = "ledenable",required = false)Byte ledenable,@RequestParam(value = "tempflag",required = false)Byte tempflag,
+    		@RequestParam(value = "tempgmt",required = false)String tempgmt,@RequestParam(value = "clearerr",required = false)Byte clearerr,
+    		@RequestParam(value = "factory",required = false)Byte factory){
         JsonResult r = new JsonResult();
         try {
         	SysDeviceconf sysDeviceconf = sysDeviceconfMapper.selectDeviceConfigByMid(mid);
@@ -99,6 +100,8 @@ public class SysDeviceConfApi {
         	sysDeviceconf.setPort(port);
         	sysDeviceconf.setInfoupdatecycle(infoupdatecycle);
         	sysDeviceconf.setTickcycle(tickcycle);
+			sysDeviceconf.setBastimes(bastimes);
+			sysDeviceconf.setGpstimes(gpstimes);
         	sysDeviceconf.setLedenable(ledenable);
         	sysDeviceconf.setTemporaryflag(tempflag);
         	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式

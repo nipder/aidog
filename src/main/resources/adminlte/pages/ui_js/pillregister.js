@@ -18,7 +18,7 @@ $(function () {
         datares = data;
         setDistrictSelectDisabled(false);
         initSelDistrictCtrl(datares);
-        districtcode = g_districtcode;        
+        districtcode = g_districtcode;
     });
     
     $("#select_province").on('change', function () {

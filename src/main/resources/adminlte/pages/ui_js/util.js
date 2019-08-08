@@ -44,6 +44,7 @@ function setDistrictSelectDisabled(val){
 	$('#select_hamlet').css({"backgroundColor": "#fff","cursor":"default"});
 }
 
+
 var gUserInfo = null;
 var g_privilegelevel = -1;
 var g_districtcode = "0";
@@ -65,6 +66,7 @@ function initSelDistrictCtrl(datares){
 	FillVillageCmd(datares.data3, select_village, g_privilegelevel>=4 ? g_districtcode.substring(0, 6) : "", g_privilegelevel>4 ? g_districtcode : "");
 	var select_hamlet = document.getElementById("select_hamlet");
 	FillHamletCmd(datares.data4, select_hamlet, g_privilegelevel>=5 ? g_districtcode.substring(0, 9) : "", g_privilegelevel>5 ? g_districtcode : "");
+
 }
 
 function setDistrictSelectDisabled4(val){
@@ -81,7 +83,6 @@ function setDistrictSelectDisabled4(val){
 }
 
 function initSelDistrictCtrl4(datares){
-
 	gUserInfo = getSessionUserInfo();
 	g_privilegelevel = gUserInfo.privilegelevel;
 	g_districtcode = gUserInfo.districtcode;
@@ -94,6 +95,7 @@ function initSelDistrictCtrl4(datares){
 	FillCountyCmd(datares.data2, select_county, g_privilegelevel>=3 ? g_districtcode.substring(0, 4) : "", g_privilegelevel>3 ? g_districtcode : "");
 	var select_village = document.getElementById("select_village");
 	FillVillageCmd(datares.data3, select_village, g_privilegelevel>=4 ? g_districtcode.substring(0, 6) : "", g_privilegelevel>4 ? g_districtcode : "");
+
 }
 
 function getSessionPrivilegelevel(){
@@ -108,6 +110,7 @@ function getSessionPrivilegelevel(){
 
 	return lvl;
 }
+
 
 // 填充省级下拉框，设置选中的省选项
 function FillProvinceCmd(list, select_province, select_item){
@@ -134,6 +137,7 @@ function FillProvinceCmd(list, select_province, select_item){
 		}
 	}
 }
+
 
 // 根据省级选项，填充市级下拉框，设置选中的市选项
 function FillCityCmd(list, select_city, pval, select_item){
@@ -229,7 +233,8 @@ function FillVillageCmd(list, select_village, pval, select_item){
 }
 
 // 根据乡级选项，填充村级下拉框，设置选中的村选项
-function FillHamletCmd(list, select_hamlet, pval, select_item){
+function FillHamletCmd(list, select_hamlet, pval, select_item)
+{
 	if(select_hamlet){
 		var jq_select_hamlet = $(select_hamlet);
 		if(!jq_select_hamlet) return ;

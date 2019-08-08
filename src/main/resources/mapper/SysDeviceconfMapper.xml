@@ -12,6 +12,8 @@
       <arg column="port" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="infoupdatecycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="tickcycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="bastimes" jdbcType="TINYINT" javaType="java.lang.Byte" />
+      <arg column="gpstimes" jdbcType="TINYINT" javaType="java.lang.Byte" />
       <arg column="ledenable" jdbcType="TINYINT" javaType="java.lang.Byte" />
       <arg column="temporaryflag" jdbcType="TINYINT" javaType="java.lang.Byte" />
       <arg column="temporarygmt" jdbcType="TIMESTAMP" javaType="java.util.Date" />
@@ -81,8 +83,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, mid, status, simccid, swver, ip, port, infoupdatecycle, tickcycle, ledenable, 
-    temporaryflag, temporarygmt, clearerr, factory, uimodifyflag, hardmodifyflag, updatetime
+    id, mid, status, simccid, swver, ip, port, infoupdatecycle, tickcycle, bastimes, 
+    gpstimes, ledenable, temporaryflag, temporarygmt, clearerr, factory, uimodifyflag, 
+    hardmodifyflag, updatetime
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.SysDeviceconfExample" >
     select
@@ -120,15 +123,17 @@
     insert into sys_deviceconf (id, mid, status, 
       simccid, swver, ip, 
       port, infoupdatecycle, tickcycle, 
-      ledenable, temporaryflag, temporarygmt, 
-      clearerr, factory, uimodifyflag, 
-      hardmodifyflag, updatetime)
+      bastimes, gpstimes, ledenable, 
+      temporaryflag, temporarygmt, clearerr, 
+      factory, uimodifyflag, hardmodifyflag, 
+      updatetime)
     values (#{id,jdbcType=INTEGER}, #{mid,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
       #{simccid,jdbcType=VARCHAR}, #{swver,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, 
       #{port,jdbcType=INTEGER}, #{infoupdatecycle,jdbcType=INTEGER}, #{tickcycle,jdbcType=INTEGER}, 
-      #{ledenable,jdbcType=TINYINT}, #{temporaryflag,jdbcType=TINYINT}, #{temporarygmt,jdbcType=TIMESTAMP}, 
-      #{clearerr,jdbcType=TINYINT}, #{factory,jdbcType=TINYINT}, #{uimodifyflag,jdbcType=TINYINT}, 
-      #{hardmodifyflag,jdbcType=TINYINT}, #{updatetime,jdbcType=TIMESTAMP})
+      #{bastimes,jdbcType=TINYINT}, #{gpstimes,jdbcType=TINYINT}, #{ledenable,jdbcType=TINYINT}, 
+      #{temporaryflag,jdbcType=TINYINT}, #{temporarygmt,jdbcType=TIMESTAMP}, #{clearerr,jdbcType=TINYINT}, 
+      #{factory,jdbcType=TINYINT}, #{uimodifyflag,jdbcType=TINYINT}, #{hardmodifyflag,jdbcType=TINYINT}, 
+      #{updatetime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sec.aidog.pojo.SysDeviceconf" >
     insert into sys_deviceconf
@@ -159,6 +164,12 @@
       </if>
       <if test="tickcycle != null" >
         tickcycle,
+      </if>
+      <if test="bastimes != null" >
+        bastimes,
+      </if>
+      <if test="gpstimes != null" >
+        gpstimes,
       </if>
       <if test="ledenable != null" >
         ledenable,
@@ -212,6 +223,12 @@
       </if>
       <if test="tickcycle != null" >
         #{tickcycle,jdbcType=INTEGER},
+      </if>
+      <if test="bastimes != null" >
+        #{bastimes,jdbcType=TINYINT},
+      </if>
+      <if test="gpstimes != null" >
+        #{gpstimes,jdbcType=TINYINT},
       </if>
       <if test="ledenable != null" >
         #{ledenable,jdbcType=TINYINT},
@@ -275,6 +292,12 @@
       <if test="record.tickcycle != null" >
         tickcycle = #{record.tickcycle,jdbcType=INTEGER},
       </if>
+      <if test="record.bastimes != null" >
+        bastimes = #{record.bastimes,jdbcType=TINYINT},
+      </if>
+      <if test="record.gpstimes != null" >
+        gpstimes = #{record.gpstimes,jdbcType=TINYINT},
+      </if>
       <if test="record.ledenable != null" >
         ledenable = #{record.ledenable,jdbcType=TINYINT},
       </if>
@@ -315,6 +338,8 @@
       port = #{record.port,jdbcType=INTEGER},
       infoupdatecycle = #{record.infoupdatecycle,jdbcType=INTEGER},
       tickcycle = #{record.tickcycle,jdbcType=INTEGER},
+      bastimes = #{record.bastimes,jdbcType=TINYINT},
+      gpstimes = #{record.gpstimes,jdbcType=TINYINT},
       ledenable = #{record.ledenable,jdbcType=TINYINT},
       temporaryflag = #{record.temporaryflag,jdbcType=TINYINT},
       temporarygmt = #{record.temporarygmt,jdbcType=TIMESTAMP},
@@ -350,6 +375,12 @@
       </if>
       <if test="tickcycle != null" >
         tickcycle = #{tickcycle,jdbcType=INTEGER},
+      </if>
+      <if test="bastimes != null" >
+        bastimes = #{bastimes,jdbcType=TINYINT},
+      </if>
+      <if test="gpstimes != null" >
+        gpstimes = #{gpstimes,jdbcType=TINYINT},
       </if>
       <if test="ledenable != null" >
         ledenable = #{ledenable,jdbcType=TINYINT},
@@ -388,6 +419,8 @@
       port = #{port,jdbcType=INTEGER},
       infoupdatecycle = #{infoupdatecycle,jdbcType=INTEGER},
       tickcycle = #{tickcycle,jdbcType=INTEGER},
+      bastimes = #{bastimes,jdbcType=TINYINT},
+      gpstimes = #{gpstimes,jdbcType=TINYINT},
       ledenable = #{ledenable,jdbcType=TINYINT},
       temporaryflag = #{temporaryflag,jdbcType=TINYINT},
       temporarygmt = #{temporarygmt,jdbcType=TIMESTAMP},

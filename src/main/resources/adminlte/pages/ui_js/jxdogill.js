@@ -15,6 +15,7 @@ $(function () {
     //         datares = eval("(" + data + ")");
     //     }
     // });
+
     var districtcode = "";
     var level = "";
     setDistrictSelectDisabled4(true);

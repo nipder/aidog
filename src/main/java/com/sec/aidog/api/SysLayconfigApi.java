@@ -347,6 +347,12 @@ public class SysLayconfigApi {
 					sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
 					sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
 					sysDeviceconf.setUpdatetime(new Date());
+					//默认值
+					sysDeviceconf.setIp("119.3.177.203");
+					sysDeviceconf.setPort(59999);
+					sysDeviceconf.setTickcycle(30);
+					sysDeviceconf.setFactory(Byte.valueOf("0"));
+
 					if(zeroflag){
 						sysDeviceconf.setStatus(0);
 						sysDeviceconf.setFactory(Byte.valueOf("1"));
@@ -539,6 +545,13 @@ public class SysLayconfigApi {
         	sysDeviceconf.setTemporarygmt(format.parse(tempgmt));
         	sysDeviceconf.setClearerr(Byte.valueOf("0"));
         	sysDeviceconf.setFactory(Byte.valueOf("0"));
+
+			//默认值
+			sysDeviceconf.setIp("119.3.177.203");
+			sysDeviceconf.setPort(59999);
+			sysDeviceconf.setTickcycle(30);
+			sysDeviceconf.setFactory(Byte.valueOf("0"));
+
         	byte uimodifyflag = 1;
         	sysDeviceconf.setUimodifyflag(uimodifyflag);
         	byte hardmodifyflag = 0;
