@@ -15,6 +15,14 @@ $(function () {
         datares = data;
 		setDistrictSelectDisabled(false);
         initSelDistrictCtrl(datares);
+
+        if(g_privilegelevel==6){
+            hamletcode = g_districtcode;
+            var selectvalue = $("#select_hamlet").find('option:selected').text();
+            $("#select_ownerhamlet").val(selectvalue);
+            Filldogmanagername(hamletcode);
+        }
+
     });	
 
     $("#select_province").on('change', function () {
@@ -131,6 +139,29 @@ $(function () {
         hamletcode = $(this).find('option:selected').val();
         var selectvalue = $(this).find('option:selected').text();
         $("#select_ownerhamlet").val(selectvalue);
+
+        Filldogmanagername(hamletcode);
+        // var managerdata = {};
+        // managerdata.hamletcode = hamletcode;
+        // $.ajax({
+        //     url:  "/aidog/api/gethamletmanagerlist",
+        //     type: "POST",
+        //     data:  managerdata,
+        //     beforeSend: function (request) {
+        //         request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+        //     },
+        //     success: function (data) {
+        //         var modalselect_dogmanagername = document.getElementById("select_managername");
+        //         data.data = objToArray(data.data);
+        //         for (var i = 0; i < data.data.length; i++) {
+        //             //遍历后台传回的结果，一项项往select中添加option
+        //             modalselect_dogmanagername.options.add(new Option(data.data[i].managername, data.data[i].managerusername));
+        //         }
+        //     }
+        // })
+    });
+
+    function Filldogmanagername(hamletcode){
         var managerdata = {};
         managerdata.hamletcode = hamletcode;
         $.ajax({
@@ -149,7 +180,7 @@ $(function () {
                 }
             }
         })
-    });
+    }
 
     $("#a_checkowner").click(function () {
         if(hamletcode == ""){

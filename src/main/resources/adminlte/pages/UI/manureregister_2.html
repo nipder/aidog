@@ -151,6 +151,10 @@
                 datares = data;
                 setDistrictSelectDisabled(false);
                 initSelDistrictCtrl(datares);
+                if(g_privilegelevel==6){
+                    selectHamletChgH();
+                }
+
             });
 
             $("#select_province").on('change', function () {
@@ -259,10 +263,17 @@
             });
             var hamletcode = "";
             $("#select_hamlet").on('change', function () {
-                hamletcode = $(this).find('option:selected').val();
-                var selectvalue = $(this).find('option:selected').text();
-                $("#input_dogbelonghamlet").val(selectvalue);
+                // hamletcode = $(this).find('option:selected').val();
+                // var selectvalue = $(this).find('option:selected').text();
+                // $("#input_dogbelonghamlet").val(selectvalue);
+                selectHamletChgH();
             });
+
+            function selectHamletChgH(){
+                hamletcode = $("#select_hamlet").find('option:selected').val();
+                var selectvalue = $("#select_hamlet").find('option:selected').text();
+                $("#input_dogbelonghamlet").val(selectvalue);
+            }
 
             var ownerid = 0;
             var dogid = 0;
