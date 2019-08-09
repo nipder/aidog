@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>项圈周期设置</title>
+    <title>设置出厂信息配置</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="renderer"  content="webkit">
@@ -24,9 +24,8 @@
     <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
     <!--@add zyj 2019.08.04 begin-->
     <script type="text/javascript" src="../ui_js/util.js"></script>
-    <script type="text/javascript" src="../ui_js/batchdosingconfig.js"></script>
+    <script type="text/javascript" src="../ui_js/defaultfactory.js"></script>
     <!--@add zyj 2019.08.04 end-->
-    <title>项圈周期设置</title>
     <style>/*web background*/
         .container{
             display:table;
@@ -97,14 +96,23 @@
                 </div>
             </div>
             <div class="box-body">
+                <div class="form-group form-group-sm has-success">
+                    <label>反馈周期(分钟)：</label>
+                    <input type="text" class="form-control" placeholder="反馈周期" id="input_areacycle" />
+                </div>
                 <form role="form">
                     <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
                         <h5><i class="icon fa fa-info"></i>信息配置</h5>
                     </div>
                     <div class="form-group form-group-sm has-success">
-                        <label>反馈周期(分钟)：</label>
-                        <input type="text" class="form-control" placeholder="反馈周期" id="input_areacycle" />
+                        <label>GSM基站定位时间配置(s)：</label>
+                        <input type="text" class="form-control" placeholder="最大配置60s" id="input_basetimes" />
                     </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>GPS基站定位时间配置(s)：</label>
+                        <input type="text" class="form-control" placeholder="最大配置240s" id="input_gpstimes" />
+                    </div>
+                    <button type="button" id="a_timesconfig" class="btn btn-info btn-flat  btn-sm"  style="margin-right: 20px;margin-bottom: 20px">确认定位时间配置</button>
                     <div class="form-group form-group-sm has-success">
                         <label>配置首次投药时间：</label>
                         <input id="input_lay" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
@@ -190,12 +198,11 @@
             </div>
         </div>
     </div>
-    <div class="row" style="padding-top: 30px;padding-bottom: 20px;text-align: center">
+    <div class="row" style="padding-top: 0px;padding-bottom: 20px;text-align: center">
             <div class="col-md-12">
                 <!-- Profile Image -->
                 <div class="col-md-offset-2 col-md-12">
-                    <button type="button" id="a_dosingconfig" class="btn btn-info btn-flat  btn-sm"  style="margin-right: 20px">确认保存配置</button>
-                    <!--<button type="button" id="a_zeroconfig" class="btn btn-info btn-flat btn-sm">换药清零</button>-->
+                     <button type="button" id="a_zeroconfig" class="btn btn-info btn-flat btn-sm">换药清零并设置新的投药时间</button>
                 </div>
             </div>
                 <!-- /.box -->
