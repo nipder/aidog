@@ -66,6 +66,10 @@ $(function () {
     $("#select_city").on('change', function () {
         districtcode = $(this).find('option:selected').val();
         level = "city";
+        if (districtcode == "-1") {
+            districtcode = $("#select_province").find('option:selected').val();
+            level = "province";
+        }
         var selectvalue = $(this).find('option:selected').val();
         selectvalue = selectvalue.substring(0, 4);
         var select_county = document.getElementById("select_county");
@@ -97,6 +101,10 @@ $(function () {
     $("#select_county").on('change', function () {
         districtcode = $(this).find('option:selected').val();
         level = "county";
+        if (districtcode == "-1") {
+            districtcode = $("#select_city").find('option:selected').val();
+            level = "city";
+        }
         var selectvalue = $(this).find('option:selected').val();
         selectvalue = selectvalue.substring(0, 6);
         var select_village = document.getElementById("select_village");
@@ -122,6 +130,9 @@ $(function () {
     $("#select_village").on('change', function () {
         districtcode = $(this).find('option:selected').val();
         level = "village";
+        if (districtcode == "-1") {
+            districtcode = $("#select_county").find('option:selected').val();
+        }
         var selectvalue = $(this).find('option:selected').val();
         selectvalue = selectvalue.substring(0, 9);
         var select_hamlet = document.getElementById("select_hamlet");
@@ -143,6 +154,10 @@ $(function () {
     $("#select_hamlet").on('change', function () {
         districtcode = $(this).find('option:selected').val();
         level = "hamlet";
+        if (districtcode == "-1") {
+            districtcode = $("#select_village").find('option:selected').val();
+            level = "village";
+        }
         var selectvalue = $(this).find('option:selected').text();
         $("#input_dogbelonghamlet").val(selectvalue);
 
