@@ -43,6 +43,7 @@
     <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
     <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
     <script src="../../bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../ui_js/util.js"></script>
 </head>
 
 <body  style="font-size: 12px;">
@@ -63,26 +64,31 @@
                     </style>
                     <label style="padding-bottom: 5px">所属区域(*)</label>
                     <div class="row">
-                        <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">
-                            <!--<option value="-1">请选择</option>-->
-                            <option value="0" style="color: #00a65a">全国</option>
-                            <option value="150000000000">内蒙古自治区</option>
-                            <option value="510000000000">四川省</option>
-                            <option value="530000000000">云南省</option>
-                            <option value="540000000000">西藏自治区</option>
-                            <option value="610000000000">陕西省</option>
-                            <option value="620000000000">甘肃省</option>
-                            <option value="630000000000">青海省</option>
-                            <option value="640000000000">宁夏回族自治区</option>
-                            <option value="650000000000">新疆维吾尔族自治区</option>
-                            <option value="660000000">建设兵团</option>
-                        </select>
-                        <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">
-                            <option value="-1">请选择</option>
-                        </select>
-                        <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
-                        <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
-                        <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>
+<!--                        <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">-->
+<!--                            &lt;!&ndash;<option value="-1">请选择</option>&ndash;&gt;-->
+<!--                            <option value="0" style="color: #00a65a">全国</option>-->
+<!--                            <option value="150000000000">内蒙古自治区</option>-->
+<!--                            <option value="510000000000">四川省</option>-->
+<!--                            <option value="530000000000">云南省</option>-->
+<!--                            <option value="540000000000">西藏自治区</option>-->
+<!--                            <option value="610000000000">陕西省</option>-->
+<!--                            <option value="620000000000">甘肃省</option>-->
+<!--                            <option value="630000000000">青海省</option>-->
+<!--                            <option value="640000000000">宁夏回族自治区</option>-->
+<!--                            <option value="650000000000">新疆维吾尔族自治区</option>-->
+<!--                            <option value="660000000">建设兵团</option>-->
+<!--                        </select>-->
+<!--                        <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">-->
+<!--                            <option value="-1">请选择</option>-->
+<!--                        </select>-->
+<!--                        <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+<!--                        <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+<!--                        <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+                        <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"></select>
                     </div>
                 </div>
             </form>
@@ -194,9 +200,16 @@
             //         datares = eval("(" + data + ")");
             //     }
             // });
+            var districtcode = "";
+            var level = "";
+            setDistrictSelectDisabled(true);
             $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
             {
                 datares = data;
+                setDistrictSelectDisabled(false);
+                initSelDistrictCtrl(datares);
+                districtcode = g_districtcode;
+                level = g_level;
             });
 
             //日历控件
@@ -205,9 +218,6 @@
             $("#input_endtime").val(timetrans((new Date()).valueOf()));
             $("#input_begintime").val(timetrans(date2));
 
-
-            var districtcode = "";
-            var level = "";
             $("#select_province").on('change', function () {
                 districtcode = $(this).find('option:selected').val();
                 // if(districtcode == "0"){
@@ -221,89 +231,112 @@
                 level = "province";
                 var selectvalue = $(this).find('option:selected').val();
                 selectvalue = selectvalue.substring(0,2);
-                $("#select_city").find("option").remove();
                 var select_city = document.getElementById("select_city");
-                select_city.options.add(new Option("请选择", "-1"));
-                if ($('#modalselect_adminlevel').find('option:selected').text()!="省级") {
-                    for (var i = 0; i < datares.data1.length; i++) {
-                        if (datares.data1[i].districtcode.toString().substring(0, 2) == selectvalue) {
-                            //遍历后台传回的结果，一项项往select中添加option
-                            select_city.options.add(new Option(datares.data1[i].districtname, datares.data1[i].districtcode));
-                        }
-                    }
-                }
-                $("#select_county").find("option").remove();
+                FillCityCmd(datares.data1, select_city, selectvalue);
                 var select_county = document.getElementById("select_county");
-                select_county.options.add(new Option("请选择", "-1"));
-
-                $("#select_village").find("option").remove();
+                FillCountyCmd(datares.data2, select_county);
                 var select_village = document.getElementById("select_village");
-                select_village.options.add(new Option("请选择", "-1"));
-
-                $("#select_hamlet").find("option").remove();
+                FillVillageCmd(datares.data3, select_village);
                 var select_hamlet = document.getElementById("select_hamlet");
-                select_hamlet.options.add(new Option("请选择", "-1"));
+                FillHamletCmd(datares.data4, select_hamlet);
+                // $("#select_city").find("option").remove();
+                // var select_city = document.getElementById("select_city");
+                // select_city.options.add(new Option("请选择", "-1"));
+                // if ($('#modalselect_adminlevel').find('option:selected').text()!="省级") {
+                //     for (var i = 0; i < datares.data1.length; i++) {
+                //         if (datares.data1[i].districtcode.toString().substring(0, 2) == selectvalue) {
+                //             //遍历后台传回的结果，一项项往select中添加option
+                //             select_city.options.add(new Option(datares.data1[i].districtname, datares.data1[i].districtcode));
+                //         }
+                //     }
+                // }
+                // $("#select_county").find("option").remove();
+                // var select_county = document.getElementById("select_county");
+                // select_county.options.add(new Option("请选择", "-1"));
+                //
+                // $("#select_village").find("option").remove();
+                // var select_village = document.getElementById("select_village");
+                // select_village.options.add(new Option("请选择", "-1"));
+                //
+                // $("#select_hamlet").find("option").remove();
+                // var select_hamlet = document.getElementById("select_hamlet");
+                // select_hamlet.options.add(new Option("请选择", "-1"));
             });
             $("#select_city").on('change', function () {
                 districtcode = $(this).find('option:selected').val();
                 level = "city";
                 var selectvalue = $(this).find('option:selected').val();
-                $("#select_county").find("option").remove();
                 selectvalue = selectvalue.substring(0, 4);
                 var select_county = document.getElementById("select_county");
-                select_county.options.add(new Option("请选择", "-1"));
-                if ($('#modalselect_adminlevel').find('option:selected').text() != "市级") {
-                    for (var i = 0; i < datares.data2.length; i++) {
-                        if (datares.data2[i].districtcode.toString().substring(0, 4) == selectvalue) {
-                            //遍历后台传回的结果，一项项往select中添加option
-                            select_county.options.add(new Option(datares.data2[i].districtname, datares.data2[i].districtcode));
-                        }
-                    }
-                }
-                $("#select_village").find("option").remove();
+                FillCountyCmd(datares.data2, select_county, selectvalue);
                 var select_village = document.getElementById("select_village");
-                select_village.options.add(new Option("请选择", "-1"));
-
-                $("#select_hamlet").find("option").remove();
+                FillVillageCmd(datares.data3, select_village);
                 var select_hamlet = document.getElementById("select_hamlet");
-                select_hamlet.options.add(new Option("请选择", "-1"));
+                FillHamletCmd(datares.data4, select_hamlet);
+                // $("#select_county").find("option").remove();
+                // selectvalue = selectvalue.substring(0, 4);
+                // var select_county = document.getElementById("select_county");
+                // select_county.options.add(new Option("请选择", "-1"));
+                // if ($('#modalselect_adminlevel').find('option:selected').text() != "市级") {
+                //     for (var i = 0; i < datares.data2.length; i++) {
+                //         if (datares.data2[i].districtcode.toString().substring(0, 4) == selectvalue) {
+                //             //遍历后台传回的结果，一项项往select中添加option
+                //             select_county.options.add(new Option(datares.data2[i].districtname, datares.data2[i].districtcode));
+                //         }
+                //     }
+                // }
+                // $("#select_village").find("option").remove();
+                // var select_village = document.getElementById("select_village");
+                // select_village.options.add(new Option("请选择", "-1"));
+                //
+                // $("#select_hamlet").find("option").remove();
+                // var select_hamlet = document.getElementById("select_hamlet");
+                // select_hamlet.options.add(new Option("请选择", "-1"));
             });
             $("#select_county").on('change', function () {
                 districtcode = $(this).find('option:selected').val();
                 level = "county";
                 var selectvalue = $(this).find('option:selected').val();
-                $("#select_village").find("option").remove();
                 selectvalue = selectvalue.substring(0, 6);
                 var select_village = document.getElementById("select_village");
-                select_village.options.add(new Option("请选择", "-1"));
-                if ($('#modalselect_adminlevel').find('option:selected').text() != "县级") {
-                    for (var i = 0; i < datares.data3.length; i++) {
-                        if (datares.data3[i].districtcode.toString().substring(0, 6) == selectvalue) {
-                            //遍历后台传回的结果，一项项往select中添加option
-                            select_village.options.add(new Option(datares.data3[i].districtname, datares.data3[i].districtcode));
-                        }
-                    }
-                }
-                $("#select_hamlet").find("option").remove();
+                FillVillageCmd(datares.data3, select_village, selectvalue);
                 var select_hamlet = document.getElementById("select_hamlet");
-                select_hamlet.options.add(new Option("请选择", "-1"));
+                FillHamletCmd(datares.data4, select_hamlet);
+                // $("#select_village").find("option").remove();
+                // selectvalue = selectvalue.substring(0, 6);
+                // var select_village = document.getElementById("select_village");
+                // select_village.options.add(new Option("请选择", "-1"));
+                // if ($('#modalselect_adminlevel').find('option:selected').text() != "县级") {
+                //     for (var i = 0; i < datares.data3.length; i++) {
+                //         if (datares.data3[i].districtcode.toString().substring(0, 6) == selectvalue) {
+                //             //遍历后台传回的结果，一项项往select中添加option
+                //             select_village.options.add(new Option(datares.data3[i].districtname, datares.data3[i].districtcode));
+                //         }
+                //     }
+                // }
+                // $("#select_hamlet").find("option").remove();
+                // var select_hamlet = document.getElementById("select_hamlet");
+                // select_hamlet.options.add(new Option("请选择", "-1"));
             });
             $("#select_village").on('change', function () {
                 districtcode = $(this).find('option:selected').val();
                 level = "village";
                 var selectvalue = $(this).find('option:selected').val();
-                $("#select_hamlet").find("option").remove();
                 selectvalue = selectvalue.substring(0, 9);
                 var select_hamlet = document.getElementById("select_hamlet");
-                select_hamlet.options.add(new Option("请选择", "-1"));
-                if ($('#modalselect_adminlevel').find('option:selected').text() != "乡级") {
-                    for (var i = 0; i < datares.data4.length; i++) {
-                        if (datares.data4[i].districtcode.toString().substring(0, 9) == selectvalue) {
-                            //遍历后台传回的结果，一项项往select中添加option
-                            select_hamlet.options.add(new Option(datares.data4[i].districtname, datares.data4[i].districtcode));
-                        }
-                    }
-                }
+                FillHamletCmd(datares.data4, select_hamlet, selectvalue);
+                // $("#select_hamlet").find("option").remove();
+                // selectvalue = selectvalue.substring(0, 9);
+                // var select_hamlet = document.getElementById("select_hamlet");
+                // select_hamlet.options.add(new Option("请选择", "-1"));
+                // if ($('#modalselect_adminlevel').find('option:selected').text() != "乡级") {
+                //     for (var i = 0; i < datares.data4.length; i++) {
+                //         if (datares.data4[i].districtcode.toString().substring(0, 9) == selectvalue) {
+                //             //遍历后台传回的结果，一项项往select中添加option
+                //             select_hamlet.options.add(new Option(datares.data4[i].districtname, datares.data4[i].districtcode));
+                //         }
+                //     }
+                // }
             });
 
             $("#select_hamlet").on('change', function () {
@@ -355,8 +388,12 @@
                 var senddata = {};
                 senddata.startitem = 1;
                 senddata.pagesize = 100000;
-                senddata.districtcode = districtcode;
-                senddata.level = level;
+                // @chg zyj 2019.08.09 begin
+                //senddata.districtcode = districtcode;
+                //senddata.level = level;
+                senddata.districtcode = districtcode == "0" ? "" : districtcode;
+                senddata.level = districtcode == "0" ? "" : level;
+                // @chg zyj 2019.08.09 end
                 $.ajax({
                     url: "/aidog/api/getdoglist",
                     type: "POST",
