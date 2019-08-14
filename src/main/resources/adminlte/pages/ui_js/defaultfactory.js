@@ -487,7 +487,7 @@ $(function () {
             alert("请先批量获取项圈！");
             return;
         }
-        if($("#input_basetimes").val()>60 || $("#input_gpstimes").val()>250){
+        if($("#input_basetimes").val()>60 || $("#input_gpstimes").val()>120){
             alert("定位时间填写有误！");
             return;
         }
@@ -497,7 +497,7 @@ $(function () {
         }
         var mid = "mid=" + necids.substring(0, necids.length - 1) + "&";
         var bastimes = "bastimes=" + $("#input_basetimes").val()+"&";
-        var gpstimes = "gpstimes=" + ($("#input_gpstimes").val()-128)+"&";
+        var gpstimes = "gpstimes=" + ($("#input_gpstimes").val())+"&";
         var infoupdatecycle = "infoupdatecycle=" + $("#input_areacycle").val();
         var senddata = mid + bastimes + gpstimes + infoupdatecycle;
         $.ajax({
