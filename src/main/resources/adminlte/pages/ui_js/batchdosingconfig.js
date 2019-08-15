@@ -486,6 +486,10 @@ $(function () {
             alert("请先批量获取项圈！");
             return;
         }
+        if($("#input_areacycle").val() < 1440){
+            alert("请填写至少1440及以上数字！");
+            return;
+        }
         var necid = "necid=" + necids.substring(0, necids.length - 1) + "&";
         var one1 = new Date($("#input_lay1").val()).valueOf();
         var two2 = new Date($("#input_lay2").val()).valueOf();
@@ -499,7 +503,7 @@ $(function () {
         var ten10 = new Date($("#input_lay10").val()).valueOf();
         var eleven11 = new Date($("#input_lay11").val()).valueOf();
         var twelve12 = new Date($("#input_lay12").val()).valueOf();
-        var areacycle = $("#input_areacycle").val() == "" ? 60 : $("#input_areacycle").val();
+        var areacycle = $("#input_areacycle").val() == "" ? 1440 : $("#input_areacycle").val();
         areacycle = "areacycle=" + areacycle;
         if (twelve12 >= eleven11 && eleven11 > ten10 && ten10 >= nine9 && nine9 >= eight8 && eight8 >= seven7
             && seven7 >= six6 && six6 >= five5 && five5 >= four4 && four4 >= three3 && three3 >= two2 && two2 >= one1) {

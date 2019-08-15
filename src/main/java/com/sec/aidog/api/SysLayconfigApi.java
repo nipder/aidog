@@ -352,7 +352,8 @@ public class SysLayconfigApi {
 					sysDeviceconf.setPort(59999);
 					sysDeviceconf.setTickcycle(30);
 					sysDeviceconf.setFactory(Byte.valueOf("0"));
-
+					sysDeviceconf.setBastimes(Byte.valueOf("20"));
+					sysDeviceconf.setGpstimes(Byte.valueOf("60"));
 					if(zeroflag){
 						sysDeviceconf.setStatus(0);
 						sysDeviceconf.setFactory(Byte.valueOf("1"));
@@ -551,6 +552,8 @@ public class SysLayconfigApi {
 			sysDeviceconf.setPort(59999);
 			sysDeviceconf.setTickcycle(30);
 			sysDeviceconf.setFactory(Byte.valueOf("0"));
+			sysDeviceconf.setBastimes(Byte.valueOf("20"));
+			sysDeviceconf.setGpstimes(Byte.valueOf("60"));
 
         	byte uimodifyflag = 1;
         	sysDeviceconf.setUimodifyflag(uimodifyflag);

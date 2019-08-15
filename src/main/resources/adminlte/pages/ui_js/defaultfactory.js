@@ -487,7 +487,7 @@ $(function () {
             alert("请先批量获取项圈！");
             return;
         }
-        if($("#input_basetimes").val()>60 || $("#input_gpstimes").val()>120){
+        if($("#input_basetimes").val()>60 || $("#input_basetimes").val()<20 || $("#input_gpstimes").val()>120 || $("#input_gpstimes").val()<60){
             alert("定位时间填写有误！");
             return;
         }
