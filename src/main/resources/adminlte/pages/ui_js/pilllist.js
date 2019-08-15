@@ -313,14 +313,14 @@ $(function () {
                                 detailRows.push( tr.attr('id') );
                             }
                         }
-                    } );
+                    } );*/
 
                     // On each draw, loop over the `detailRows` array and show any child rows
                     dataTable.on( 'draw', function () {
                         $.each( detailRows, function ( i, id ) {
                             $('#'+id+' td.details-control').trigger( 'click' );
                         } );
-                    });*/
+                    });
 
                 }
             }
@@ -354,11 +354,11 @@ $(function () {
     } );
 
     // On each draw, loop over the `detailRows` array and show any child rows
-    dataTable.on( 'draw', function () {
-        $.each( detailRows, function ( i, id ) {
-            $('#'+id+' td.details-control').trigger( 'click' );
-        } );
-    });
+    //dataTable.on( 'draw', function () {
+    //    $.each( detailRows, function ( i, id ) {
+    //        $('#'+id+' td.details-control').trigger( 'click' );
+    //    } );
+    //});
 
     function format ( index ) {
         return '采购员姓名: '+viewdata[index].pillBuyer+'   &nbsp;&nbsp;&nbsp;&nbsp;采购时间：'+viewdata[index].pillBuydate+ '   &nbsp;&nbsp;&nbsp;&nbsp;采购员电话：'+viewdata[index].pillBuyertel;

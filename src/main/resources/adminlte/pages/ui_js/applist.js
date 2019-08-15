@@ -320,14 +320,14 @@ $(function () {
                                 detailRows.push( tr.attr('id') );
                             }
                         }
-                    } );
+                    } );*/
 
                     // On each draw, loop over the `detailRows` array and show any child rows
                     dataTable.on( 'draw', function () {
                         $.each( detailRows, function ( i, id ) {
                             $('#'+id+' td.details-control').trigger( 'click' );
                         } );
-                    });*/
+                    });
 
                 }
             }
@@ -361,11 +361,11 @@ $(function () {
     } );
 
     // On each draw, loop over the `detailRows` array and show any child rows
-    dataTable.on( 'draw', function () {
-        $.each( detailRows, function ( i, id ) {
-            $('#'+id+' td.details-control').trigger( 'click' );
-        } );
-    });
+    //dataTable.on( 'draw', function () {
+    //    $.each( detailRows, function ( i, id ) {
+    //        $('#'+id+' td.details-control').trigger( 'click' );
+    //    } );
+    //});
 
     function format ( index ) {
         return '主人姓名: '+viewdata[index].ownerName+'';
