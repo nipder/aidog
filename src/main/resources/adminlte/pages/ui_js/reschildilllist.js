@@ -166,6 +166,9 @@ $(function () {
         var selectvalue = $(this).find('option:selected').text();
     });
 
+    //日历控件
+    $("#manure_getdate").val(timeinput((new Date()).valueOf()));
+
     $("#modalinput_bpersonillnum").blur(function () {
         if($("#modalinput_bpersonnum").val() == null || $("#modalinput_bpersonnum").val == ""){
             alert("请先输入B超筛查人数！");

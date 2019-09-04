@@ -235,21 +235,21 @@ $(function () {
                         "dom": 'Bfrtip',
                         "processing": true,
                         "columns": [
-                            {
-                                "class":          "details-control",
-                                "orderable":      false,
-                                "data":           null,
-                                "defaultContent": "",
-                                "width": "1px"
-                            },
+                            // {
+                            //     "class":          "details-control",
+                            //     "orderable":      false,
+                            //     "data":           null,
+                            //     "defaultContent": "",
+                            //     "width": "1px"
+                            // },
                             { "data": "countnum","width":"50px" },
                             { "data": "districtname","width":"130px"  },
                             { "data": "necdognum","width":"80px"},
                             { "data": "necbadnum","width":"120px" },
                             { "data": "necbadnumper","width":"120px" },
-                            { "data": "appdognum" ,"width":"90px"},
+                            { "data": "appdognum" ,"width":"100px"},
                             { "data": "appbadnum" ,"width":"140px"},
-                            { "data": "appbadnumper" ,"width":"90px"},
+                            { "data": "appbadnumper" ,"width":"120px"},
                             { "data": "allbadnum" ,"width":"90px"},
                             { "data": "allbadnumper" ,"width":"90px"}
                         ],

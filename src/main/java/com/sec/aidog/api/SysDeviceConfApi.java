@@ -3,7 +3,9 @@ package com.sec.aidog.api;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sec.aidog.dao.NecconfigMapper;
 import com.sec.aidog.dao.SysDeviceconfMapper;
+import com.sec.aidog.pojo.Necconfig;
 import com.sec.aidog.pojo.SysDeviceconf;
 import com.sec.aidog.service.RedisService;
 import com.sec.aidog.util.JsonResult;
@@ -30,6 +32,9 @@ public class SysDeviceConfApi {
 	
 	@Autowired
     private RedisService redisService;
+
+	@Autowired
+	private NecconfigMapper necconfigMapper;
 
 	@ApiOperation(value = "通过项圈编号查询项圈配置信息", notes = "通过项圈编号查询项圈配置信息")
 	@ApiImplicitParams({
@@ -159,6 +164,7 @@ public class SysDeviceConfApi {
 
 		try {
 			SysDeviceconf sysDeviceconf = sysDeviceconfMapper.selectDeviceConfigByMid(mid);
+			Necconfig necconfig = necconfigMapper.getNecconfig(mid);
 			if(simccid!=null){
 				sysDeviceconf.setSimccid(simccid);
 			}
@@ -173,6 +179,7 @@ public class SysDeviceConfApi {
 			}
 			if(infoupdatecycle!=null){
 				sysDeviceconf.setInfoupdatecycle(infoupdatecycle);
+				necconfig.setAreacycle(infoupdatecycle);
 			}
 			if(tickcycle!=null){
 				sysDeviceconf.setTickcycle(tickcycle);
@@ -206,6 +213,7 @@ public class SysDeviceConfApi {
 			sysDeviceconf.setUpdatetime(new Date());
 
 			boolean flag  = sysDeviceconfMapper.updateByPrimaryKey(sysDeviceconf)==1?true:false;
+			flag = (necconfigMapper.updateByPrimaryKey(necconfig)==1?true:false) && flag;
 			boolean flag2  = false;
 			if(flag) {
 				String command03 = Analyse.Command_03_Send(sysDeviceconf);

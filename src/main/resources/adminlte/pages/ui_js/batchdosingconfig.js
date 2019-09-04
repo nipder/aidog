@@ -166,6 +166,10 @@ $(function () {
         })
     })
 
+
+    //日历控件
+    $("#input_lay").val(timeinput((new Date()).valueOf()));
+
     $("#batchnec").click(function () {
         $("#doglist").modal('show');
         $("#doglist").on("shown.bs.modal", function () {
@@ -652,6 +656,16 @@ function timetrans(date) {
     var m = (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
     var s = (date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds());
     return Y + M + D + h + m + s;
+}
+
+function timeinput(date){
+    var date = new Date(date);
+    var Y = date.getFullYear() + '-';
+    var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+    var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+    var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+    var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes());
+    return Y+M+D+h+m;
 }
 
 function fixDate(strTime) {

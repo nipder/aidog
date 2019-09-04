@@ -146,6 +146,9 @@ $(function () {
         }
     });
 
+    //日历控件
+    $("#pill_buydate").val(timeinput((new Date()).valueOf()));
+
     $("#a_addpill").click(function () {
         if(districtcode == ""){
             alert("请先选择药品所属行政单位！");
@@ -188,6 +191,16 @@ $(function () {
             }
         })
     });
+
+    function timeinput(date){
+        var date = new Date(date);
+        var Y = date.getFullYear() + '-';
+        var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+        var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+        var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+        var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes());
+        return Y+M+D+h+m;
+    }
 
 
 })
