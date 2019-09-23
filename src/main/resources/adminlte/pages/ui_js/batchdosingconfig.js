@@ -12,12 +12,53 @@ $(function () {
     //                    datares = eval("(" + data + ")");
     //                }
     //            });
-    setDistrictSelectDisabled(true);
+	var hamletcode = "";
+    setDistrictSelectDisabled(true);	
+	
     $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
-    {
+    {		
         datares = data;
         setDistrictSelectDisabled(false);
-        initSelDistrictCtrl(datares);
+        initSelDistrictCtrl(datares);		
+		if(g_privilegelevel==6){
+			hamletcode = $('#select_hamlet').find('option:selected').val();        				
+		
+			var senddata = {};
+			senddata.startitem = 1;
+			senddata.pagesize = 100000;
+			senddata.districtcode = hamletcode;
+			senddata.level = "hamlet";
+	
+			$.ajax({
+				url: "/aidog/api/getdoglist",
+				type: "POST",
+				data: senddata,
+				beforeSend: function (request) {
+					request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+				},
+				success: function (data) {
+					if (data.data.data == null) {
+						alert(data.data.msg);
+						return;
+					}
+					else {
+						//                            var select_necklet = document.getElementById("select_necklet");
+						viewdata = $.extend(true, [], data.data.data);
+						for (var i = viewdata.length - 1; i >= 0; i--) {
+							//                                if(data.data.data[i].necId!="-1"){
+							//                                    //遍历后台传回的结果，一项项往select中添加option
+							//                                    select_necklet.options.add(new Option(data.data.data[i].necId, data.data.data[i].dogId));
+	
+							//                                }
+							viewdata[i].check = "<input name='check' id='\"" + viewdata[i].necId + "\"' class=\"checkbox neccheck\" type=\"checkbox\" />";
+							if (viewdata[i].necId == "-1") {
+								viewdata.splice(i, 1);
+							}
+						}
+					}
+				}
+			})
+		}
     });
 
     $("#select_province").on('change', function () {
@@ -124,11 +165,10 @@ $(function () {
         //     }
         // }
     });
-
-    var hamletcode = "";
+    
     $("#select_hamlet").on('change', function () {
         hamletcode = $(this).find('option:selected').val();
-        var selectvalue = $(this).find('option:selected').text();
+        var selectvalue = $(this).find('option:selected').text();		
         var senddata = {};
         senddata.startitem = 1;
         senddata.pagesize = 100000;

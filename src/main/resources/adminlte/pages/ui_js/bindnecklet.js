@@ -9,12 +9,18 @@ $(function () {
     //         datares = eval("(" + data + ")");
     //     }
     // });
+	var hamletcode = "";
     setDistrictSelectDisabled(true);
     $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
     {
         datares = data;
         setDistrictSelectDisabled(false);
         initSelDistrictCtrl(datares);
+		if(g_privilegelevel==6){
+			hamletcode = $('#select_hamlet').find('option:selected').val();
+			var selectvalue = $('#select_hamlet').find('option:selected').text();
+			$("#input_dogbelonghamlet").val(selectvalue);
+		}
     });
 
     $("#select_province").on('change', function () {
@@ -121,7 +127,7 @@ $(function () {
         //     }
         // }
     });
-    var hamletcode = "";
+    
     $("#select_hamlet").on('change', function () {
         hamletcode = $(this).find('option:selected').val();
         var selectvalue = $(this).find('option:selected').text();
@@ -131,6 +137,7 @@ $(function () {
     var unbindneclist = [];
     var necflag = false;
     $("#a_checkowner").click(function () {
+		hamletcode = $('#select_hamlet').find('option:selected').val();
         if(hamletcode == ""){
             alert("请先选定行政村！");
             return;
