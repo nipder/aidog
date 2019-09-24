@@ -197,7 +197,9 @@ $(function () {
                             unbindneclist = data.data.neclist;
                             //
                             // $("#input_dogownername").val(data.data.govcodelist[0].ownerName);
-                            $("#input_dogname").val(data.data.govcodelist[0].dogName);
+                            if(select_doggovcode.options.length > 0){
+                                $("#input_dogname").val(select_doggovcode.options[0].value.split(' ')[1]);
+                            }
                             $("#select_doggovcode").on('change', function () {
                                 var selectvalue = $(this).find('option:selected').val();
                                 var index = $(this).find('option:selected').index();
