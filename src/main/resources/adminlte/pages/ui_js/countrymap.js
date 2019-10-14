@@ -21,7 +21,8 @@ $(function () {
                     $("#countyadmintotal").text(data.data.data2.countyadmintotal);
                     $("#villageadmintotal").text(data.data.data2.villageadmintotal);
                     $("#hamletadmintotal").text(data.data.data2.hamletadmintotal);
-                    $("#countrydognumtotal").text("5");
+                    // $("#countrydognumtotal").text("5");
+                    $("#countrydognumtotal").text(data.data.data2.countrydognumtotal);
                     $("#countryalldognumtotal").text("3472856");
                     $("#countrywsqdognumtotal").text("0");
                     $("#countryratedognumtotal").text(((data.data.data2.countrydognumtotal + data.data.data2.feedernumtotal) * 100 / data.data.data2.alldognumtotal).toFixed(6));
