@@ -467,7 +467,7 @@ public class NeckletServiceImpl implements NeckletService{
 
             neckletView.setPower(SysLaytimelist.get(i).getVoltage()==null?"未反馈":SysLaytimelist.get(i).getVoltage()+"");
             neckletView.setTemperature(SysLaytimelist.get(i).getTemperature()==null?"未反馈":SysLaytimelist.get(i).getTemperature()+"");
-            neckletView.setPillcode("PL2306");
+            neckletView.setPillcode("ER190901");
             String devicestatus = changestatus(sysDeviceconflist.get(i).getStatus());   //投药状态加轮询状态
             String dosingstatus = devicestatus.substring(0,12);
             neckletView.setDosingstatus(dosingstatus.substring(0,4)+"-"+dosingstatus.substring(4,8)+"-"+dosingstatus.substring(8,12));

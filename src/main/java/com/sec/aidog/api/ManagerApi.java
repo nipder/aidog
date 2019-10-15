@@ -286,7 +286,7 @@ public class ManagerApi {
                     break;
                 case 2:
                     result = userService.resetManagerPwd(managerid,"yXVUkR45PFz0UfpbDB8/ew==");   //默认为123456
-                    r.setMsg("重置管理员密码成功！");
+                    r.setMsg("重置管理员密码成功！ 重置后密码为：123456");
                     break;
             }
             if(result){
