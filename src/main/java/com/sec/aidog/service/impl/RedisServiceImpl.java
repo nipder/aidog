@@ -21,8 +21,24 @@ public class RedisServiceImpl implements RedisService {
     private RedisTemplate<String, ?> redisTemplate;
 	
 	private String prefix = "aidog_";
-	private Expiration expire = Expiration.seconds(60);//60秒后数据过期
-	
+	private Expiration expire = Expiration.seconds(7200);//7200秒后数据过期
+    private Expiration expireshort = Expiration.seconds(60);//60秒后数据过期
+
+    @Override
+    public boolean set1minute(final String key, final String value) {
+
+        boolean result = redisTemplate.execute(new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+                connection.set(serializer.serialize(prefix + key), serializer.serialize(value),expireshort,RedisStringCommands.SetOption.SET_IF_ABSENT);
+                return true;
+            }
+        });
+        return result;
+    }
+
+
     @Override
     public boolean set(final String key, final String value) {
  

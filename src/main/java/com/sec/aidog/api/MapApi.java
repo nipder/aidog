@@ -83,7 +83,7 @@ public class MapApi {
                         temp = gson.fromJson(redisService.get(resultUser.getUsername() + "_UserController_IndexLogoInfo"),temp.getClass());
                         if(temp == null) {
                             temp = userService.GetIndexLogoInfo(resultUser);
-                            redisService.set(resultUser.getUsername() + "_UserController_IndexLogoInfo", gson.toJson(temp));
+                            redisService.set1minute(resultUser.getUsername() + "_UserController_IndexLogoInfo", gson.toJson(temp));
                         }
                         return temp;
                     });
@@ -92,7 +92,7 @@ public class MapApi {
                         temp = gson.fromJson(redisService.get(resultUser.getUsername() + "_UserController_CountryMap"),temp.getClass());
                         if(temp == null) {
                             temp = userService.GetCountryMap();
-                            redisService.set(resultUser.getUsername() + "_UserController_CountryMap", gson.toJson(temp));
+                            redisService.set1minute(resultUser.getUsername() + "_UserController_CountryMap", gson.toJson(temp));
                         }
                         return temp;
                     });

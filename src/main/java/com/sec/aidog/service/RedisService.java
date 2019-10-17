@@ -9,6 +9,9 @@ public interface RedisService {
      */
     boolean set(String key, String value);
 
+
+    boolean set1minute(String key, String value);
+
     /**
      * get获取数据
      * @param key
