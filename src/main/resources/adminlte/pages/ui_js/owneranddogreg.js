@@ -10,6 +10,7 @@ $(function () {
     //     }
     // });
 	setDistrictSelectDisabled(true);
+    var hamletcode = "";
 	$.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
     {
         datares = data;
@@ -134,7 +135,7 @@ $(function () {
         // }
     });
 
-    var hamletcode = "";
+
     $("#select_hamlet").on('change', function () {
         hamletcode = $(this).find('option:selected').val();
         var selectvalue = $(this).find('option:selected').text();
@@ -182,15 +183,8 @@ $(function () {
         })
     }
 
-    $("#a_checkowner").click(function () {
-        if(hamletcode == ""){
-            alert("请先选定行政村！");
-            return;
-        }
+    function getOwnerInfo(isshowmsg, ownername, owneridentity, hamletcode, telphone){
         var clicktype = "ownercheck";
-        var ownername = $("#input_ownername").val()==null?"":$("#input_ownername").val();
-        var owneridentity = $("#input_owneridentity").val()==null?"":$("#input_owneridentity").val();
-        var telphone = $("#input_telphone").val()==null?"":$("#input_telphone").val();
         var checkdata = {};
         checkdata.clicktype = clicktype;
         checkdata.ownername = ownername;
@@ -207,7 +201,9 @@ $(function () {
                 request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
             },
             success: function (data) {
-                alert(data.msg);
+                if(isshowmsg) {
+                    alert(data.msg);
+                }
                 if(data.success == true){
                     $("#input_ownerid").val(data.data.dogowner.ownerId);
                     $("#input_ownername").val(data.data.dogowner.ownerName);
@@ -235,6 +231,64 @@ $(function () {
                 }
             }
         })
+    }
+
+    $("#a_checkowner").click(function () {
+        if(hamletcode == ""){
+            alert("请先选定行政村！");
+            return;
+        }
+        var clicktype = "ownercheck";
+        var ownername = $("#input_ownername").val()==null?"":$("#input_ownername").val();
+        var owneridentity = $("#input_owneridentity").val()==null?"":$("#input_owneridentity").val();
+        var telphone = $("#input_telphone").val()==null?"":$("#input_telphone").val();
+
+        getOwnerInfo(true, ownername, owneridentity, hamletcode, telphone);
+
+        // var checkdata = {};
+        // checkdata.clicktype = clicktype;
+        // checkdata.ownername = ownername;
+        // checkdata.owneridentity = owneridentity;
+        // checkdata.ownerhamletcode = hamletcode;
+        // checkdata.telphone = telphone;
+        // $.ajax({
+        //     url: "/aidog/api/operateapi",
+        //     type: "POST",
+        //     data: JSON.stringify(checkdata),
+        //     contentType: "application/json",
+        //     // dataType: "text",    // 控制回来的数据类型
+        //     beforeSend: function (request) {
+        //         request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+        //     },
+        //     success: function (data) {
+        //         alert(data.msg);
+        //         if(data.success == true){
+        //             $("#input_ownerid").val(data.data.dogowner.ownerId);
+        //             $("#input_ownername").val(data.data.dogowner.ownerName);
+        //             document.getElementById("input_ownername").readOnly = true;
+        //             $("#input_owneridentity").val(data.data.dogowner.ownerIdentity);
+        //             document.getElementById("input_owneridentity").readOnly = true;
+        //             $("#select_ownersex").find("option[value='"+data.data.dogowner.ownerSex+"']").prop("selected",true);
+        //             $("#select_ownersex").attr("disabled","disabled");
+        //             $("#input_ownerage").val(data.data.dogowner.ownerAge);
+        //             document.getElementById("input_ownerage").readOnly = true;
+        //             $("#input_ownerjob").val(data.data.dogowner.ownerJob);
+        //             document.getElementById("input_ownerjob").readOnly = true;
+        //             $("#input_homeaddress").val(data.data.dogowner.ownerAddr);
+        //             document.getElementById("input_homeaddress").readOnly = true;
+        //             $("#input_telphone").val(data.data.dogowner.ownerTel);
+        //             document.getElementById("input_telphone").readOnly = true;
+        //             var select_dogname = document.getElementById("select_dogname");
+        //             data.data = objToArray(data.data.doglist);
+        //             for (var i = 0; i < data.data.length; i++) {
+        //                 //遍历后台传回的结果，一项项往select中添加option
+        //                 select_dogname.options.add(new Option(data.data[i].dogName, data.data[i].dogId));
+        //             }
+        //         }else{
+        //             return;
+        //         }
+        //     }
+        // })
     });
 
     $("#a_reset").click(function () {
@@ -296,21 +350,22 @@ $(function () {
             success: function (data) {
                 alert(data.msg);
                 if(data.success == true){
-                    $("#input_ownerid").val(data.data.ownerId);
-                    $("#input_ownername").val(data.data.ownerName);
-                    document.getElementById("input_ownername").readOnly = true;
-                    $("#input_owneridentity").val(data.data.ownerIdentity);
-                    document.getElementById("input_owneridentity").readOnly = true;
-                    $("#select_ownersex").find("option[value='"+data.data.ownerSex+"']").prop("selected",true);
-                    $("#select_ownersex").attr("disabled","disabled");
-                    $("#input_ownerage").val(data.data.ownerAge);
-                    document.getElementById("input_ownerage").readOnly = true;
-                    $("#input_ownerjob").val(data.data.ownerJob);
-                    document.getElementById("input_ownerjob").readOnly = true;
-                    $("#input_homeaddress").val(data.data.ownerAddr);
-                    document.getElementById("input_homeaddress").readOnly = true;
-                    $("#input_telphone").val(data.data.ownerTel);
-                    document.getElementById("input_telphone").readOnly = true;
+                    getOwnerInfo(false, data.data.ownerName, "", hamletcode, "");
+                    // $("#input_ownerid").val(data.data.ownerId);
+                    // $("#input_ownername").val(data.data.ownerName);
+                    // document.getElementById("input_ownername").readOnly = true;
+                    // $("#input_owneridentity").val(data.data.ownerIdentity);
+                    // document.getElementById("input_owneridentity").readOnly = true;
+                    // $("#select_ownersex").find("option[value='"+data.data.ownerSex+"']").prop("selected",true);
+                    // $("#select_ownersex").attr("disabled","disabled");
+                    // $("#input_ownerage").val(data.data.ownerAge);
+                    // document.getElementById("input_ownerage").readOnly = true;
+                    // $("#input_ownerjob").val(data.data.ownerJob);
+                    // document.getElementById("input_ownerjob").readOnly = true;
+                    // $("#input_homeaddress").val(data.data.ownerAddr);
+                    // document.getElementById("input_homeaddress").readOnly = true;
+                    // $("#input_telphone").val(data.data.ownerTel);
+                    // document.getElementById("input_telphone").readOnly = true;
                 }else{
                     return;
                 }
