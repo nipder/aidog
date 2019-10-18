@@ -316,7 +316,15 @@ $(function () {
     $("#a_addowner").click(function () {
         var clicktype = "owneradd";
         var ownername = $("#input_ownername").val()==null?"":$("#input_ownername").val();
+        if(ownername == ""){
+            alert("请填写主人名称！");
+            return;
+        }
         var owneridentity = $("#input_owneridentity").val();
+        if(owneridentity == ""){
+            alert("请填写主人身份证！");
+            return;
+        }
         var ownersex = $("#select_ownersex").find("option:selected").text();
         if(hamletcode == ""){
             alert("请先选择主人所属行政村！");
@@ -327,6 +335,10 @@ $(function () {
         var ownerjob = $("#input_ownerjob").val();
         var homeaddress = $("#input_homeaddress").val();
         var telphone = $("#input_telphone").val();
+        if(telphone == ""){
+            alert("请填写主人电话！");
+            return;
+        }
         var senddata = {};
         senddata.clicktype = clicktype;
         senddata.ownername = ownername;
@@ -350,22 +362,22 @@ $(function () {
             success: function (data) {
                 alert(data.msg);
                 if(data.success == true){
-                    getOwnerInfo(false, data.data.ownerName, "", hamletcode, "");
-                    // $("#input_ownerid").val(data.data.ownerId);
-                    // $("#input_ownername").val(data.data.ownerName);
-                    // document.getElementById("input_ownername").readOnly = true;
-                    // $("#input_owneridentity").val(data.data.ownerIdentity);
-                    // document.getElementById("input_owneridentity").readOnly = true;
-                    // $("#select_ownersex").find("option[value='"+data.data.ownerSex+"']").prop("selected",true);
-                    // $("#select_ownersex").attr("disabled","disabled");
-                    // $("#input_ownerage").val(data.data.ownerAge);
-                    // document.getElementById("input_ownerage").readOnly = true;
-                    // $("#input_ownerjob").val(data.data.ownerJob);
-                    // document.getElementById("input_ownerjob").readOnly = true;
-                    // $("#input_homeaddress").val(data.data.ownerAddr);
-                    // document.getElementById("input_homeaddress").readOnly = true;
-                    // $("#input_telphone").val(data.data.ownerTel);
-                    // document.getElementById("input_telphone").readOnly = true;
+                    // getOwnerInfo(false, data.data.ownerName, "", hamletcode, "");
+                    $("#input_ownerid").val(data.data.ownerId);
+                    $("#input_ownername").val(data.data.ownerName);
+                    document.getElementById("input_ownername").readOnly = true;
+                    $("#input_owneridentity").val(data.data.ownerIdentity);
+                    document.getElementById("input_owneridentity").readOnly = true;
+                    $("#select_ownersex").find("option[value='"+data.data.ownerSex+"']").prop("selected",true);
+                    $("#select_ownersex").attr("disabled","disabled");
+                    $("#input_ownerage").val(data.data.ownerAge);
+                    document.getElementById("input_ownerage").readOnly = true;
+                    $("#input_ownerjob").val(data.data.ownerJob);
+                    document.getElementById("input_ownerjob").readOnly = true;
+                    $("#input_homeaddress").val(data.data.ownerAddr);
+                    document.getElementById("input_homeaddress").readOnly = true;
+                    $("#input_telphone").val(data.data.ownerTel);
+                    document.getElementById("input_telphone").readOnly = true;
                 }else{
                     return;
                 }
