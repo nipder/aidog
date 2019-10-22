@@ -117,7 +117,7 @@
       #{ownerSex,jdbcType=VARCHAR}, #{ownerAge,jdbcType=INTEGER}, #{ownerJob,jdbcType=VARCHAR}, 
       #{districtcode,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Dogowner" >
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Dogowner" useGeneratedKeys="true" keyProperty="ownerId">
     insert into dogowner
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="ownerId != null" >

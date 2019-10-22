@@ -9,12 +9,12 @@ $(function () {
     //         datares = eval("(" + data + ")");
     //     }
     // });
-	setDistrictSelectDisabled(true);
+    setDistrictSelectDisabled(true);
     var hamletcode = "";
-	$.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
+    $.getJSON ("/aidog/adminlte/pages/ui_js/district.json", function (data)
     {
         datares = data;
-		setDistrictSelectDisabled(false);
+        setDistrictSelectDisabled(false);
         initSelDistrictCtrl(datares);
 
         if(g_privilegelevel==6){
@@ -24,7 +24,7 @@ $(function () {
             Filldogmanagername(hamletcode);
         }
 
-    });	
+    });
 
     $("#select_province").on('change', function () {
         var selectvalue = $(this).find('option:selected').val();
@@ -332,6 +332,10 @@ $(function () {
         }
         var ownerhamlet = $("#select_ownerhamlet").val();
         var ownerage = $("#input_ownerage").val();
+        if(ownerage == ""){
+            alert("请填写主人年龄！");
+            return;
+        }
         var ownerjob = $("#input_ownerjob").val();
         var homeaddress = $("#input_homeaddress").val();
         var telphone = $("#input_telphone").val();
@@ -362,7 +366,7 @@ $(function () {
             success: function (data) {
                 alert(data.msg);
                 if(data.success == true){
-                    // getOwnerInfo(false, data.data.ownerName, "", hamletcode, "");
+                    //getOwnerInfo(false, data.data.ownerName, "", hamletcode, "");
                     $("#input_ownerid").val(data.data.ownerId);
                     $("#input_ownername").val(data.data.ownerName);
                     document.getElementById("input_ownername").readOnly = true;
@@ -378,12 +382,14 @@ $(function () {
                     document.getElementById("input_homeaddress").readOnly = true;
                     $("#input_telphone").val(data.data.ownerTel);
                     document.getElementById("input_telphone").readOnly = true;
+                    //getOwnerInfo(false, data.data.ownerName, data.data.ownerIdentity, hamletcode, data.data.ownerTel);
                 }else{
                     return;
                 }
             }
         })
     });
+
 
     //添加牧犬
     $("#a_adddog").click(function () {
@@ -405,6 +411,10 @@ $(function () {
         var dogweight = $("#input_dogweight").val();
         var dogcolor = $("#input_dogcolor").val();
         var dogage = $("#input_dogage").val();
+        if(dogage == ""){
+            alert("请填写犬只年龄！");
+            return;
+        }
         var senddata = {};
         senddata.clicktype = clicktype;
         senddata.username = username;

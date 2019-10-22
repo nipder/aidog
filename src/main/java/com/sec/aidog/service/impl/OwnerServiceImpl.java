@@ -51,7 +51,8 @@ public class OwnerServiceImpl implements OwnerService{
         owner.setOwnerAge(ownerage);
         owner.setOwnerJob(ownerjob);
         owner.setDistrictcode(ownerhamletcode);
-        boolean flag = dogownerMapper.insert(owner)==0?false:true;
+        boolean flag = dogownerMapper.insertSelective(owner)==1?true:false;
+//        boolean flag = dogownerMapper.insert(owner)==0?false:true;
         if(flag){
             return owner;
         }
