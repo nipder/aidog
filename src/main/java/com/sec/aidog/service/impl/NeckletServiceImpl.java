@@ -474,7 +474,7 @@ public class NeckletServiceImpl implements NeckletService{
             neckletView.setConfstatus("正常");
             if(sysDeviceconflist.get(i).getUimodifyflag().equals(Byte.valueOf("1")) && sysDeviceconflist.get(i).getHardmodifyflag().equals(Byte.valueOf("0"))){
                 neckletView.setConfstatus("硬件接收配置中");
-                if(!SysLaytimelist.get(i).getErr().equals("0")){
+                if(SysLaytimelist.get(i).getErr()!=null && !SysLaytimelist.get(i).getErr().equals("0")){
                     for (String key : ErrType.errmap.keySet()) {
                         //map.keySet()返回的是所有key的值
                         if(key.equals(SysLaytimelist.get(i).getErr())){
