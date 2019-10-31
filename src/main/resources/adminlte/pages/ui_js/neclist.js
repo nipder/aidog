@@ -356,11 +356,12 @@ $(function () {
                             { "data": "leftnum","width":"60px"},
                             { "data": "power","width":"50px" },
                             { "data": "temperature","width":"80px" },
-                            { "data": "confstatus","width":"100px"}
+                            { "data": "confstatus","width":"100px"},
+                            { "data": "lastUpdateTime","width":"125px"}
                         ],
                         "columnDefs": [
                             {
-                                "targets": 9,
+                                "targets": 10,
                                 "createdCell": function (td, cellData, rowData, row, col) {
                                     if (cellData == '硬件接收配置中') {
                                         $(td).css('color', 'black');
