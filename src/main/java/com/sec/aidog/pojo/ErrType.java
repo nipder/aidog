@@ -18,7 +18,7 @@ public class ErrType {
         errmap.put("3","关门超时");
         errmap.put("4","开门堵转过流");
         errmap.put("5","开门超时");
-        errmap.put("6","二次开门堵转过流");
+        errmap.put("6","二次关门堵转过流");
         errmap.put("7","二次关门超时");
         errmap.put("8","电池电压低于3.3V");
         errmap.put("16","药已发完");

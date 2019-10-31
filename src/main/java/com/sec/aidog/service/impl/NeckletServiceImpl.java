@@ -484,11 +484,15 @@ public class NeckletServiceImpl implements NeckletService{
                 }
             }else if(sysDeviceconflist.get(i).getUimodifyflag().equals(Byte.valueOf("0")) && sysDeviceconflist.get(i).getHardmodifyflag().equals(Byte.valueOf("0"))){
                 neckletView.setConfstatus("硬件已完成配置");
-                if(!SysLaytimelist.get(i).getErr().equals("0")){
-                    for (String key : ErrType.errmap.keySet()) {
-                        //map.keySet()返回的是所有key的值
-                        if(key.equals(SysLaytimelist.get(i).getErr())){
-                            neckletView.setConfstatus(ErrType.errmap.get(key));
+                if(SysLaytimelist.get(i).getErr() == null){
+                    neckletView.setConfstatus("无数据反馈");
+                }else{
+                    if(!SysLaytimelist.get(i).getErr().equals("0")){
+                        for (String key : ErrType.errmap.keySet()) {
+                            //map.keySet()返回的是所有key的值
+                            if(key.equals(SysLaytimelist.get(i).getErr())){
+                                neckletView.setConfstatus(ErrType.errmap.get(key));
+                            }
                         }
                     }
                 }
