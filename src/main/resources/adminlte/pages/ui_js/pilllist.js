@@ -185,6 +185,7 @@ $(function () {
                 request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
             },
             success: function (data) {
+                var countnum = 0;
                 if (data.data.data == null) {
                     alert(data.data.msg);
                     return;
@@ -192,6 +193,7 @@ $(function () {
                     for(var i = 0;i<data.data.data.length;i++){
                         data.data.data[i].pillExpdate = timetrans(data.data.data[i].pillExpdate).replace('T'," ");
                         data.data.data[i].pillBuydate = timetrans(data.data.data[i].pillBuydate).replace('T'," ");
+                        data.data.data[i].countnum = i+1;
                     }
                     viewdata = $.extend(true,[],data.data.data);
                     
@@ -255,6 +257,7 @@ $(function () {
                                 "defaultContent": "",
                                 "width": "1px"
                             },
+                            { "data": "countnum","width":"30px" },
                             { "data": "pillCode","width":"90px" },
                             { "data": "pillName","width":"90px"  },
                             { "data": "pillFactory","width":"90px"},

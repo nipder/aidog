@@ -251,6 +251,7 @@ $(function () {
                     alert(data.data.msg);
                     return;
                 }else{
+                    var countnum = 0;
                     for(var i = 0;i<data.data.data.length;i++){
                         // if(data.data.data[i].necId == "-1"){
                         //     data.data.data[i].necId = "测试";
@@ -278,6 +279,7 @@ $(function () {
                         }else{
                             data.data.data[i].lastUpdateTime = "无";
                         }
+                        data.data.data[i].countnum = i+1;
                         data.data.data[i].dosingstatus = "<a href='javascript:void(0);'onclick='detailNecTimeInfo(\""+ data.data.data[i].necId + "\")' ><i class='fa fa-arrow-down'></i>"+data.data.data[i].dosingstatus+"</a>";
                         data.data.data[i].detailaddr = distrctcodetoaddr(data.data.data[i].districtcode);
                     }
@@ -345,6 +347,7 @@ $(function () {
                                 "defaultContent": "",
                                 "width": "1px"
                             },
+                            { "data": "countnum","width":"30px" },
                             { "data": "necId","width":"60px" },
                             { "data": "pillcode","width":"60px"  },
                             { "data": "dosingstatus","width":"100px"  },

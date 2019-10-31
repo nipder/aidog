@@ -172,7 +172,7 @@ $(function () {
             var dt = $('#datatable').DataTable({
                 data: viewdata,
                 "jQueryUI": true,
-                'paging': true,
+                'paging': false,
                 lengthMenu: [　//显示几条数据设置
                     [10, 20, 30, 50, -1],
                     ['10 条', '20 条', '30条', '50 条', '全部']
