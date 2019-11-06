@@ -16,6 +16,9 @@ import java.util.*;
 public class NeckletServiceImpl implements NeckletService{
 
     @Autowired
+    private SysLayconfigMapper sysLayconfigMapper;
+
+    @Autowired
     private NeckletMapper neckletMapper;
 
     @Autowired
@@ -75,7 +78,188 @@ public class NeckletServiceImpl implements NeckletService{
                 lastnecareaback.setRealtime(new Date());
                 boolean flag5 = lastnecareabackMapper.insert(lastnecareaback)!=0?true:false;
 
-                if(flag1 && flag2 && flag3 && flag4){
+                //设置默认周期
+                Date now = new Date();
+                Date firsttime = new Date(now.getTime()+300000);
+                Date twotime,threetime,fourtime,fivetime,sixtime,seventime,eighttime,ninetime,tentime,eleventime,twelvetime;
+                Calendar cal = Calendar.getInstance();
+                if(Calendar.DAY_OF_MONTH == 28 || Calendar.DAY_OF_MONTH == 29 || Calendar.DAY_OF_MONTH == 30){
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    twotime = cal.getTime();
+                    twotime.setHours(6);
+                    twotime.setMinutes(0);
+                    twotime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    threetime = cal.getTime();
+                    threetime.setHours(6);
+                    threetime.setMinutes(0);
+                    threetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    fourtime = cal.getTime();
+                    fourtime.setHours(6);
+                    fourtime.setMinutes(0);
+                    fourtime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    fivetime = cal.getTime();
+                    fivetime.setHours(6);
+                    fivetime.setMinutes(0);
+                    fivetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    sixtime = cal.getTime();
+                    sixtime.setHours(6);
+                    sixtime.setMinutes(0);
+                    sixtime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    seventime = cal.getTime();
+                    seventime.setHours(6);
+                    seventime.setMinutes(0);
+                    seventime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    eighttime = cal.getTime();
+                    eighttime.setHours(6);
+                    eighttime.setMinutes(0);
+                    eighttime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    ninetime = cal.getTime();
+                    ninetime.setHours(6);
+                    ninetime.setMinutes(0);
+                    ninetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    tentime = cal.getTime();
+                    tentime.setHours(6);
+                    tentime.setMinutes(0);
+                    tentime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    eleventime = cal.getTime();
+                    eleventime.setHours(6);
+                    eleventime.setMinutes(0);
+                    eleventime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,28);
+                    cal.add(Calendar.MONTH,1);
+                    twelvetime = cal.getTime();
+                    twelvetime.setHours(6);
+                    twelvetime.setMinutes(0);
+                    twelvetime.setSeconds(0);
+                }else{
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    twotime = cal.getTime();
+                    twotime.setHours(6);
+                    twotime.setMinutes(0);
+                    twotime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    threetime = cal.getTime();
+                    threetime.setHours(6);
+                    threetime.setMinutes(0);
+                    threetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    fourtime = cal.getTime();
+                    fourtime.setHours(6);
+                    fourtime.setMinutes(0);
+                    fourtime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    fivetime = cal.getTime();
+                    fivetime.setHours(6);
+                    fivetime.setMinutes(0);
+                    fivetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    sixtime = cal.getTime();
+                    sixtime.setHours(6);
+                    sixtime.setMinutes(0);
+                    sixtime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    seventime = cal.getTime();
+                    seventime.setHours(6);
+                    seventime.setMinutes(0);
+                    seventime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    eighttime = cal.getTime();
+                    eighttime.setHours(6);
+                    eighttime.setMinutes(0);
+                    eighttime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    ninetime = cal.getTime();
+                    ninetime.setHours(6);
+                    ninetime.setMinutes(0);
+                    ninetime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    tentime = cal.getTime();
+                    tentime.setHours(6);
+                    tentime.setMinutes(0);
+                    tentime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    eleventime = cal.getTime();
+                    eleventime.setHours(6);
+                    eleventime.setMinutes(0);
+                    eleventime.setSeconds(0);
+                    cal.set(Calendar.DAY_OF_MONTH,Calendar.DAY_OF_MONTH+1);
+                    cal.add(Calendar.MONTH,1);
+                    twelvetime = cal.getTime();
+                    twelvetime.setHours(6);
+                    twelvetime.setMinutes(0);
+                    twelvetime.setSeconds(0);
+                }
+                boolean flag6 = false;
+                SysLayconfig layconfig = sysLayconfigMapper.selectLayConfigByMid(necid);
+                if(layconfig==null){
+                    layconfig = new SysLayconfig();
+                    layconfig.setId(0);
+                    layconfig.setMid(necid);
+                    layconfig.setOne(firsttime);
+                    layconfig.setTwo(twotime);
+                    layconfig.setThree(threetime);
+                    layconfig.setFour(fourtime);
+                    layconfig.setFive(fivetime);
+                    layconfig.setSix(sixtime);
+                    layconfig.setSeven(seventime);
+                    layconfig.setEight(eighttime);
+                    layconfig.setNine(ninetime);
+                    layconfig.setTen(tentime);
+                    layconfig.setEleven(eleventime);
+                    layconfig.setTwelve(twelvetime);
+                    layconfig.setUimodifyflag(Byte.valueOf("1"));
+                    layconfig.setHardmodifyflag(Byte.valueOf("0"));
+                    layconfig.setUpdatetime(new Date());
+                    flag6 = sysLayconfigMapper.insert(layconfig)==1?true:false;
+                }else{
+                    layconfig.setOne(firsttime);
+                    layconfig.setTwo(twotime);
+                    layconfig.setThree(threetime);
+                    layconfig.setFour(fourtime);
+                    layconfig.setFive(fivetime);
+                    layconfig.setSix(sixtime);
+                    layconfig.setSeven(seventime);
+                    layconfig.setEight(eighttime);
+                    layconfig.setNine(ninetime);
+                    layconfig.setTen(tentime);
+                    layconfig.setEleven(eleventime);
+                    layconfig.setTwelve(twelvetime);
+                    layconfig.setUimodifyflag(Byte.valueOf("1"));
+                    layconfig.setHardmodifyflag(Byte.valueOf("0"));
+                    layconfig.setUpdatetime(new Date());
+                    flag6 = sysLayconfigMapper.updateByPrimaryKey(layconfig)==1?true:false;
+                }
+
+                if(flag1 && flag2 && flag3 && flag4 && flag6){
                     return true;
                 }else{
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();

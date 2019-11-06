@@ -509,26 +509,48 @@ public class SysLayconfigApi {
     		@RequestParam(value = "tempgmt")String tempgmt){
         JsonResult r = new JsonResult();
         try {
-        	SysLayconfig layconfig = new SysLayconfig();
-        	layconfig.setId(0);
-        	layconfig.setMid(mid);
-        	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
-        	layconfig.setOne(format.parse(one));
-        	layconfig.setTwo(format.parse(two));
-        	layconfig.setThree(format.parse(three));
-        	layconfig.setFour(format.parse(four));
-        	layconfig.setFive(format.parse(five));
-        	layconfig.setSix(format.parse(six));
-        	layconfig.setSeven(format.parse(seven));
-        	layconfig.setEight(format.parse(eight));
-        	layconfig.setNine(format.parse(nine));
-        	layconfig.setTen(format.parse(ten));
-        	layconfig.setEleven(format.parse(eleven));
-        	layconfig.setTwelve(format.parse(twelve));
-        	layconfig.setUimodifyflag(Byte.valueOf("1"));
-        	layconfig.setHardmodifyflag(Byte.valueOf("0"));
-        	layconfig.setUpdatetime(new Date());
-        	boolean flag01  = sysLayconfigMapper.insert(layconfig)==1?true:false;
+
+			SysLayconfig layconfig = sysLayconfigMapper.selectLayConfigByMid(mid);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
+			boolean flag01 = false;
+			if(layconfig==null){
+				layconfig = new SysLayconfig();
+				layconfig.setId(0);
+				layconfig.setMid(mid);
+				layconfig.setOne(format.parse(one));
+				layconfig.setTwo(format.parse(two));
+				layconfig.setThree(format.parse(three));
+				layconfig.setFour(format.parse(four));
+				layconfig.setFive(format.parse(five));
+				layconfig.setSix(format.parse(six));
+				layconfig.setSeven(format.parse(seven));
+				layconfig.setEight(format.parse(eight));
+				layconfig.setNine(format.parse(nine));
+				layconfig.setTen(format.parse(ten));
+				layconfig.setEleven(format.parse(eleven));
+				layconfig.setTwelve(format.parse(twelve));
+				layconfig.setUimodifyflag(Byte.valueOf("1"));
+				layconfig.setHardmodifyflag(Byte.valueOf("0"));
+				layconfig.setUpdatetime(new Date());
+				flag01  = sysLayconfigMapper.insert(layconfig)==1?true:false;
+			}else{
+				layconfig.setOne(format.parse(one));
+				layconfig.setTwo(format.parse(two));
+				layconfig.setThree(format.parse(three));
+				layconfig.setFour(format.parse(four));
+				layconfig.setFive(format.parse(five));
+				layconfig.setSix(format.parse(six));
+				layconfig.setSeven(format.parse(seven));
+				layconfig.setEight(format.parse(eight));
+				layconfig.setNine(format.parse(nine));
+				layconfig.setTen(format.parse(ten));
+				layconfig.setEleven(format.parse(eleven));
+				layconfig.setTwelve(format.parse(twelve));
+				layconfig.setUimodifyflag(Byte.valueOf("1"));
+				layconfig.setHardmodifyflag(Byte.valueOf("0"));
+				layconfig.setUpdatetime(new Date());
+				flag01 = sysLayconfigMapper.updateByPrimaryKey(layconfig)==1?true:false;
+			}
         	
         	SysDeviceconf sysDeviceconf = new SysDeviceconf();
         	sysDeviceconf.setId(0);
