@@ -2,9 +2,11 @@ package com.sec.aidog.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sec.aidog.api.Analyse;
 import com.sec.aidog.dao.*;
 import com.sec.aidog.pojo.*;
 import com.sec.aidog.service.NeckletService;
+import com.sec.aidog.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,12 @@ import java.util.*;
 
 @Service
 public class NeckletServiceImpl implements NeckletService{
+
+    @Autowired
+    private SysDeviceconfMapper sysDeviceconfMapper;
+
+    @Autowired
+    private RedisService redisService;
 
     @Autowired
     private SysLayconfigMapper sysLayconfigMapper;
@@ -66,6 +74,7 @@ public class NeckletServiceImpl implements NeckletService{
                 boolean flag2 = neckletMapper.updateByPrimaryKey(necklet)!=0?true:false;
                 Necconfig necconfig = new Necconfig();
                 necconfig.setNecId(necid);
+                necconfig.setAreacycle(4320);
                 necconfig.setUpdatetime(new Date());
                 boolean flag3 = necconfigMapper.insert(necconfig)!=0?true:false;
                 Lastnecdosing lastnecdosing = new Lastnecdosing();
@@ -81,6 +90,7 @@ public class NeckletServiceImpl implements NeckletService{
                 //设置默认周期
                 Date now = new Date();
                 Date firsttime = new Date(now.getTime()+300000);
+                firsttime.setSeconds(0);
                 Date twotime,threetime,fourtime,fivetime,sixtime,seventime,eighttime,ninetime,tentime,eleventime,twelvetime;
                 Calendar cal = Calendar.getInstance();
                 if(Calendar.DAY_OF_MONTH == 28 || Calendar.DAY_OF_MONTH == 29 || Calendar.DAY_OF_MONTH == 30){
@@ -258,8 +268,45 @@ public class NeckletServiceImpl implements NeckletService{
                     layconfig.setUpdatetime(new Date());
                     flag6 = sysLayconfigMapper.updateByPrimaryKey(layconfig)==1?true:false;
                 }
+                boolean flag7  = false;
+                if(flag6) {
+                    String command02 = Analyse.Command_02_Send(layconfig);
+                    redisService.remove("time_"+necid);
+                    flag7  = redisService.setpersist("time_"+necid, command02);
+                }
 
-                if(flag1 && flag2 && flag3 && flag4 && flag6){
+                SysDeviceconf sysDeviceconf = sysDeviceconfMapper.selectDeviceConfigByMid(necid);
+                boolean flag8 = false;
+                if(sysDeviceconf!=null){
+                    sysDeviceconf.setInfoupdatecycle(4320);
+                    sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
+                    sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
+                    sysDeviceconf.setUpdatetime(new Date());
+                    flag8 = sysDeviceconfMapper.updateByPrimaryKey(sysDeviceconf)==1?true:false;
+                }else{
+                    sysDeviceconf = new SysDeviceconf();
+                    sysDeviceconf.setMid(necid);
+                    sysDeviceconf.setStatus(0);
+                    sysDeviceconf.setInfoupdatecycle(4320);
+                    sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
+                    sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
+                    sysDeviceconf.setUpdatetime(new Date());
+                    //默认值
+                    sysDeviceconf.setIp("119.3.177.203");
+                    sysDeviceconf.setPort(59999);
+                    sysDeviceconf.setTickcycle(30);
+                    sysDeviceconf.setFactory(Byte.valueOf("0"));
+                    sysDeviceconf.setBastimes(Byte.valueOf("20"));
+                    sysDeviceconf.setGpstimes(Byte.valueOf("60"));
+                    flag8 = sysDeviceconfMapper.insert(sysDeviceconf)==1?true:false;
+                }
+                if(flag8) {
+                    String command03 = Analyse.Command_03_Send(sysDeviceconf);
+                    redisService.remove("device_"+necid);
+                    redisService.setpersist("device_"+necid, command03);
+                }
+
+                if(flag1 && flag2 && flag3 && flag4 && flag7 && flag8){
                     return true;
                 }else{
                     TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
@@ -644,8 +691,12 @@ public class NeckletServiceImpl implements NeckletService{
 
         NeckletView neckletView = null;
         for(int i=0;i<sysDeviceconflist.size();i++){
+//            if(sysDeviceconflist.get(i).getMid().equals("1909010481")){
+//                System.out.println("aa");
+//            }
             neckletView = new NeckletView();
-            neckletView.setNecId(SysLaytimelist.get(i).getMid());
+            //neckletView.setNecId(SysLaytimelist.get(i).getMid());
+            neckletView.setNecId(sysDeviceconflist.get(i).getMid());
 
             neckletView.setDistrictcode(neckletMapper.selectByNecId(SysLaytimelist.get(i).getMid()).getDistrictcode());
 

@@ -84,23 +84,51 @@ public class OwnerServiceImpl implements OwnerService{
         example.createCriteria().andDistrictcodeEqualTo(ownerhamletcode);
         List<Dogowner> ownerlist = dogownerMapper.selectByExample(example);
         List<Dogowner> finallist = new ArrayList<>();
-        if(owneridentity!=""){
+        if(owneridentity!="" && telphone == "" && ownername == ""){
             for(Dogowner ow: ownerlist){
                 if(ow.getOwnerIdentity().contains(owneridentity)){
                     finallist.add(ow);
                 }
             }
         }
-        if(telphone!=""){
+        else if(owneridentity =="" && telphone != "" && ownername == ""){
             for(Dogowner ow: ownerlist){
                 if(ow.getOwnerTel().contains(telphone)){
                     finallist.add(ow);
                 }
             }
         }
-        if(ownername!=""){
+        else if(owneridentity =="" && telphone == "" && ownername != ""){
             for(Dogowner ow: ownerlist){
                 if(ow.getOwnerName().contains(ownername)){
+                    finallist.add(ow);
+                }
+            }
+        }
+        else if(owneridentity !="" && telphone != "" && ownername == ""){
+            for(Dogowner ow: ownerlist){
+                if(ow.getOwnerIdentity().contains(owneridentity) && ow.getOwnerTel().contains(telphone)){
+                    finallist.add(ow);
+                }
+            }
+        }
+        else if(owneridentity == "" && telphone != "" && ownername != ""){
+            for(Dogowner ow: ownerlist){
+                if(ow.getOwnerTel().contains(telphone) && ow.getOwnerName().contains(ownername)){
+                    finallist.add(ow);
+                }
+            }
+        }
+        else if(owneridentity != "" && telphone == "" && ownername != ""){
+            for(Dogowner ow: ownerlist){
+                if(ow.getOwnerIdentity().contains(owneridentity) && ow.getOwnerName().contains(ownername)){
+                    finallist.add(ow);
+                }
+            }
+        }
+        else if(owneridentity != "" && telphone != "" && ownername != ""){
+            for(Dogowner ow: ownerlist){
+                if(ow.getOwnerIdentity().contains(owneridentity) && ow.getOwnerTel().contains(telphone) && ow.getOwnerName().contains(ownername)){
                     finallist.add(ow);
                 }
             }
