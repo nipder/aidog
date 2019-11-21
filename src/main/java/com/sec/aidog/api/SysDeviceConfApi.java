@@ -211,6 +211,7 @@ public class SysDeviceConfApi {
 			byte hardmodifyflag = 0;
 			sysDeviceconf.setHardmodifyflag(hardmodifyflag);
 			sysDeviceconf.setUpdatetime(new Date());
+			sysDeviceconf.setClearerr(Byte.valueOf("1"));
 
 			boolean flag  = sysDeviceconfMapper.updateByPrimaryKey(sysDeviceconf)==1?true:false;
 			flag = (necconfigMapper.updateByPrimaryKey(necconfig)==1?true:false) && flag;

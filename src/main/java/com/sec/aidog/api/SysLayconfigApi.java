@@ -334,6 +334,7 @@ public class SysLayconfigApi {
 					sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
 					sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
 					sysDeviceconf.setUpdatetime(new Date());
+					sysDeviceconf.setClearerr(Byte.valueOf("1"));
 					if(zeroflag){
 						sysDeviceconf.setStatus(0);
 						sysDeviceconf.setFactory(Byte.valueOf("1"));
@@ -354,6 +355,7 @@ public class SysLayconfigApi {
 					sysDeviceconf.setFactory(Byte.valueOf("0"));
 					sysDeviceconf.setBastimes(Byte.valueOf("20"));
 					sysDeviceconf.setGpstimes(Byte.valueOf("60"));
+					sysDeviceconf.setClearerr(Byte.valueOf("1"));
 					if(zeroflag){
 						sysDeviceconf.setStatus(0);
 						sysDeviceconf.setFactory(Byte.valueOf("1"));
@@ -566,7 +568,6 @@ public class SysLayconfigApi {
         	sysDeviceconf.setTemporaryflag(tempflag);
 //        	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
         	sysDeviceconf.setTemporarygmt(format.parse(tempgmt));
-        	sysDeviceconf.setClearerr(Byte.valueOf("0"));
         	sysDeviceconf.setFactory(Byte.valueOf("0"));
 
 			//默认值
@@ -576,6 +577,7 @@ public class SysLayconfigApi {
 			sysDeviceconf.setFactory(Byte.valueOf("0"));
 			sysDeviceconf.setBastimes(Byte.valueOf("20"));
 			sysDeviceconf.setGpstimes(Byte.valueOf("60"));
+			sysDeviceconf.setClearerr(Byte.valueOf("1"));
 
         	byte uimodifyflag = 1;
         	sysDeviceconf.setUimodifyflag(uimodifyflag);
