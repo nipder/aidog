@@ -173,7 +173,7 @@ $(function () {
         senddata.level = districtcode == "0" ? "" : level;
         // @chg zyj 2019.08.09 end
         $.ajax({
-            url:  "/aidog/api/getdogstalist",
+            url:  "/aidog/api/getdevicestalist",
             type: "POST",
             data:  senddata,
             beforeSend: function (request) {
@@ -184,14 +184,14 @@ $(function () {
                     alert(data.data.msg);
                     return;
                 }else{
-                    for(var i = 0;i<data.data.data.length;i++){
-                        data.data.data[i].necbadnum = 0;
-                        data.data.data[i].necbadnumper = 0;
-                        data.data.data[i].appbadnum = 0;
-                        data.data.data[i].appbadnumper = 0;
-                        data.data.data[i].allbadnum = 0;
-                        data.data.data[i].allbadnumper = 0;
-                    }
+                    // for(var i = 0;i<data.data.data.length;i++){
+                    //     data.data.data[i].necbadnum = 0;
+                    //     data.data.data[i].necbadnumper = 0;
+                    //     data.data.data[i].appbadnum = 0;
+                    //     data.data.data[i].appbadnumper = 0;
+                    //     data.data.data[i].allbadnum = 0;
+                    //     data.data.data[i].allbadnumper = 0;
+                    // }
                     viewdata = $.extend(true,[],data.data.data);
                     var dt = $('#datatable').DataTable({
                         data: data.data.data,

@@ -172,7 +172,7 @@ $(function () {
         senddata.level = districtcode == "0" ? "" : level;
         // @chg zyj 2019.08.09 end
         $.ajax({
-            url:  "/aidog/api/getdogstalist",
+            url:  "/aidog/api/getdevicestalist",
             type: "POST",
             data:  senddata,
             beforeSend: function (request) {
@@ -184,12 +184,25 @@ $(function () {
                     return;
                 }else{
                     for(var i = 0;i<data.data.data.length;i++){
-                        data.data.data[i].necbadnum = 0;
-                        data.data.data[i].necbadnumper = 0;
-                        data.data.data[i].appbadnum = 0;
-                        data.data.data[i].appbadnumper = 0;
-                        data.data.data[i].allbadnum = 0;
-                        data.data.data[i].allbadnumper = 0;
+                        data.data.data[i].necbadnum = data.data.data[i].necdognum - data.data.data[i].necbadnum;
+                        if(data.data.data[i].necdognum!=0){
+                            data.data.data[i].necbadnumper = (100 - data.data.data[i].necbadnumper.split("%")[0])+"%";
+                        }else{
+                            data.data.data[i].necbadnum = 0;
+                            data.data.data[i].necbadnumper = "0.00%";
+                        }
+                        if(data.data.data[i].appdognum!=0){
+                            data.data.data[i].appbadnum = data.data.data[i].appdognum - data.data.data[i].appbadnum;
+                            data.data.data[i].appbadnumper = (100 - data.data.data[i].appbadnumper.split("%")[0])+"%";
+                        }else{
+                            data.data.data[i].appbadnum = 0;
+                            data.data.data[i].appbadnumper = "0.00%";
+                        }
+                        //现只考虑项圈
+                        data.data.data[i].allbadnum = data.data.data[i].necbadnum;
+                        if(data.data.data[i].necdognum!=0 ){
+                            data.data.data[i].allbadnumper = data.data.data[i].necbadnumper;
+                        }
                     }
                     viewdata = $.extend(true,[],data.data.data);
                     var dt = $('#datatable').DataTable({

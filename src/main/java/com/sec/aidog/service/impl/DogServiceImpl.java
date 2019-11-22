@@ -57,6 +57,9 @@ public class DogServiceImpl implements DogService{
     @Autowired
     private ManureMapper manureMapper;
 
+    @Autowired
+    private LastnecareabackMapper lastnecareabackMapper;
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
     public Dog addDog(String username, String dogname, String dogsex, String dogbelonghamlet, String ownerhamletcode, int dogownerid,
@@ -363,6 +366,324 @@ public class DogServiceImpl implements DogService{
         Map<String, Object> map = new HashMap<String,Object>();
         //每页信息
         map.put("data", dogstalist);
+        //管理员总数
+        map.put("totalNum", page.getTotal());
+        return map;
+    }
+
+
+    @Override
+    public Map<String, Object> getDeviceStaList(String districtcode, int startPage, int pageSize) {
+        Page page = PageHelper.startPage(startPage, pageSize);
+        List<DeviceSta> devicestalist = new ArrayList<>();
+        DeviceSta deviceSta = null;
+        int count = 1;
+        switch (districtcode.length()){
+            case 1:
+                //国家级管理员
+                List<District> districtList = districtMapper.getProvinces();
+                for(int i=0;i<districtList.size();i++){
+                    deviceSta = new DeviceSta();
+                    deviceSta.setCountnum(count);
+                    count++;
+                    deviceSta.setDistrictname(districtList.get(i).getDistrictName());
+                    String provinceCode0to2 = districtList.get(i).getDistrictcode().substring(0,2);
+                    //获得该省所有的狗
+                    List<Dog> sdlist = dogMapper.getIndexInforByDistrictcode(provinceCode0to2);
+                    deviceSta.setDognum(sdlist.size());
+                    //佩戴项圈牧犬数量和喂食器数量
+                    int neckdognumtotal = 0;
+                    int feedernumtotal = 0;
+                    int necbadnum = 0;
+                    int appbadnum = 0;
+                    for(Dog each:sdlist){
+                        //项圈
+                        if(!each.getNecId().equals("-1")) {
+                            neckdognumtotal++;
+                            String nec_status = "0";
+                            Lastnecareaback lastnecareaback = lastnecareabackMapper.getLastnecareaback(each.getNecId());
+                            if(lastnecareaback != null){
+                                nec_status = lastnecareaback.getNecStatus();
+                                if(nec_status != null && !nec_status.equals("0")){
+                                    necbadnum++;
+                                }
+                            }
+                        }
+                        //喂食器(待开发)
+                        if(!each.getAppId().equals("-1")) {
+                            feedernumtotal++;
+                        }
+                    }
+                    deviceSta.setNecdognum(neckdognumtotal);
+                    deviceSta.setAppdognum(feedernumtotal);
+                    deviceSta.setManagedognum(sdlist.size());
+                    deviceSta.setNecbadnum(necbadnum);
+                    deviceSta.setAppbadnum(0);
+                    if(sdlist.size() == 0){
+                        deviceSta.setNecbadnumper("0.00%");
+                        deviceSta.setAppbadnumper("0.00%");
+                    }else{
+                        DecimalFormat df = new DecimalFormat("0.00");//保留2位小数
+                        if(neckdognumtotal!=0){    //暂时只考虑了项圈
+                            deviceSta.setNecbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                        }else{
+                            deviceSta.setNecbadnumper("0.00%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper("0.00%");
+                        }
+                    }
+                    devicestalist.add(deviceSta);
+                }
+                break;
+            case 2:
+                //省级管理员
+                List<District> districtList2 = districtMapper.getCities(districtcode);
+                for(int i=0;i<districtList2.size();i++){
+                    deviceSta = new DeviceSta();
+                    deviceSta.setCountnum(count);
+                    count++;
+                    deviceSta.setDistrictname(districtList2.get(i).getDistrictName());
+                    String cityCode0to4 = districtList2.get(i).getDistrictcode().substring(0,4);
+                    //获得该省所有的狗
+                    List<Dog> sdlist = dogMapper.getIndexInforByDistrictcode(cityCode0to4);
+                    deviceSta.setDognum(sdlist.size());
+                    //佩戴项圈牧犬数量和喂食器数量
+                    int neckdognumtotal = 0;
+                    int feedernumtotal = 0;
+                    int necbadnum = 0;
+                    int appbadnum = 0;
+                    for(Dog each:sdlist){
+                        //项圈
+                        if(!each.getNecId().equals("-1")) {
+                            neckdognumtotal++;
+                            String nec_status = "0";
+                            Lastnecareaback lastnecareaback = lastnecareabackMapper.getLastnecareaback(each.getNecId());
+                            if(lastnecareaback != null){
+                                nec_status = lastnecareaback.getNecStatus();
+                                if(nec_status != null && !nec_status.equals("0")){
+                                    necbadnum++;
+                                }
+                            }
+                        }
+                        //喂食器(待开发)
+                        if(!each.getAppId().equals("-1")) {
+                            feedernumtotal++;
+                        }
+                    }
+                    deviceSta.setNecbadnum(necbadnum);
+                    deviceSta.setAppbadnum(0);
+                    deviceSta.setNecdognum(neckdognumtotal);
+                    deviceSta.setAppdognum(feedernumtotal);
+                    deviceSta.setManagedognum(sdlist.size());
+                    if(sdlist.size() == 0){
+                        deviceSta.setNecbadnumper("0.00%");
+                        deviceSta.setAppbadnumper("0.00%");
+                    }else{
+                        DecimalFormat df = new DecimalFormat("0.00");//保留2位小数
+                        if(neckdognumtotal!=0){    //暂时只考虑了项圈
+                            deviceSta.setNecbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                        }else{
+                            deviceSta.setNecbadnumper("0.00%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper("0.00%");
+                        }
+                    }
+                    devicestalist.add(deviceSta);
+                }
+                break;
+            case 4:
+                //市级管理员
+                List<District> districtList3 = districtMapper.getCounties(districtcode);
+                for(int i=0;i<districtList3.size();i++){
+                    deviceSta = new DeviceSta();
+                    deviceSta.setCountnum(count);
+                    count++;
+                    deviceSta.setDistrictname(districtList3.get(i).getDistrictName());
+                    String countyCode0to6 = districtList3.get(i).getDistrictcode().substring(0,6);
+                    //获得该市所有的狗
+                    List<Dog> sdlist = dogMapper.getIndexInforByDistrictcode(countyCode0to6);
+                    deviceSta.setDognum(sdlist.size());
+                    //佩戴项圈牧犬数量和喂食器数量
+                    int neckdognumtotal = 0;
+                    int feedernumtotal = 0;
+                    int necbadnum = 0;
+                    int appbadnum = 0;
+                    for(Dog each:sdlist){
+                        //项圈
+                        if(!each.getNecId().equals("-1")) {
+                            neckdognumtotal++;
+                            String nec_status = "0";
+                            Lastnecareaback lastnecareaback = lastnecareabackMapper.getLastnecareaback(each.getNecId());
+                            if(lastnecareaback != null){
+                                nec_status = lastnecareaback.getNecStatus();
+                                if(nec_status != null && !nec_status.equals("0")){
+                                    necbadnum++;
+                                }
+                            }
+                        }
+                        //喂食器(待开发)
+                        if(!each.getAppId().equals("-1")) {
+                            feedernumtotal++;
+                        }
+                    }
+                    deviceSta.setNecbadnum(necbadnum);
+                    deviceSta.setAppbadnum(0);
+                    deviceSta.setNecdognum(neckdognumtotal);
+                    deviceSta.setAppdognum(feedernumtotal);
+                    deviceSta.setManagedognum(sdlist.size());
+                    if(sdlist.size() == 0){
+                        deviceSta.setNecbadnumper("0.00%");
+                        deviceSta.setAppbadnumper("0.00%");
+                    }else{
+                        DecimalFormat df = new DecimalFormat("0.00");//保留2位小数
+                        if(neckdognumtotal!=0){    //暂时只考虑了项圈
+                            deviceSta.setNecbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                        }else{
+                            deviceSta.setNecbadnumper("0.00%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper("0.00%");
+                        }
+                    }
+                    devicestalist.add(deviceSta);
+                }
+                break;
+            case 6:
+                //县级管理员
+                List<District> districtList4 = districtMapper.getVillages(districtcode);
+                for(int i=0;i<districtList4.size();i++){
+                    deviceSta = new DeviceSta();
+                    deviceSta.setCountnum(count);
+                    count++;
+                    deviceSta.setDistrictname(districtList4.get(i).getDistrictName());
+                    String villageCode0to9 = districtList4.get(i).getDistrictcode().substring(0,9);
+                    //获得该县所有的狗
+                    List<Dog> sdlist = dogMapper.getIndexInforByDistrictcode(villageCode0to9);
+                    deviceSta.setDognum(sdlist.size());
+                    //佩戴项圈牧犬数量和喂食器数量
+                    int neckdognumtotal = 0;
+                    int feedernumtotal = 0;
+
+                    int necbadnum = 0;
+                    int appbadnum = 0;
+                    for(Dog each:sdlist){
+                        //项圈
+                        if(!each.getNecId().equals("-1")) {
+                            neckdognumtotal++;
+                            String nec_status = "0";
+                            Lastnecareaback lastnecareaback = lastnecareabackMapper.getLastnecareaback(each.getNecId());
+                            if(lastnecareaback != null){
+                                nec_status = lastnecareaback.getNecStatus();
+                                if(nec_status != null && !nec_status.equals("0")){
+                                    necbadnum++;
+                                }
+                            }
+                        }
+                        //喂食器(待开发)
+                        if(!each.getAppId().equals("-1")) {
+                            feedernumtotal++;
+                        }
+                    }
+                    deviceSta.setNecbadnum(necbadnum);
+                    deviceSta.setAppbadnum(0);
+                    deviceSta.setNecdognum(neckdognumtotal);
+                    deviceSta.setAppdognum(feedernumtotal);
+                    deviceSta.setManagedognum(sdlist.size());
+                    if(sdlist.size() == 0){
+                        deviceSta.setNecbadnumper("0.00%");
+                        deviceSta.setAppbadnumper("0.00%");
+                    }else{
+                        DecimalFormat df = new DecimalFormat("0.00");//保留2位小数
+                        if(neckdognumtotal!=0){    //暂时只考虑了项圈
+                            deviceSta.setNecbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                        }else{
+                            deviceSta.setNecbadnumper("0.00%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper("0.00%");
+                        }
+                    }
+                    devicestalist.add(deviceSta);
+                }
+                break;
+            case 9:
+                //乡级管理员
+                List<District> districtList5 = districtMapper.getHamlets(districtcode);
+                for(int i=0;i<districtList5.size();i++){
+                    deviceSta = new DeviceSta();
+                    deviceSta.setCountnum(count);
+                    count++;
+                    deviceSta.setDistrictname(districtList5.get(i).getDistrictName());
+                    String hamletCode = districtList5.get(i).getDistrictcode();
+                    //获得该乡所有的狗
+                    List<Dog> sdlist = dogMapper.getIndexInforByDistrictcode(hamletCode);
+                    deviceSta.setDognum(sdlist.size());
+                    //佩戴项圈牧犬数量和喂食器数量
+                    int neckdognumtotal = 0;
+                    int feedernumtotal = 0;
+                    int necbadnum = 0;
+                    int appbadnum = 0;
+                    for(Dog each:sdlist){
+                        //项圈
+                        if(!each.getNecId().equals("-1")) {
+                            neckdognumtotal++;
+                            String nec_status = "0";
+                            Lastnecareaback lastnecareaback = lastnecareabackMapper.getLastnecareaback(each.getNecId());
+                            if(lastnecareaback != null){
+                                nec_status = lastnecareaback.getNecStatus();
+                                if(nec_status != null && !nec_status.equals("0")){
+                                    necbadnum++;
+                                }
+                            }
+                        }
+                        //喂食器(待开发)
+                        if(!each.getAppId().equals("-1")) {
+                            feedernumtotal++;
+                        }
+                    }
+                    deviceSta.setNecbadnum(necbadnum);
+                    deviceSta.setAppbadnum(0);
+                    deviceSta.setNecdognum(neckdognumtotal);
+                    deviceSta.setAppdognum(feedernumtotal);
+                    deviceSta.setManagedognum(sdlist.size());
+                    if(sdlist.size() == 0){
+                        deviceSta.setNecbadnumper("0.00%");
+                        deviceSta.setAppbadnumper("0.00%");
+                    }else{
+                        DecimalFormat df = new DecimalFormat("0.00");//保留2位小数
+                        if(neckdognumtotal!=0){    //暂时只考虑了项圈
+                            deviceSta.setNecbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper(df.format((necbadnum/(neckdognumtotal*1.00))*100)+"%");
+                        }else{
+                            deviceSta.setNecbadnumper("0.00%");
+                            deviceSta.setAppbadnumper("0.00%");
+                            deviceSta.setAllbadnum(necbadnum+appbadnum);
+                            deviceSta.setAllbadnumper("0.00%");
+                        }
+                    }
+                    devicestalist.add(deviceSta);
+                }
+                break;
+        }
+        Map<String, Object> map = new HashMap<String,Object>();
+        //每页信息
+        map.put("data", devicestalist);
         //管理员总数
         map.put("totalNum", page.getTotal());
         return map;
