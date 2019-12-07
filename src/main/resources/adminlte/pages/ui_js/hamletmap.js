@@ -128,10 +128,26 @@ function GetHamletEcharts(data) {
 
 
 
-    function addNeckletMarker(point, title, content, dogid) {
+    function addNeckletMarker(point, title, content, dogid, neckletConfstatus) {
+        // @ADD ZYJ 2019.12.07 BEGIN
+        var ico_url = "../../dist/img/necklet_1.png";
+        if(neckletConfstatus && neckletConfstatus.length>0){
+            if(neckletConfstatus == "正常"){
+                ico_url = "../../dist/img/necklet_1.png";
+            }else if(neckletConfstatus == "硬件接收配置中"){
+                ico_url = "../../dist/img/necklet_2.png";
+            }else if(neckletConfstatus =="硬件已完成配置"){
+                ico_url = "../../dist/img/necklet_1.png";
+            }else if(neckletConfstatus =="无数据反馈"){
+                ico_url = "../../dist/img/necklet_1.png";
+            }else{
+                ico_url = "../../dist/img/necklet_3.png";
+            }
+        }
+        // @ADD ZYJ 2019.12.07 END
         marker = new AMap.Marker({
             //icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-            icon: "../../dist/img/necklet_1.png",
+            icon: ico_url,
             //position: [116.41, 39.91]
             position: point,
             //icon: new AMap.Icon({
@@ -261,6 +277,7 @@ function GetHamletEcharts(data) {
         var one_title = "设备编号：<a onclick=\"GetDogPage(" + n["dogid"] + ")\">" + p_necklet_ids[i] + "</a>"
 
         var one_content = "<div><table>" +
+            "<tr><th>设备状态：</th><th>" + n["neckletConfstatus"] + "</th></tr>" +
             "<tr><th>牧犬名字：</th><th>" + p_necklet_dognames[i] + "</th></tr>" +
             "<tr><th>所属村庄：</th><th>" + harmletname + "</th></tr>" +
             "<tr><th>管理员：</th><th>" + p_necklet_mangers[i] + "</th></tr>" +
@@ -268,7 +285,11 @@ function GetHamletEcharts(data) {
             "<tr><th>最近同步时间：</th><th>" + ChangeTimeFormat(p_necklet_lastupdatetime[i]) + "</th></tr>" +
             "</table></div>";
 
-        markers.push(addNeckletMarker([p_necklet_Xs[i], p_necklet_Ys[i]], one_title, one_content, n["dogid"]));
+        // @CHG ZYJ 2019.12.07 BEGIN
+        //markers.push(addNeckletMarker([p_necklet_Xs[i], p_necklet_Ys[i]], one_title, one_content, n["dogid"]));
+        var neckletConfstatus = n["neckletConfstatus"];
+        markers.push(addNeckletMarker([p_necklet_Xs[i], p_necklet_Ys[i]], one_title, one_content, n["dogid"], neckletConfstatus));
+        // @CHG ZYJ 2019.12.07 END
 
     });
 

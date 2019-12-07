@@ -63,8 +63,14 @@ public class HamletServiceImpl implements HamletService {
             String hamletcode = thishamlet.getDistrictcode();
 
             //进行相关数据表的刷新
-            neckletService.getCommonNeckletList(hamletcode);
-
+            // @CHG ZYJ 2019.12.05 BEGIN
+            //neckletService.getCommonNeckletList(hamletcode);
+            List<NeckletView> neckletViewList = null;
+            Map<String, Object> NeckletMap = neckletService.getCommonNeckletList(hamletcode);
+            if(NeckletMap!=null && NeckletMap.containsKey("data")) {
+                neckletViewList = (List<NeckletView>)NeckletMap.get("data");
+            }
+            // @CHG ZYJ 2019.12.05 END
             session.setAttribute("hamletcode", hamletcode);
             List<Dog> doginfo = new ArrayList<Dog>();
             doginfo = dogMapper.getHamletDogs(hamletcode);
@@ -73,6 +79,18 @@ public class HamletServiceImpl implements HamletService {
                 Map<String, Object> maptemp = new HashMap<String,Object>();
                 maptemp.put("dogid", each.getDogId());
                 maptemp.put("neckletid", each.getNecId());
+
+                // @ADD ZYJ 2019.12.05 BEGIN
+                if(neckletViewList!=null && neckletViewList.size()>0){
+                    for(int n=0;n<neckletViewList.size();n++){
+                        if(neckletViewList.get(n).getNecId().equals(each.getNecId())){
+                            maptemp.put("neckletConfstatus", neckletViewList.get(n).getConfstatus());
+                            break;
+                        }
+                    }
+                }
+                // @ADD ZYJ 2019.12.05 END
+
                 maptemp.put("dogname", each.getDogName());
                 Lastnecareaback lr = lastnecareabackMapper.getLastnecareaback(each.getNecId());
                 if(lr!=null && lr.getLng()!=null && lr.getLat()!=null) {
