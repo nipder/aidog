@@ -781,6 +781,9 @@
                     {
                         type : 'value',
                         scale:true,
+						//min: function(value) {
+						//	return value.min;
+						//},
                         axisLabel : {
                             formatter:  function (params) {                                
 								// @CHG ZYJ 2019.12.05 BEGIN
@@ -795,6 +798,8 @@
                 yAxis : [
                     {
                         type : 'value',
+                        min : 3.3,
+                        max : 4.5,
                         axisLabel : {
 //                            formatter: '{value} .00V'
                             formatter:  function (params) {
