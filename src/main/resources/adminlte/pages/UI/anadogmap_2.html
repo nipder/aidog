@@ -98,7 +98,7 @@
         <div class="box-body">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-4" style="margin-bottom:5px;margin-left: 3px">
+                    <div class="col-md-3" style="margin-bottom:5px;margin-left: 3px">
                         <span class="col-md-8" style="padding-left: 5px;padding-right: 0;">
                             <input type="text" class="form-control" placeholder="请选择项圈"  id="input_neckletid" disabled/>
                         </span>
@@ -112,9 +112,12 @@
                     <span style="display:inline-block;">-</span>
                         <input id="input_endtime" class="form-control cc_from_item" style="display:inline-block;width:200px;" type="datetime-local" value="2019-06-24T10:00"/>
                     </div>
-                    <div class="col-md-2" style="padding-right: 0;">
-                        <span class="col-md-8" style="padding-left: 0;">
+                    <div class="col-md-3" style="padding-right: 0;">
+                        <span class="col-md-4" style="padding-left: 0;">
                             <button type="button" id="a_getdogstalist" class="btn btn-info btn-flat">绘制活动地图</button>
+                        </span>
+                        <span class="col-md-4" style="padding-left: 0;">
+                            <button type="button" id="a_getdogstalist2" class="btn btn-info btn-flat">绘制位置云点图</button>
                         </span>
                         <span class="col-md-3">
                             <button type="button" id="btn_stanum" class="btn btn-info btn-flat">统计</button>
@@ -187,28 +190,23 @@
         var necnum = 0;
         var posnum = 0;
 		
-		var LINECOLORCNT = 20;
+		var LINECOLORCNT = 15;
 		var lineColorList = [
-			"#BF3EFF",
-			"#90EE90",
-			"#FF4500",
-			"#F4A460",
-			"#FAF0E6",
-			"#98F5FF",
-			"#00868B",
-			"#7FFFD4",
-			"#E6E6FA",
-			"#191970",
-			"#483D8B",
-			"#00FF00",
-			"#00FFFF",
-			"#FFFF00",
-			"#FF00FF",
-			"#A020F0",
-			"#FFEFDB",
-			"#FF6EB4",
-			"#836FFF",
-			"#8B0000"
+			"#1E1EFF" ,
+            "#1EFF1E" ,
+            "#1EFFFF" ,
+            "#9B705E" ,
+            "#12D093" ,
+            "#020C84" ,
+            "#79A8A9" ,
+            "#636157" ,
+            "#717374" ,
+            "#B9C1C7" ,
+            "#B30202" ,
+            "#EEC320" ,
+            "#FF1E1E" ,
+            "#FF1EFF" ,
+            "#FFFF1E"
 			];
 
         $(function () {
@@ -419,6 +417,44 @@
                 })
             });
 
+            $("#a_getdogstalist2").click(function () {
+                var senddata = {};
+                var necid = null;
+                if($("#input_neckletid").val()!=null && $("#input_neckletid").val()!="" && $("#input_neckletid").val()!="请选择项圈"){
+                    necid = $("#input_neckletid").val();
+                    necnum = necid.split("|").length == 1?1:necid.split("|").length-1;
+                }else{
+                    alert("未选择项圈！");
+                    necnum = 0;
+                    posnum = 0;
+                    return;
+                }
+                var begintime = $("#input_begintime").val()+":00";
+                var endtime = $("#input_endtime").val()+":00";
+                senddata.districtcode = districtcode;
+                senddata.level = level;
+                senddata.begintime = begintime;
+                senddata.endtime = endtime;
+                senddata.necid = necid;
+                $.ajax({
+                    url: "/aidog/api/getneclnglatlist",
+                    type: "POST",
+                    data: senddata,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            drawMap2(data.data.lnglatlist);
+                            posnum = data.data.lnglatlist.length;
+                        }
+                        else {
+                            return;
+                        }
+                    }
+                })
+            });
+
             $("#btn_neckletlist").click(function () {
                 var senddata = {};
                 senddata.startitem = 1;
@@ -565,6 +601,7 @@
             var map = new AMap.Map('statsChart', {resizeEnable: true, zoom: 4});
             var markers = []; //province见Demo引用的JS文件
 			var currlcidx = 0;
+            var fast_pnt = true;
 			var def_pnt_ico = "../../../img/mass11.png";
             for (var i = 0; i < pnts.length; i += 1) {
                 var marker;
@@ -588,30 +625,47 @@
                     image: def_pnt_ico,
                     size: new AMap.Size(6, 6)
                 });
-				
+
 				if(i==pnts.length-1 || currid != nextid){
 					icon = new AMap.Icon({
-						image: '../../../img/map/'+ lineColorList[currlcidx].substring(1) +'.png',
-						size: new AMap.Size(32, 32)
+						image: '../../../img/endico/'+ lineColorList[currlcidx].substring(1) +'.png',
+						size: new AMap.Size(20, 25)
 					});
-				
+
 					marker = new AMap.Marker({
 						icon: icon,
 						position: pnts[i],
-						offset: new AMap.Pixel(-16, -32),
+						offset: new AMap.Pixel(-10, -25),
 						zIndex: 101,
 						title: JSON.stringify(info[i]),
 						map: map
 					});
 				}else{
-					marker = new AMap.Marker({
-						icon: icon,
-						position: pnts[i],
-						offset: new AMap.Pixel(-3, -3),
-						zIndex: 101,
-						title: JSON.stringify(info[i]),
-						map: map
-					});
+
+                    if(fast_pnt){
+                        icon = new AMap.Icon({
+                            image: '../../../img/beginico/'+ lineColorList[currlcidx].substring(1) +'.png',
+                            size: new AMap.Size(20, 20)
+                        });
+                        marker = new AMap.Marker({
+                            icon: icon,
+                            position: pnts[i],
+                            offset: new AMap.Pixel(-10, -20),
+                            zIndex: 101,
+                            title: JSON.stringify(info[i]),
+                            map: map
+                        });
+                        fast_pnt = false;
+                    }else {
+                        marker = new AMap.Marker({
+                            icon: icon,
+                            position: pnts[i],
+                            offset: new AMap.Pixel(-3, -3),
+                            zIndex: 101,
+                            title: JSON.stringify(info[i]),
+                            map: map
+                        });
+                    }
 				}
 				
 				if(i>0){
@@ -629,8 +683,71 @@
 						if(currlcidx>=LINECOLORCNT){
 							currlcidx=0;
 						}
+                        fast_pnt = true;
 					}
 				}
+
+                markers.push(marker);
+            }
+            map.setFitView();
+        }
+
+        function drawMap2(datares) {
+            var pnts = [];
+            var info = [];
+            for (var i = 0; i < datares.length; i++) {
+                var datatemp = [];
+//                datatemp.push(datares[i].lng + "," + datares[i].lat);
+                datatemp.push(datares[i].lng);
+                datatemp.push(datares[i].lat);
+                pnts.push(datatemp);
+                var infotemp = [];
+                infotemp.push(datares[i].deviceId);
+                infotemp.push(timetrans(datares[i].realtime));
+                info.push(infotemp);
+            }
+            var map = new AMap.Map('statsChart', {resizeEnable: true, zoom: 4});
+            var markers = []; //province见Demo引用的JS文件
+            var currlcidx = 0;
+            var def_pnt_ico = "../../../img/mass11.png";
+            for (var i = 0; i < pnts.length; i += 1) {
+                var marker;
+                var paerid = "";
+                var currid = info[i][0];
+                var nextid = "";
+                if(i<pnts.length-1){
+                    nextid = info[i+1][0];
+                }
+
+                if(i>0){
+                    paerid = info[i-1][0];
+                }
+
+                var icon = new AMap.Icon({
+                    image: '../../../img/endico/'+ lineColorList[currlcidx].substring(1) +'.png',
+                    size: new AMap.Size(20, 25)
+                });
+
+                marker = new AMap.Marker({
+                    icon: icon,
+                    position: pnts[i],
+                    offset: new AMap.Pixel(-10, -25),
+                    zIndex: 101,
+                    title: JSON.stringify(info[i]),
+                    map: map
+                });
+
+                if(i>0){
+                    if( currid == paerid){
+
+                    }
+                    else{
+                        currlcidx++;
+                        if(currlcidx>=LINECOLORCNT){
+                            currlcidx=0;
+                        }
+                    }
+                }
 
                 markers.push(marker);
             }
