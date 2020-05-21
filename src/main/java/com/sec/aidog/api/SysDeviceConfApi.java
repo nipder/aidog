@@ -97,14 +97,25 @@ public class SysDeviceConfApi {
     		@RequestParam(value = "tempgmt",required = false)String tempgmt,@RequestParam(value = "clearerr",required = false)Byte clearerr,
     		@RequestParam(value = "factory",required = false)Byte factory){
         JsonResult r = new JsonResult();
+		Integer setcnt = 0;
 		if(mid.contains("|")){
 			String[] necarr = mid.split("\\|");
 			for(int i=0;i<necarr.length;i++){
 				r = setDeviceConfig(necarr[i],simccid,swver,ip,port,infoupdatecycle,tickcycle,bastimes,gpstimes,ledenable,tempflag,tempgmt,clearerr,factory);
+				if(r.getCode()==200) {
+					setcnt++;
+				}
 			}
+
+			String msg = setcnt.toString() + "/" + necarr.length;
+			r.setMsg(r.getMsg() + " " + msg);
 		}else{
 			r = setDeviceConfig(mid,simccid,swver,ip,port,infoupdatecycle,tickcycle,bastimes,gpstimes,ledenable,tempflag,tempgmt,clearerr,factory);
+			if(r.getCode()==200) {
+				setcnt++;
+			}
 		}
+
 		return ResponseEntity.ok(r);
 
 //        try {

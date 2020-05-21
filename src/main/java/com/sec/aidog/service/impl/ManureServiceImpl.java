@@ -54,8 +54,16 @@ public class ManureServiceImpl implements ManureService{
             manureView.setPcrDfjqdc(manure.getPcrDfjqdc());
             manureView.setPcrXljqdc(manure.getPcrXljqdc());
             Dogowner dogowner = dogownerMapper.selectByPrimaryKey(manure.getDogownerId());
-            String ownername = dogowner.getOwnerName();
-            String owneridentity = dogowner.getOwnerIdentity();
+            // @chg zyj 20200521 begin
+            /*String ownername = dogowner.getOwnerName();
+            String owneridentity = dogowner.getOwnerIdentity();*/
+            String ownername = "(ownerID:" + manure.getDogownerId() + ")";
+            String owneridentity = "";
+            if(dogowner!=null){
+                ownername = dogowner.getOwnerName();
+                owneridentity = dogowner.getOwnerIdentity();
+            }
+            // @chg zyj 20200521 end
             Dog dog = dogMapper.selectByPrimaryKey(manure.getDogId());
             String dogname = dog.getDogName();
             String govcode = dog.getDogGovcode();
