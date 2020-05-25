@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="../../bootstrap/js/bootstrap.js">
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <title>防控喂饲器注册</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>单喂饲器注册</h4>
+                        请填写表单进行单喂饲器注册！
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>喂饲器编号：</label>
+                        <input type="text" class="form-control" placeholder="喂饲器编号"  id="input_feedid" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>药饵：</label>
+                        <select class="form-control select2"  id="select_pill" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>生产日期：</label>
+                        <input id="producetime"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-8">
+                            <button type="button" id="a_addfeed" class="btn btn-info btn-flat">注册单个喂饲器</button>
+                        </div>
+                    </div>
+                </form>
+                <form role="form" style="margin-top: 80px">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>从json文件批量注册喂饲器</h4>
+                        请选择文件进行批量注册！
+                    </div>
+                    <input tabindex="-1" id="select_range" data-input="false" class="font-small" type="file">
+                    <br/><span id="testspan">批量注册文件内容</span>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        function getpilllist(){
+            var senddata = {};
+            senddata.startitem = 1;
+            senddata.pagesize = 100000;
+            senddata.districtcode = "";
+            senddata.level = "";
+            $.ajax({
+                url:  "/aidog/api/getpilllist",
+                type: "POST",
+                data:  senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    var select_pill = document.getElementById("select_pill");
+                    var pillarray = objToArray(data.data.data);
+                    if(pillarray && pillarray.length>0) {
+                        for (var i = 0; i < pillarray.length; i++) {
+                            //遍历后台传回的结果，一项项往select中添加option
+                            select_pill.options.add(new Option(pillarray[i].pillCode + " " + pillarray[i].pillName, pillarray[i].id));
+                        }
+                    }
+                }
+            })
+        };
+
+        getpilllist();
+
+        //单个注册
+        $("#a_addfeed").click(function () {
+            var tempdata = {};
+            var feed_id = $("#input_feedid").val();
+            var producetime = $("#producetime").val();
+            if(feed_id == ""){
+                alert("请输入喂饲器编号！");
+                return;
+            }
+            if(producetime == "2017-06-30T00:00"){
+                alert("请输入生产日期！");
+                return;
+            }
+            producetime = $("#producetime").val()+":00";
+            alert(producetime);
+            tempdata.feed_id = feed_id;
+            tempdata.producetime = producetime;
+            $.ajax({
+                url: "/aidog/api/singlefeedregister",
+                type: "POST",
+                data:  tempdata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    alert(data.msg);
+                    window.location.reload();
+                }
+            })
+        });
+
+
+        //批量注册
+        $('#select_range').change(function(evt){
+            var files = evt.target.files;
+
+            if(files.length) {
+                var file = files[0];
+                var reader = new FileReader();
+                if(typeof FileReader == 'undefined') {
+                    layer.alert("你的浏览器不支持FileReader接口！", {title: "提示", skin: "layui-layer-molv"});
+                    return;
+                }
+                reader.readAsText(file,"UTF-8");
+                reader.onload = function(val) {
+                    $("#testspan").html(val.target.result);
+                    //ajax给后台
+                    var senddata = {};
+                    senddata.data = val.target.result;
+                    $.ajax({
+                        url: "/aidog/api/batchfeedregister",
+                        type: "POST",
+                        data:  JSON.stringify(senddata),
+                        contentType: "application/json",
+                        dataType: "text",    // 控制回来的数据类型
+                        beforeSend: function (request) {
+                            request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                        },
+                        success: function (data) {
+                            alert(data);
+                            window.location.reload();
+                        }
+                    })
+                }
+            };
+        });
+    })
+
+    function objToArray(array) {
+        var arr = []
+        for (var i in array) {
+            arr.push(array[i]);
+        }
+        return arr;
+    }
+
+</script>
+</body>
+</html>
