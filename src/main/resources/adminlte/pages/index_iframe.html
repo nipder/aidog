@@ -1088,7 +1088,8 @@
                                         text: "智能防控喂饲器",
                                         icon: "fa fa-circle-o",
                                         children: [
-                                            {
+                                            // @chg zyj 20200526 begin
+                                            /*{
                                                 id: "900321",
                                                 text: "硬件配对激活",
                                                 url: "UI/modularizemap.html",
@@ -1119,7 +1120,40 @@
                                                         urlType: 'abosulte'
                                                     }
                                                 ]
+                                            }*/
+                                            {
+                                                id: "900321",
+                                                text: "硬件配对激活",
+                                                url: "UI/bindfeed.html",
+                                                targetType: "iframe-tab",
+                                                icon: "fa fa-circle-o",
+                                                urlType: 'abosulte'
+                                            },
+                                            {
+                                                id: "900322",
+                                                text: "投药周期设置",
+                                                targetType: "iframe-tab",
+                                                icon: "fa fa-circle-o",
+                                                children: [
+                                                    {
+                                                        id: "9003221",
+                                                        text: "单只配置",
+                                                        url: "UI/feedingconfig.html",
+                                                        targetType: "iframe-tab",
+                                                        icon: "fa fa-circle-o",
+                                                        urlType: 'abosulte'
+                                                    },
+                                                    {
+                                                        id: "9003222",
+                                                        text: "批量配置",
+                                                        url: "UI/batchfeedingconfig.html",
+                                                        targetType: "iframe-tab",
+                                                        icon: "fa fa-circle-o",
+                                                        urlType: 'abosulte'
+                                                    }
+                                                ]
                                             }
+                                            // @chg zyj 20200526 end
                                         ]
                                     }
                                 ]

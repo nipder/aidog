@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>喂饲器周期设置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--bootstrap table-->
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <title>喂饲器周期设置</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+        .form-group-sm label{
+            font-size:12px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="row" id="searchRow" style="padding-top: 30px;padding-bottom: 20px;">
+        <div class="col-md-5">
+            <!-- Profile Image -->
+            <div class="input-group input-group-sm">
+                <input type="text" id="feedid" class="form-control" placeholder="输入喂饲器编号">
+                <span class="input-group-btn">
+                  <button type="button" id="a_search" class="btn btn-info btn-flat">搜索</button>
+                </span>
+            </div>
+            <!-- /.box -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group form-group-sm  has-success">
+                        <label>喂饲器编号：</label>
+                        <input type="text" class="form-control" placeholder="喂饲器编号" id="input_feedid" disabled>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>反馈周期(分钟)：</label>
+                        <input type="text" class="form-control" placeholder="反馈周期" id="input_areacycle" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>配置首次投药时间：</label>
+                        <input id="input_lay" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>周期设置：</label>
+                        <div class="clearfix">
+                            <button type="button" id="a_thirtyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每30天</button>
+                            <button type="button" id="a_setday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每月定期</button>
+                            <button type="button" id="a_sixtyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每60天</button>
+                            <button type="button" id="a_ninetyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每90天</button>
+                            <button type="button" id="a_180day" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每180天</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>喂饲器时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group form-group-sm has-success">
+                        <label>第1次投药时间：</label>
+                        <input id="input_lay1" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第2次投药时间：</label>
+                        <input id="input_lay2" class="form-control" type="datetime-local" value="2019-05-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第3次投药时间：</label>
+                        <input id="input_lay3" class="form-control" type="datetime-local" value="2019-06-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第4次投药时间：</label>
+                        <input id="input_lay4" class="form-control" type="datetime-local" value="2019-07-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第5次投药时间：</label>
+                        <input id="input_lay5" class="form-control" type="datetime-local" value="2019-08-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第6次投药时间：</label>
+                        <input id="input_lay6" class="form-control" type="datetime-local" value="2019-09-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>喂饲器时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group form-group-sm has-success">
+                        <label>第7次投药时间：</label>
+                        <input id="input_lay7" class="form-control" type="datetime-local" value="2019-10-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第8次投药时间：</label>
+                        <input id="input_lay8" class="form-control" type="datetime-local" value="2019-11-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第9次投药时间：</label>
+                        <input id="input_lay9" class="form-control" type="datetime-local" value="2019-12-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第10次投药时间：</label>
+                        <input id="input_lay10" class="form-control" type="datetime-local" value="2020-01-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第11次投药时间：</label>
+                        <input id="input_lay11" class="form-control" type="datetime-local" value="2020-02-28T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>第12次投药时间：</label>
+                        <input id="input_lay12" class="form-control" type="datetime-local" value="2020-03-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 30px;padding-bottom: 20px;text-align: center">
+            <div class="col-md-12">
+                <!-- Profile Image -->
+                <div class="col-md-offset-2 col-md-12">
+                    <button type="button" id="a_dosingconfig" class="btn btn-info btn-flat btn-sm" style="margin-right: 20px">确认保存配置</button>
+                    <!--<button type="button" id="a_zeroconfig" class="btn btn-info btn-flat btn-sm">换药清零</button>-->
+                </div>
+            </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var feedid = "";
+
+        var os = (function() {
+            var UserAgent = navigator.userAgent.toLowerCase();
+            return {
+                isIpad          : /ipad/.test(UserAgent),
+                isIphone        : /iphone os/.test(UserAgent),
+                isAndroid       : /android/.test(UserAgent),
+                isWindowsCe     : /windows ce/.test(UserAgent),
+                isWindowsMobile : /windows mobile/.test(UserAgent),
+                isWin2K         : /windows nt 5.0/.test(UserAgent),
+                isXP            : /windows nt 5.1/.test(UserAgent),
+                isVista         : /windows nt 6.0/.test(UserAgent),
+                isWin7          : /windows nt 6.1/.test(UserAgent),
+                isWin8          : /windows nt 6.2/.test(UserAgent),
+                isWin81         : /windows nt 6.3/.test(UserAgent),
+                isMac           : /mac os/.test(UserAgent)
+            };
+        }());
+
+        var bw = (function() {
+            var UserAgent = navigator.userAgent.toLowerCase();
+            return {
+                isUc      : /ucweb/.test(UserAgent), // UC浏览器
+                isChrome  : /chrome/.test(UserAgent.substr(-33,6)), // Chrome浏览器
+                isFirefox : /firefox/.test(UserAgent), // 火狐浏览器
+                isOpera   : /opera/.test(UserAgent),  // Opera浏览器
+                isSafire  : /safari/.test(UserAgent) && !/chrome/.test(UserAgent), // safire浏览器
+                is360     : /360se/.test(UserAgent), // 360浏览器
+                isBaidu   : /bidubrowser/.test(UserAgent), // 百度浏览器
+                isSougou  : /metasr/.test(UserAgent), // 搜狗浏览器
+                isIE6     : /msie 6.0/.test(UserAgent), // IE6
+                isIE7     : /msie 7.0/.test(UserAgent), // IE7
+                isIE8     : /msie 8.0/.test(UserAgent), // IE8
+                isIE9     : /msie 9.0/.test(UserAgent), // IE9
+                isIE10    : /msie 10.0/.test(UserAgent), // IE10
+                isIE11    : /msie 11.0/.test(UserAgent), // IE11
+                isLB      : /lbbrowser/.test(UserAgent), // 猎豹浏览器
+                isWX      : /micromessenger/.test(UserAgent), // 微信内置浏览器
+                isQQ      : /qqbrowser/.test(UserAgent) // QQ浏览器
+            };
+        }());
+
+        $(function () {
+            var senddata = {};
+            $("#a_search").click(function () {
+                if($("#feedid").val()=="" || $("#feedid").val()==null){
+                    alert("请输入喂饲器编号！");
+                    return;
+                }else{
+                    feedid = $("#feedid").val();
+                }
+                senddata.feedid = feedid;
+                $.ajax({
+                    url: "/aidog/api/timeconfigbyfeedid",
+                    method: "POST",
+                    data: senddata,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                    },
+                    success: function (data) {
+                        if (data.data == null) {
+                            alert(data.msg);
+                            return;
+                        }else{
+                            if(data.data.timeconfig == null){
+                                alert("投药时间尚未配置，请修改下面时间配置！");
+                            }else{
+                                $("#input_lay1").val((timetrans(data.data.timeconfig.one)));
+                                $("#input_lay2").val((timetrans(data.data.timeconfig.two)));
+                                $("#input_lay3").val((timetrans(data.data.timeconfig.three)));
+                                $("#input_lay4").val((timetrans(data.data.timeconfig.four)));
+                                $("#input_lay5").val((timetrans(data.data.timeconfig.five)));
+                                $("#input_lay6").val((timetrans(data.data.timeconfig.six)));
+                                $("#input_lay7").val((timetrans(data.data.timeconfig.seven)));
+                                $("#input_lay8").val((timetrans(data.data.timeconfig.eight)));
+                                $("#input_lay9").val((timetrans(data.data.timeconfig.nine)));
+                                $("#input_lay10").val((timetrans(data.data.timeconfig.ten)));
+                                $("#input_lay11").val((timetrans(data.data.timeconfig.eleven)));
+                                $("#input_lay12").val((timetrans(data.data.timeconfig.twelve)));
+                            }
+                            $("#input_feedid").val(feedid);
+                            if(data.data.areacycle == null){
+                                alert("反馈周期尚未配置，请进行配置，单位（分钟）！");
+                            }else{
+                                $("#input_areacycle").val(data.data.areacycle);
+                            }
+                        }
+                    }
+                })
+            });
+
+
+            //日历控件
+            $("#input_lay").val(timeinput((new Date()).valueOf()));
+
+            $("#a_dosingconfig").click(function () {
+                feedid = $("#input_feedid").val();
+                if(feedid == ""){
+                    alert("请先查询获取喂饲器投药时间配置！");
+                    return;
+                }
+                if($("#input_areacycle").val() < 1440){
+                    alert("请填写至少1440及以上数字！");
+                    return;
+                }
+                var feedid = "feedid="+feedid+"&";
+                var one1 = new Date($("#input_lay1").val()).valueOf();
+                var two2 = new Date($("#input_lay2").val()).valueOf();
+                var three3 = new Date($("#input_lay3").val()).valueOf();
+                var four4 = new Date($("#input_lay4").val()).valueOf();
+                var five5 = new Date($("#input_lay5").val()).valueOf();
+                var six6 = new Date($("#input_lay6").val()).valueOf();
+                var seven7 = new Date($("#input_lay7").val()).valueOf();
+                var eight8 = new Date($("#input_lay8").val()).valueOf();
+                var nine9 = new Date($("#input_lay9").val()).valueOf();
+                var ten10 = new Date($("#input_lay10").val()).valueOf();
+                var eleven11 = new Date($("#input_lay11").val()).valueOf();
+                var twelve12 = new Date($("#input_lay12").val()).valueOf();
+                var areacycle = $("#input_areacycle").val() ==""?1440:$("#input_areacycle").val();
+                areacycle = "areacycle="+areacycle;
+                if(twelve12>=eleven11 && eleven11>ten10 && ten10>=nine9 && nine9>=eight8 && eight8>=seven7
+                    && seven7>=six6 && six6>=five5 && five5>=four4 && four4>= three3 && three3>=two2 && two2>=one1){
+                    var one = "one=" + $("#input_lay1").val()+":00&";
+                    var two = "two=" + $("#input_lay2").val()+":00&";
+                    var three = "three=" + $("#input_lay3").val()+":00&";
+                    var four = "four=" +  $("#input_lay4").val()+":00&";
+                    var five = "five=" +  $("#input_lay5").val()+":00&";
+                    var six = "six=" + $("#input_lay6").val()+":00&";
+                    var seven = "seven=" + $("#input_lay7").val()+":00&";
+                    var eight = "eight=" + $("#input_lay8").val()+":00&";
+                    var nine = "nine=" +  $("#input_lay9").val()+":00&";
+                    var ten = "ten=" +  $("#input_lay10").val()+":00&";
+                    var eleven = "eleven=" +  $("#input_lay11").val()+":00&";
+                    var twelve = "twelve=" +  $("#input_lay12").val()+":00&";
+                    var senddata = feedid+one+two+three+four+five+six+seven+eight+nine+ten+eleven+twelve+areacycle;
+                    $.ajax({
+                        url: "/aidog/api/dosingtimeconfig",
+                        method: "POST",
+                        data: senddata,
+                        beforeSend: function (request) {
+                            request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                        },
+                        success: function (data) {
+                            if (data.data == null) {
+                                alert("配置失败，该喂饲器不存在！");
+                                return;
+                            }else{
+                                alert(data.msg);
+                            }
+                        }
+                    })
+                }else{
+                    alert("时间设置有误！后投药时间应在前一次投药时间之后！");
+                }
+            });
+
+            $("#a_zeroconfig").click(function () {
+                feedid = $("#input_feedid").val();
+                if(feedid == ""){
+                    alert("请先查询获取喂饲器投药时间配置！");
+                    return;
+                }
+                var feedid = "feedid="+feedid+"&";
+                var one1 = new Date($("#input_lay1").val()).valueOf();
+                var two2 = new Date($("#input_lay2").val()).valueOf();
+                var three3 = new Date($("#input_lay3").val()).valueOf();
+                var four4 = new Date($("#input_lay4").val()).valueOf();
+                var five5 = new Date($("#input_lay5").val()).valueOf();
+                var six6 = new Date($("#input_lay6").val()).valueOf();
+                var seven7 = new Date($("#input_lay7").val()).valueOf();
+                var eight8 = new Date($("#input_lay8").val()).valueOf();
+                var nine9 = new Date($("#input_lay9").val()).valueOf();
+                var ten10 = new Date($("#input_lay10").val()).valueOf();
+                var eleven11 = new Date($("#input_lay11").val()).valueOf();
+                var twelve12 = new Date($("#input_lay12").val()).valueOf();
+                var areacycle = $("#input_areacycle").val() ==""?60:$("#input_areacycle").val();
+                areacycle = "areacycle="+areacycle;
+                if(twelve12>=eleven11 && eleven11>ten10 && ten10>=nine9 && nine9>=eight8 && eight8>=seven7
+                    && seven7>=six6 && six6>=five5 && five5>=four4 && four4>= three3 && three3>=two2 && two2>=one1){
+                    var one = "one=" + $("#input_lay1").val()+":00&";
+                    var two = "two=" + $("#input_lay2").val()+":00&";
+                    var three = "three=" + $("#input_lay3").val()+":00&";
+                    var four = "four=" +  $("#input_lay4").val()+":00&";
+                    var five = "five=" +  $("#input_lay5").val()+":00&";
+                    var six = "six=" + $("#input_lay6").val()+":00&";
+                    var seven = "seven=" + $("#input_lay7").val()+":00&";
+                    var eight = "eight=" + $("#input_lay8").val()+":00&";
+                    var nine = "nine=" +  $("#input_lay9").val()+":00&";
+                    var ten = "ten=" +  $("#input_lay10").val()+":00&";
+                    var eleven = "eleven=" +  $("#input_lay11").val()+":00&";
+                    var twelve = "twelve=" +  $("#input_lay12").val()+":00&";
+                    var senddata = feedid+one+two+three+four+five+six+seven+eight+nine+ten+eleven+twelve+areacycle;
+                    $.ajax({
+                        url: "/aidog/api/zeroconfig",
+                        method: "POST",
+                        data: senddata,
+                        beforeSend: function (request) {
+                            request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                        },
+                        success: function (data) {
+                            if (data.data == null) {
+                                alert("清零失败，该喂饲器不存在！");
+                                return;
+                            }else{
+                                alert(data.msg);
+                            }
+                        }
+                    })
+                }else{
+                    alert("时间设置有误！后投药时间应在前一次投药时间之后！");
+                }
+            });
+
+            $("#a_thirtyday").click(function () {
+//                var date = new Date($("#input_lay").val());
+//                if(os.isAndroid || os.isIpad || os.isIphone){
+//                    date = new Date($("#input_lay").val());
+//                }
+                var date = fixDate($("#input_lay").val());
+                var date1 = new Date(date);
+                var date2 = new Date(date);
+                var date3 = new Date(date);
+                var date4 = new Date(date);
+                var date5 = new Date(date);
+                var date6 = new Date(date);
+                var date7 = new Date(date);
+                var date8 = new Date(date);
+                var date9 = new Date(date);
+                var date10 = new Date(date);
+                var date11 = new Date(date);
+                var date12 = new Date(date);
+                date1.setDate(date.getDate());
+                date2.setDate(date.getDate() + 30);
+                date3.setDate(date.getDate() + 60);
+                date4.setDate(date.getDate() + 90);
+                date5.setDate(date.getDate() + 120);
+                date6.setDate(date.getDate() + 150);
+                date7.setDate(date.getDate() + 180);
+                date8.setDate(date.getDate() + 210);
+                date9.setDate(date.getDate() + 240);
+                date10.setDate(date.getDate() + 270);
+                date11.setDate(date.getDate() + 300);
+                date12.setDate(date.getDate() + 330);
+                $("#input_lay1").val((timetrans(date1)));
+                $("#input_lay2").val((timetrans(date2)));
+                $("#input_lay3").val((timetrans(date3)));
+                $("#input_lay4").val((timetrans(date4)));
+                $("#input_lay5").val((timetrans(date5)));
+                $("#input_lay6").val((timetrans(date6)));
+                $("#input_lay7").val((timetrans(date7)));
+                $("#input_lay8").val((timetrans(date8)));
+                $("#input_lay9").val((timetrans(date9)));
+                $("#input_lay10").val((timetrans(date10)));
+                $("#input_lay11").val((timetrans(date11)));
+                $("#input_lay12").val((timetrans(date12)));
+            });
+
+            $("#a_sixtyday").click(function () {
+                var date = fixDate($("#input_lay").val());
+                var date1 = new Date(date);
+                var date2 = new Date(date);
+                var date3 = new Date(date);
+                var date4 = new Date(date);
+                var date5 = new Date(date);
+                var date6 = new Date(date);
+                var date7 = new Date(date);
+                var date8 = new Date(date);
+                var date9 = new Date(date);
+                var date10 = new Date(date);
+                var date11 = new Date(date);
+                var date12 = new Date(date);
+                date1.setDate(date.getDate());
+                date2.setDate(date.getDate() + 60);
+                date3.setDate(date.getDate() + 120);
+                date4.setDate(date.getDate() + 180);
+                date5.setDate(date.getDate() + 240);
+                date6.setDate(date.getDate() + 300);
+                date7.setDate(date.getDate() + 360);
+                date8.setDate(date.getDate() + 420);
+                date9.setDate(date.getDate() + 480);
+                date10.setDate(date.getDate() + 540);
+                date11.setDate(date.getDate() + 600);
+                date12.setDate(date.getDate() + 660);
+                $("#input_lay1").val((timetrans(date1)));
+                $("#input_lay2").val((timetrans(date2)));
+                $("#input_lay3").val((timetrans(date3)));
+                $("#input_lay4").val((timetrans(date4)));
+                $("#input_lay5").val((timetrans(date5)));
+                $("#input_lay6").val((timetrans(date6)));
+                $("#input_lay7").val((timetrans(date7)));
+                $("#input_lay8").val((timetrans(date8)));
+                $("#input_lay9").val((timetrans(date9)));
+                $("#input_lay10").val((timetrans(date10)));
+                $("#input_lay11").val((timetrans(date11)));
+                $("#input_lay12").val((timetrans(date12)));
+            });
+
+            $("#a_ninetyday").click(function () {
+                var date = fixDate($("#input_lay").val());
+                var date1 = new Date(date);
+                var date2 = new Date(date);
+                var date3 = new Date(date);
+                var date4 = new Date(date);
+                var date5 = new Date(date);
+                var date6 = new Date(date);
+                var date7 = new Date(date);
+                var date8 = new Date(date);
+                var date9 = new Date(date);
+                var date10 = new Date(date);
+                var date11 = new Date(date);
+                var date12 = new Date(date);
+                date1.setDate(date.getDate());
+                date2.setDate(date.getDate() + 90);
+                date3.setDate(date.getDate() + 180);
+                date4.setDate(date.getDate() + 270);
+                date5.setDate(date.getDate() + 360);
+                date6.setDate(date.getDate() + 450);
+                date7.setDate(date.getDate() + 540);
+                date8.setDate(date.getDate() + 630);
+                date9.setDate(date.getDate() + 720);
+                date10.setDate(date.getDate() + 810);
+                date11.setDate(date.getDate() + 900);
+                date12.setDate(date.getDate() + 990);
+                $("#input_lay1").val((timetrans(date1)));
+                $("#input_lay2").val((timetrans(date2)));
+                $("#input_lay3").val((timetrans(date3)));
+                $("#input_lay4").val((timetrans(date4)));
+                $("#input_lay5").val((timetrans(date5)));
+                $("#input_lay6").val((timetrans(date6)));
+                $("#input_lay7").val((timetrans(date7)));
+                $("#input_lay8").val((timetrans(date8)));
+                $("#input_lay9").val((timetrans(date9)));
+                $("#input_lay10").val((timetrans(date10)));
+                $("#input_lay11").val((timetrans(date11)));
+                $("#input_lay12").val((timetrans(date12)));
+            });
+
+            $("#a_180day").click(function () {
+                var date = fixDate($("#input_lay").val());
+                var date1 = new Date(date);
+                var date2 = new Date(date);
+                var date3 = new Date(date);
+                var date4 = new Date(date);
+                var date5 = new Date(date);
+                var date6 = new Date(date);
+                var date7 = new Date(date);
+                var date8 = new Date(date);
+                var date9 = new Date(date);
+                var date10 = new Date(date);
+                var date11 = new Date(date);
+                var date12 = new Date(date);
+                date1.setDate(date.getDate());
+                date2.setDate(date.getDate() + 180);
+                date3.setDate(date.getDate() + 360);
+                date4.setDate(date.getDate() + 540);
+                date5.setDate(date.getDate() + 720);
+                date6.setDate(date.getDate() + 900);
+                date7.setDate(date.getDate() + 1080);
+                date8.setDate(date.getDate() + 1260);
+                date9.setDate(date.getDate() + 1440);
+                date10.setDate(date.getDate() + 1620);
+                date11.setDate(date.getDate() + 1800);
+                date12.setDate(date.getDate() + 1980);
+                $("#input_lay1").val((timetrans(date1)));
+                $("#input_lay2").val((timetrans(date2)));
+                $("#input_lay3").val((timetrans(date3)));
+                $("#input_lay4").val((timetrans(date4)));
+                $("#input_lay5").val((timetrans(date5)));
+                $("#input_lay6").val((timetrans(date6)));
+                $("#input_lay7").val((timetrans(date7)));
+                $("#input_lay8").val((timetrans(date8)));
+                $("#input_lay9").val((timetrans(date9)));
+                $("#input_lay10").val((timetrans(date10)));
+                $("#input_lay11").val((timetrans(date11)));
+                $("#input_lay12").val((timetrans(date12)));
+            });
+
+            $("#a_setday").click(function () {
+                var date = fixDate($("#input_lay").val());
+                $("#input_lay1").val(timetrans(date));
+                $("#input_lay2").val(timetrans(addMouthHandle(date,1)));
+                $("#input_lay3").val(timetrans(addMouthHandle(date,2)));
+                $("#input_lay4").val(timetrans(addMouthHandle(date,3)));
+                $("#input_lay5").val(timetrans(addMouthHandle(date,4)));
+                $("#input_lay6").val(timetrans(addMouthHandle(date,5)));
+                $("#input_lay7").val(timetrans(addMouthHandle(date,6)));
+                $("#input_lay8").val(timetrans(addMouthHandle(date,7)));
+                $("#input_lay9").val(timetrans(addMouthHandle(date,8)));
+                $("#input_lay10").val(timetrans(addMouthHandle(date,9)));
+                $("#input_lay11").val(timetrans(addMouthHandle(date,10)));
+                $("#input_lay12").val(timetrans(addMouthHandle(date,11)));
+            });
+
+            function addMouthHandle(date,addnum){
+//                var str1 = str.replace(/-/g,'/'); //'2018/01/01 00:00:00'
+//                var date = new Date(Date.parse(str1)); //date格式的时间类型
+                var nowDate = addMonth(addnum);
+
+                function addMonth(addMonth) {
+                    var y = date.getFullYear();
+                    var m = date.getMonth();
+                    var nextY = y;
+                    var nextM = m;
+                    //如果当前月+要加上的月>11 这里之所以用11是因为 js的月份从0开始
+                    if ((m + addMonth)> 11) {
+                        nextY = y + 1;
+                        nextM = parseInt(m + addMonth) - 12;
+                    } else {
+                        nextM = date.getMonth() + addMonth
+                    }
+                    var daysInNextMonth = daysInMonth(nextY, nextM);
+                    var day = date.getDate();
+                    if (day > daysInNextMonth) {
+                        day = daysInNextMonth;
+                    }
+                    var dayh = date.getHours()
+                    var daym = date.getMinutes()
+                    var days = date.getSeconds()
+                    return new Date(nextY, nextM, day,dayh,daym,days);
+                };
+                function daysInMonth(year, month) {
+                    if (month == 1) {
+                        if (year % 4 == 0 && year % 100 != 0)
+                            return 29;
+                        else
+                            return 28;
+                    } else if ((month <= 6 && month % 2 == 0) || (month = 6 && month % 2 == 1))
+                        return 31;
+                    else
+                        return 30;
+                };
+//                var nowStr = dformat('yyyy-MM-dd hh:mm:ss'); //指定字符串格式的时间类型
+//
+//                function dformat(format) {
+//                    var date = {
+//                        "M+": nowDate.getMonth() + 1,
+//                        "d+": nowDate.getDate(),
+//                        "h+": nowDate.getHours(),
+//                        "m+": nowDate.getMinutes(),
+//                        "s+": nowDate.getSeconds(),
+//                        "q+": Math.floor((nowDate.getMonth() + 3) / 3),
+//                        "S+": nowDate.getMilliseconds()
+//                    };
+//                    if (/(y+)/i.test(format)) {
+//                        format = format.replace(RegExp.$1, (nowDate.getFullYear() + '').substr(4 - RegExp.$1.length));
+//                    }
+//                    for (var k in date) {
+//                        if (new RegExp("(" + k + ")").test(format)) {
+//                            format = format.replace(RegExp.$1, RegExp.$1.length == 1
+//                                ? date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+//                        }
+//                    }
+//                    return format;
+//                };
+//                return nowStr;
+                console.log(date,nowDate)
+                return nowDate;
+            }
+
+            function getDogInfo() {
+                $.ajax({
+                    url: "/aidog/api/dosingtimeconfig",
+                    method: "POST",
+                    data: senddata,
+                    beforeSend: function (request) {
+                        request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                    },
+                    success: function (data) {
+                        if (data.data != null) {
+                            //牧犬信息
+                            alert(data.data.msg);
+                        }
+                    }
+                })
+            }
+        })
+
+        function ChangeTimeFormat(logintime) {
+            //	20170926084552 ---> 2017.09.26 08:45:52
+            var year = logintime.substring(0, 4);
+            var month = logintime.substring(4, 6);
+            var day = logintime.substring(6, 8);
+            var hour = logintime.substring(8, 10);
+            var min = logintime.substring(10, 12);
+            var sec = logintime.substring(12);
+            return year + "-" + month + "-" + day + " " + hour + ":" + min + ":" + sec;
+        }
+
+        function timetrans(date){
+//    var date = new Date(date*1000);//如果date为13位不需要乘1000
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+            var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
+
+        function timeinput(date){
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes());
+            return Y+M+D+h+m;
+        }
+
+        function fixDate(strTime) {
+            if (!strTime) {
+                return '';
+            }
+            var tempDate = new Date(strTime+':00+0800');
+            if(tempDate=='Invalid Date'){
+                strTime = strTime.replace(/T/g,' ');
+                strTime = strTime.replace(/-/g,'/');
+//                strTime = strTime.replace(/\.\d+/, ' ');
+                tempDate = new Date(strTime+':00+0800');
+            }
+            return tempDate;
+        }
+    </script>
+</body>
+</html>

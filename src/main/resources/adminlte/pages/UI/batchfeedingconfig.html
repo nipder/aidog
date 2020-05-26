@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>喂饲器周期设置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer"  content="webkit">
+    <!--bootstrap table-->
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <!-- Select2 -->
+    <!--<link rel="stylesheet" href="../../plugins/select2/select2.min.css">-->
+    <!--<script src="../../plugins/select2/select2.full.js"></script>-->
+    <!--bootstrap table-->
+    <link rel="stylesheet" type="text/css" href="../../DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <!--@add zyj 2019.08.04 begin-->
+    <script type="text/javascript" src="../ui_js/util.js"></script>
+    <script type="text/javascript" src="../ui_js/batchfeedingconfig.js"></script>
+    <!--@add zyj 2019.08.04 end-->
+    <title>喂饲器周期设置</title>
+    <style>/*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+        .form-group-sm label{
+            font-size:12px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="col-md-12" style="margin-top: 20px">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success select-5">
+                        <style>
+                            @media (min-width: 992px){
+                                .select-5 .form-control{
+                                    width:18%;
+                                    margin-left:15px;
+                                }
+                            }
+
+                        </style>
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <div class="row">
+<!--                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px">-->
+<!--                                &lt;!&ndash;<option value="-1">请选择</option>&ndash;&gt;-->
+<!--                                <option value="0" style="color: #00a65a">全国</option>-->
+<!--                                <option value="150000000000">内蒙古自治区</option>-->
+<!--                                <option value="510000000000">四川省</option>-->
+<!--                                <option value="530000000000">云南省</option>-->
+<!--                                <option value="540000000000">西藏自治区</option>-->
+<!--                                <option value="610000000000">陕西省</option>-->
+<!--                                <option value="620000000000">甘肃省</option>-->
+<!--                                <option value="630000000000">青海省</option>-->
+<!--                                <option value="640000000000">宁夏回族自治区</option>-->
+<!--                                <option value="650000000000">新疆维吾尔族自治区</option>-->
+<!--                                <option value="660000000">建设兵团</option>-->
+<!--                            </select>-->
+<!--                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px">-->
+<!--                                <option value="-1">请选择</option>-->
+<!--                            </select>-->
+<!--                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+<!--                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+<!--                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"><option value="-1">请选择</option></select>-->
+                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row" id="searchRow" style="padding-top: 10px;padding-bottom: 11px;">
+                <div class="col-md-12">
+                    <button type="button" id="batchfeed" class="btn btn-info btn-flat btn-sm" style="margin-bottom: 3px">批量选择喂饲器</button>
+                    <!--<select class="form-control select2" multiple="multiple" id="select_feed" data-placeholder="选择喂饲器" style="width: 100%;">-->
+                    <!--</select>-->
+                    <span id="selectfeeds" style="color:red;margin-left: 10px"></span>
+                </div>
+            </div>
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>信息配置</h5>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>反馈周期(分钟)：</label>
+                        <input type="text" class="form-control" placeholder="反馈周期" id="input_areacycle" />
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>配置首次投药时间：</label>
+                        <input id="input_lay" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <div class="clearfix">
+                            <button type="button" id="a_thirtyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每30天</button>
+                            <button type="button" id="a_setday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每月定期</button>
+                            <button type="button" id="a_sixtyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每60天</button>
+                            <button type="button" id="a_ninetyday" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每90天</button>
+                            <button type="button" id="a_180day" class="btn btn-info btn-flat pull-left btn-sm" style="margin:0 10px 10px 0;">每180天</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>喂饲器时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第1次投药时间：</label>
+                        <input id="input_lay1" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第2次投药时间：</label>
+                        <input id="input_lay2" class="form-control" type="datetime-local" value="2019-05-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第3次投药时间：</label>
+                        <input id="input_lay3" class="form-control" type="datetime-local" value="2019-06-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第4次投药时间：</label>
+                        <input id="input_lay4" class="form-control" type="datetime-local" value="2019-07-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第5次投药时间：</label>
+                        <input id="input_lay5" class="form-control" type="datetime-local" value="2019-08-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第6次投药时间：</label>
+                        <input id="input_lay6" class="form-control" type="datetime-local" value="2019-09-30T00:00"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                        <h5><i class="icon fa fa-info"></i>喂饲器时间信息配置</h5>
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第7次投药时间：</label>
+                        <input id="input_lay7" class="form-control" type="datetime-local" value="2019-10-30T00:00" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第8次投药时间：</label>
+                        <input id="input_lay8" class="form-control" type="datetime-local" value="2019-11-30T00:00" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第9次投药时间：</label>
+                        <input id="input_lay9" class="form-control" type="datetime-local" value="2019-12-30T00:00" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第10次投药时间：</label>
+                        <input id="input_lay10" class="form-control" type="datetime-local" value="2020-01-30T00:00" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第11次投药时间：</label>
+                        <input id="input_lay11" class="form-control" type="datetime-local" value="2020-02-28T00:00" />
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <label>第12次投药时间：</label>
+                        <input id="input_lay12" class="form-control" type="datetime-local" value="2020-03-30T00:00" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="padding-top: 30px;padding-bottom: 20px;text-align: center">
+            <div class="col-md-12">
+                <!-- Profile Image -->
+                <div class="col-md-offset-2 col-md-12">
+                    <button type="button" id="a_dosingconfig" class="btn btn-info btn-flat  btn-sm"  style="margin-right: 20px">确认保存配置</button>
+                    <!--<button type="button" id="a_zeroconfig" class="btn btn-info btn-flat btn-sm">换药清零</button>-->
+                </div>
+            </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="doglist" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">信息详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="select_all" id="select-all" class="select-all"></th>
+                                    <th>犬主姓名</th>
+                                    <th>犬名</th>
+                                    <th>犬只政府编码</th>
+                                    <th>喂饲器编号</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="choosedog()" type="button">
+                        选择
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    
+</body>
+</html>
