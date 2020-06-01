@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.LastfeeddosingMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Lastfeeddosing" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="feed_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="firstdosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="lastdosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="nextdosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="enddosing_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="left_num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dosing_method" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="feed_status" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_code" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="power" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="temperature" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="realtime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="lng" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="lat" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="positioncycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="dosingcycle" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="err_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="err_num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, feed_id, firstdosing_time, lastdosing_time, nextdosing_time, enddosing_time, left_num, 
+    dosing_method, feed_status, pill_code, power, temperature, realtime, lng, lat, districtcode, 
+    positioncycle, dosingcycle, err_time, err_num
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.LastfeeddosingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from lastfeeddosing
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from lastfeeddosing
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from lastfeeddosing
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.LastfeeddosingExample" >
+    delete from lastfeeddosing
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Lastfeeddosing" >
+    insert into lastfeeddosing (id, feed_id, firstdosing_time, 
+      lastdosing_time, nextdosing_time, enddosing_time, 
+      left_num, dosing_method, feed_status, 
+      pill_code, power, temperature, 
+      realtime, lng, lat, 
+      districtcode, positioncycle, dosingcycle, 
+      err_time, err_num)
+    values (#{id,jdbcType=INTEGER}, #{feedId,jdbcType=VARCHAR}, #{firstdosingTime,jdbcType=TIMESTAMP}, 
+      #{lastdosingTime,jdbcType=TIMESTAMP}, #{nextdosingTime,jdbcType=TIMESTAMP}, #{enddosingTime,jdbcType=TIMESTAMP}, 
+      #{leftNum,jdbcType=INTEGER}, #{dosingMethod,jdbcType=VARCHAR}, #{feedStatus,jdbcType=VARCHAR}, 
+      #{pillCode,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR}, #{temperature,jdbcType=VARCHAR}, 
+      #{realtime,jdbcType=TIMESTAMP}, #{lng,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, 
+      #{districtcode,jdbcType=VARCHAR}, #{positioncycle,jdbcType=INTEGER}, #{dosingcycle,jdbcType=INTEGER}, 
+      #{errTime,jdbcType=TIMESTAMP}, #{errNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Lastfeeddosing" >
+    insert into lastfeeddosing
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="feedId != null" >
+        feed_id,
+      </if>
+      <if test="firstdosingTime != null" >
+        firstdosing_time,
+      </if>
+      <if test="lastdosingTime != null" >
+        lastdosing_time,
+      </if>
+      <if test="nextdosingTime != null" >
+        nextdosing_time,
+      </if>
+      <if test="enddosingTime != null" >
+        enddosing_time,
+      </if>
+      <if test="leftNum != null" >
+        left_num,
+      </if>
+      <if test="dosingMethod != null" >
+        dosing_method,
+      </if>
+      <if test="feedStatus != null" >
+        feed_status,
+      </if>
+      <if test="pillCode != null" >
+        pill_code,
+      </if>
+      <if test="power != null" >
+        power,
+      </if>
+      <if test="temperature != null" >
+        temperature,
+      </if>
+      <if test="realtime != null" >
+        realtime,
+      </if>
+      <if test="lng != null" >
+        lng,
+      </if>
+      <if test="lat != null" >
+        lat,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+      <if test="positioncycle != null" >
+        positioncycle,
+      </if>
+      <if test="dosingcycle != null" >
+        dosingcycle,
+      </if>
+      <if test="errTime != null" >
+        err_time,
+      </if>
+      <if test="errNum != null" >
+        err_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="feedId != null" >
+        #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstdosingTime != null" >
+        #{firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastdosingTime != null" >
+        #{lastdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextdosingTime != null" >
+        #{nextdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddosingTime != null" >
+        #{enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leftNum != null" >
+        #{leftNum,jdbcType=INTEGER},
+      </if>
+      <if test="dosingMethod != null" >
+        #{dosingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="feedStatus != null" >
+        #{feedStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null" >
+        #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="realtime != null" >
+        #{realtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lng != null" >
+        #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="positioncycle != null" >
+        #{positioncycle,jdbcType=INTEGER},
+      </if>
+      <if test="dosingcycle != null" >
+        #{dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="errTime != null" >
+        #{errTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errNum != null" >
+        #{errNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.LastfeeddosingExample" resultType="java.lang.Integer" >
+    select count(*) from lastfeeddosing
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update lastfeeddosing
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.feedId != null" >
+        feed_id = #{record.feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstdosingTime != null" >
+        firstdosing_time = #{record.firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastdosingTime != null" >
+        lastdosing_time = #{record.lastdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.nextdosingTime != null" >
+        nextdosing_time = #{record.nextdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.enddosingTime != null" >
+        enddosing_time = #{record.enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.leftNum != null" >
+        left_num = #{record.leftNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.dosingMethod != null" >
+        dosing_method = #{record.dosingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="record.feedStatus != null" >
+        feed_status = #{record.feedStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillCode != null" >
+        pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.power != null" >
+        power = #{record.power,jdbcType=VARCHAR},
+      </if>
+      <if test="record.temperature != null" >
+        temperature = #{record.temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.realtime != null" >
+        realtime = #{record.realtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lng != null" >
+        lng = #{record.lng,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lat != null" >
+        lat = #{record.lat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.positioncycle != null" >
+        positioncycle = #{record.positioncycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.dosingcycle != null" >
+        dosingcycle = #{record.dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="record.errTime != null" >
+        err_time = #{record.errTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.errNum != null" >
+        err_num = #{record.errNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update lastfeeddosing
+    set id = #{record.id,jdbcType=INTEGER},
+      feed_id = #{record.feedId,jdbcType=VARCHAR},
+      firstdosing_time = #{record.firstdosingTime,jdbcType=TIMESTAMP},
+      lastdosing_time = #{record.lastdosingTime,jdbcType=TIMESTAMP},
+      nextdosing_time = #{record.nextdosingTime,jdbcType=TIMESTAMP},
+      enddosing_time = #{record.enddosingTime,jdbcType=TIMESTAMP},
+      left_num = #{record.leftNum,jdbcType=INTEGER},
+      dosing_method = #{record.dosingMethod,jdbcType=VARCHAR},
+      feed_status = #{record.feedStatus,jdbcType=VARCHAR},
+      pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      power = #{record.power,jdbcType=VARCHAR},
+      temperature = #{record.temperature,jdbcType=VARCHAR},
+      realtime = #{record.realtime,jdbcType=TIMESTAMP},
+      lng = #{record.lng,jdbcType=VARCHAR},
+      lat = #{record.lat,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      positioncycle = #{record.positioncycle,jdbcType=INTEGER},
+      dosingcycle = #{record.dosingcycle,jdbcType=INTEGER},
+      err_time = #{record.errTime,jdbcType=TIMESTAMP},
+      err_num = #{record.errNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Lastfeeddosing" >
+    update lastfeeddosing
+    <set >
+      <if test="feedId != null" >
+        feed_id = #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="firstdosingTime != null" >
+        firstdosing_time = #{firstdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastdosingTime != null" >
+        lastdosing_time = #{lastdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="nextdosingTime != null" >
+        nextdosing_time = #{nextdosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="enddosingTime != null" >
+        enddosing_time = #{enddosingTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="leftNum != null" >
+        left_num = #{leftNum,jdbcType=INTEGER},
+      </if>
+      <if test="dosingMethod != null" >
+        dosing_method = #{dosingMethod,jdbcType=VARCHAR},
+      </if>
+      <if test="feedStatus != null" >
+        feed_status = #{feedStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        pill_code = #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null" >
+        power = #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="temperature != null" >
+        temperature = #{temperature,jdbcType=VARCHAR},
+      </if>
+      <if test="realtime != null" >
+        realtime = #{realtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lng != null" >
+        lng = #{lng,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null" >
+        lat = #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+      <if test="positioncycle != null" >
+        positioncycle = #{positioncycle,jdbcType=INTEGER},
+      </if>
+      <if test="dosingcycle != null" >
+        dosingcycle = #{dosingcycle,jdbcType=INTEGER},
+      </if>
+      <if test="errTime != null" >
+        err_time = #{errTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errNum != null" >
+        err_num = #{errNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Lastfeeddosing" >
+    update lastfeeddosing
+    set feed_id = #{feedId,jdbcType=VARCHAR},
+      firstdosing_time = #{firstdosingTime,jdbcType=TIMESTAMP},
+      lastdosing_time = #{lastdosingTime,jdbcType=TIMESTAMP},
+      nextdosing_time = #{nextdosingTime,jdbcType=TIMESTAMP},
+      enddosing_time = #{enddosingTime,jdbcType=TIMESTAMP},
+      left_num = #{leftNum,jdbcType=INTEGER},
+      dosing_method = #{dosingMethod,jdbcType=VARCHAR},
+      feed_status = #{feedStatus,jdbcType=VARCHAR},
+      pill_code = #{pillCode,jdbcType=VARCHAR},
+      power = #{power,jdbcType=VARCHAR},
+      temperature = #{temperature,jdbcType=VARCHAR},
+      realtime = #{realtime,jdbcType=TIMESTAMP},
+      lng = #{lng,jdbcType=VARCHAR},
+      lat = #{lat,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR},
+      positioncycle = #{positioncycle,jdbcType=INTEGER},
+      dosingcycle = #{dosingcycle,jdbcType=INTEGER},
+      err_time = #{errTime,jdbcType=TIMESTAMP},
+      err_num = #{errNum,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

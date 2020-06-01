@@ -84,7 +84,7 @@
                     if(pillarray && pillarray.length>0) {
                         for (var i = 0; i < pillarray.length; i++) {
                             //遍历后台传回的结果，一项项往select中添加option
-                            select_pill.options.add(new Option(pillarray[i].pillCode + " " + pillarray[i].pillName, pillarray[i].id));
+                            select_pill.options.add(new Option(pillarray[i].pillCode + " " + pillarray[i].pillName, pillarray[i].pillCode));
                         }
                     }
                 }
@@ -97,9 +97,18 @@
         $("#a_addfeed").click(function () {
             var tempdata = {};
             var feed_id = $("#input_feedid").val();
+            var pill_code = hamletcode = $('#select_pill').find('option:selected').val();
             var producetime = $("#producetime").val();
             if(feed_id == ""){
                 alert("请输入喂饲器编号！");
+                return;
+            }
+            if(feed_id.charAt(0) != '9'){
+                alert("请输入数字9开头的有效喂饲器编号！");
+                return;
+            }
+            if(!pill_code || pill_code == ""){
+                alert("请选择药饵！");
                 return;
             }
             if(producetime == "2017-06-30T00:00"){
@@ -109,6 +118,7 @@
             producetime = $("#producetime").val()+":00";
             alert(producetime);
             tempdata.feed_id = feed_id;
+            tempdata.pill_code = pill_code;
             tempdata.producetime = producetime;
             $.ajax({
                 url: "/aidog/api/singlefeedregister",
@@ -143,7 +153,7 @@
                     var senddata = {};
                     senddata.data = val.target.result;
                     $.ajax({
-                        url: "/aidog/api/batchfeedregister",
+                        url: "/aidog/api/batchfeedregister2",
                         type: "POST",
                         data:  JSON.stringify(senddata),
                         contentType: "application/json",

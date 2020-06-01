@@ -253,6 +253,15 @@ $(function () {
         var dogid = $("#select_doggovcode").find('option:selected').val().split(' ')[0];
         // var feedid = $("#select_dogfeedid").find('option:selected').text();
         var feedid = $("#input_dogfeedid").val();
+        if(feedid == ""){
+            alert("请输入喂饲器编号！");
+            return;
+        }
+        if(feedid.charAt(0) != '9'){
+            alert("请输入数字9开头的有效喂饲器编号！");
+            return;
+        }
+
         var senddata = {};
         senddata.dogid = dogid;
         senddata.feedid = feedid;

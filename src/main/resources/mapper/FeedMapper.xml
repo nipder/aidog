@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sec.aidog.dao.FeedMapper" >
+  <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.Feed" >
+    <constructor >
+      <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="feed_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="produce_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="register_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="dosing_total" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="changebattery_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="changepill_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="bind_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="hamlet" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="districtcode" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, feed_id, produce_time, register_time, dosing_total, changebattery_time, changepill_time, 
+    bind_time, hamlet, districtcode
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.FeedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from feed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from feed
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from feed
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.sec.aidog.model.FeedExample" >
+    delete from feed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sec.aidog.pojo.Feed" >
+    insert into feed (id, feed_id, pill_code, produce_time,
+      register_time, dosing_total, changebattery_time, 
+      changepill_time, bind_time, hamlet, 
+      districtcode)
+    values (#{id,jdbcType=INTEGER}, #{feedId,jdbcType=VARCHAR}, #{pillCode,jdbcType=VARCHAR}, #{produceTime,jdbcType=TIMESTAMP},
+      #{registerTime,jdbcType=TIMESTAMP}, #{dosingTotal,jdbcType=INTEGER}, #{changebatteryTime,jdbcType=TIMESTAMP}, 
+      #{changepillTime,jdbcType=TIMESTAMP}, #{bindTime,jdbcType=TIMESTAMP}, #{hamlet,jdbcType=VARCHAR}, 
+      #{districtcode,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sec.aidog.pojo.Feed" >
+    insert into feed
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="feedId != null" >
+        feed_id,
+      </if>
+      <if test="pillCode != null" >
+        pill_code,
+      </if>
+      <if test="produceTime != null" >
+        produce_time,
+      </if>
+      <if test="registerTime != null" >
+        register_time,
+      </if>
+      <if test="dosingTotal != null" >
+        dosing_total,
+      </if>
+      <if test="changebatteryTime != null" >
+        changebattery_time,
+      </if>
+      <if test="changepillTime != null" >
+        changepill_time,
+      </if>
+      <if test="bindTime != null" >
+        bind_time,
+      </if>
+      <if test="hamlet != null" >
+        hamlet,
+      </if>
+      <if test="districtcode != null" >
+        districtcode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="feedId != null" >
+      #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="produceTime != null" >
+        #{produceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerTime != null" >
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosingTotal != null" >
+        #{dosingTotal,jdbcType=INTEGER},
+      </if>
+      <if test="changebatteryTime != null" >
+        #{changebatteryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changepillTime != null" >
+        #{changepillTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindTime != null" >
+        #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hamlet != null" >
+        #{hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sec.aidog.model.FeedExample" resultType="java.lang.Integer" >
+    select count(*) from feed
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update feed
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.feedId != null" >
+        feed_id = #{record.feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pillCode != null" >
+        pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.produceTime != null" >
+        produce_time = #{record.produceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.registerTime != null" >
+        register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dosingTotal != null" >
+        dosing_total = #{record.dosingTotal,jdbcType=INTEGER},
+      </if>
+      <if test="record.changebatteryTime != null" >
+        changebattery_time = #{record.changebatteryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.changepillTime != null" >
+        changepill_time = #{record.changepillTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.bindTime != null" >
+        bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.hamlet != null" >
+        hamlet = #{record.hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtcode != null" >
+        districtcode = #{record.districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update feed
+    set id = #{record.id,jdbcType=INTEGER},
+      feed_id = #{record.feedId,jdbcType=VARCHAR},
+      pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      produce_time = #{record.produceTime,jdbcType=TIMESTAMP},
+      register_time = #{record.registerTime,jdbcType=TIMESTAMP},
+      dosing_total = #{record.dosingTotal,jdbcType=INTEGER},
+      changebattery_time = #{record.changebatteryTime,jdbcType=TIMESTAMP},
+      changepill_time = #{record.changepillTime,jdbcType=TIMESTAMP},
+      bind_time = #{record.bindTime,jdbcType=TIMESTAMP},
+      hamlet = #{record.hamlet,jdbcType=VARCHAR},
+      districtcode = #{record.districtcode,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.Feed" >
+    update feed
+    <set >
+      <if test="feedId != null" >
+        feed_id = #{feedId,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        pill_code = #{pillCode,jdbcType=VARCHAR},
+      </if>
+      <if test="produceTime != null" >
+        produce_time = #{produceTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dosingTotal != null" >
+        dosing_total = #{dosingTotal,jdbcType=INTEGER},
+      </if>
+      <if test="changebatteryTime != null" >
+        changebattery_time = #{changebatteryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="changepillTime != null" >
+        changepill_time = #{changepillTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bindTime != null" >
+        bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hamlet != null" >
+        hamlet = #{hamlet,jdbcType=VARCHAR},
+      </if>
+      <if test="districtcode != null" >
+        districtcode = #{districtcode,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Feed" >
+    update feed
+    set feed_id = #{feedId,jdbcType=VARCHAR},
+      pill_code = #{pillCode,jdbcType=VARCHAR},
+      produce_time = #{produceTime,jdbcType=TIMESTAMP},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      dosing_total = #{dosingTotal,jdbcType=INTEGER},
+      changebattery_time = #{changebatteryTime,jdbcType=TIMESTAMP},
+      changepill_time = #{changepillTime,jdbcType=TIMESTAMP},
+      bind_time = #{bindTime,jdbcType=TIMESTAMP},
+      hamlet = #{hamlet,jdbcType=VARCHAR},
+      districtcode = #{districtcode,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!-- 批量注册 -->
+  <insert id ="insertBatchFeedRegister" parameterType="java.util.List" >
+    <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+               order= "AFTER">
+      SELECT LAST_INSERT_ID()
+    </selectKey >
+    insert into feed
+    (feed_id, pill_code, produce_time, register_time)
+    values
+    <foreach collection ="list" item="feed" index= "index" separator =",">
+      (
+      #{feed.feedId}, #{feed.pillCode}, #{feed.produceTime},
+      #{feed.registerTime}
+      )
+    </foreach >
+  </insert>
+</mapper>
