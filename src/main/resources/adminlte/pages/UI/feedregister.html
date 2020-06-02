@@ -153,7 +153,7 @@
                     var senddata = {};
                     senddata.data = val.target.result;
                     $.ajax({
-                        url: "/aidog/api/batchfeedregister2",
+                        url: "/aidog/api/batchfeedregister",
                         type: "POST",
                         data:  JSON.stringify(senddata),
                         contentType: "application/json",

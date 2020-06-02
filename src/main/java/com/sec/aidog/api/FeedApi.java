@@ -75,7 +75,7 @@ public class FeedApi {
                 }
             }
         }catch (Exception e) {
-            result = "批量注册喂饲器失败!";
+            result = "批量注册喂饲器失败!" + e.getMessage();
         }
         return result.toString();
     }

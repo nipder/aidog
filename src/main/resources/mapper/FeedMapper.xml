@@ -5,6 +5,7 @@
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="feed_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_code" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="produce_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="register_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="dosing_total" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, feed_id, produce_time, register_time, dosing_total, changebattery_time, changepill_time, 
+    id, feed_id, pill_code, produce_time, register_time, dosing_total, changebattery_time, changepill_time,
     bind_time, hamlet, districtcode
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.FeedExample" >
