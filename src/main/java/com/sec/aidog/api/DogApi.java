@@ -1068,7 +1068,7 @@ public class DogApi {
             //权限控制
 
             Map<String, Object> map = new HashMap<>();
-            List<DogView> unusedoggovcodelist = dogMapper.getUnuseFeedDogGovcodeList(hamletcode);
+            List<DogView> unusedoggovcodelist = dogMapper.getUnuseDogGovcodeList(hamletcode);
             map.put("govcodelist",unusedoggovcodelist);
             List<String> unusefeedlist = feedMapper.getUnuseFeedList();
             map.put("feedlist",unusefeedlist);

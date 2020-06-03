@@ -266,7 +266,7 @@ $(function () {
         senddata.dogid = dogid;
         senddata.feedid = feedid;
         $.ajax({
-            url: "/aidog/api/bindfeedklet",
+            url: "/aidog/api/bindfeed",
             type: "POST",
             data:  senddata,
             beforeSend: function (request) {
@@ -284,6 +284,10 @@ $(function () {
     $("#a_checkfeed").click(function () {
         if($("#input_dogfeedid").val()==""){
             alert("请输入喂饲器编号，然后校验！");
+            return;
+        }
+        if($("#input_dogfeedid").val().charAt(0) != '9'){
+            alert("请输入数字9开头的有效喂饲器编号！");
             return;
         }
         if(unbindfeedlist.indexOf($("#input_dogfeedid").val())!="-1"){
