@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sec.aidog.dao.FeedconfigMapper;
+import com.sec.aidog.dao.LastfeeddosingMapper;
 import com.sec.aidog.dao.LastnecdosingMapper;
 import com.sec.aidog.dao.NecconfigMapper;
 import com.sec.aidog.dao.SysDeviceconfMapper;
@@ -45,9 +47,15 @@ public class SysLayconfigApi {
 
 	@Autowired
 	private NecconfigMapper necconfigMapper;
+	
+	@Autowired
+	private FeedconfigMapper feedconfigMapper;
 
 	@Autowired
 	private LastnecdosingMapper lastnecdosingMapper;
+	
+	@Autowired
+	private LastfeeddosingMapper lastfeeddosingMapper;
 	
 	@ApiOperation(value = "查询所有项圈配置列表", notes = "查询所有项圈配置列表")
 	@RequestMapping(value="getlayconfiglist",method = RequestMethod.GET)
@@ -224,7 +232,7 @@ public class SysLayconfigApi {
 		}
 		return ResponseEntity.ok(r);
 	}
-
+	
 	@ApiOperation(value = "新配置项圈时间", notes = "新配置项圈时间")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "necid", value = "项圈标识", required = true, dataType = "String",paramType = "query"),
@@ -265,8 +273,8 @@ public class SysLayconfigApi {
 			r = setDosingtimeconfig(necid,one,two,three,four,five,six,seven,eight, nine,ten, eleven,twelve,areacycle,false);
 		}
 		return ResponseEntity.ok(r);
-	}
-
+	}	
+	
 	public JsonResult setDosingtimeconfig(String necid,String one,String two,String three,String four, String five,String six, String seven,String eight,
 										  String nine,String ten, String eleven,String twelve, Integer areacycle, Boolean zeroflag){
 		JsonResult r = new JsonResult();
@@ -424,7 +432,245 @@ public class SysLayconfigApi {
 		return r;
 	}
 
-
+	// @add zyj 20200604 begin
+	@ApiOperation(value = "通过喂饲器编号查询喂饲器配置时间(新)", notes = "通过喂饲器编号查询喂饲器配置时间(新)")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "feedid", value = "喂饲器标识", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String",paramType = "header")
+	})
+	@RequestMapping(value="timeconfigbyfeedid",method = RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<JsonResult> GetTimeConfigByFeedId(@RequestParam(value = "feedid")String feedid){
+		JsonResult r = new JsonResult();
+		try {
+			Feedconfig feedconfig  = feedconfigMapper.getFeedconfig(feedid);
+			Map<String, Object> map = new HashMap<String,Object>();
+			if(feedconfig != null) {
+				SysLayconfig timeconfig  = sysLayconfigMapper.selectLayConfigByMid(feedid);
+				map.put("timeconfig",timeconfig);
+				Integer areacycle = feedconfigMapper.getFeedconfig(feedid).getAreacycle();
+				map.put("areacycle",areacycle);
+				r.setCode(200);
+				r.setMsg("获取喂饲器时间配置成功！");
+				r.setData(map);
+				r.setSuccess(true);
+			}else {
+				r.setCode(500);
+				r.setData(null);
+				r.setMsg("该喂饲器不存在，请先注册并绑定！");
+				r.setSuccess(false);
+			}
+		} catch (Exception e) {
+			r.setCode(500);
+			r.setData(e.getClass().getName() + ":" + e.getMessage());
+			r.setMsg("该喂饲器不存在，请先注册并绑定！");
+			r.setSuccess(false);
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok(r);
+	}
+		
+	@ApiOperation(value = "新配置喂饲器时间", notes = "新配置喂饲器时间")
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "feedid", value = "喂饲器标识", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "one", value = "第1次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "two", value = "第2次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "three", value = "第3次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "four", value = "第4次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "five", value = "第5次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "six", value = "第6次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "seven", value = "第7次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "eight", value = "第8次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "nine", value = "第9次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "ten", value = "第10次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "eleven", value = "第11次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "twelve", value = "第12次投药时间", required = true, dataType = "String",paramType = "query"),
+			@ApiImplicitParam(name = "areacycle", value = "反馈时间", required = true, dataType = "Integer",paramType = "query"),
+			@ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String",paramType = "header")
+	})
+	@RequestMapping(value="feeddosingtimeconfig",method = RequestMethod.POST)
+	@Transactional
+	@ResponseBody
+	public ResponseEntity<JsonResult> InsertLayConfigByFeedId(@RequestParam(value = "feedid")String feedid,
+																 @RequestParam(value = "one")String one,@RequestParam(value = "two")String two,
+																 @RequestParam(value = "three")String three,@RequestParam(value = "four")String four,
+																 @RequestParam(value = "five")String five,@RequestParam(value = "six")String six,
+																 @RequestParam(value = "seven")String seven,@RequestParam(value = "eight")String eight,
+																 @RequestParam(value = "nine")String nine,@RequestParam(value = "ten")String ten,
+																 @RequestParam(value = "eleven")String eleven,@RequestParam(value = "twelve")String twelve,
+																 @RequestParam(value = "areacycle")Integer areacycle,
+																 HttpServletRequest request){
+		JsonResult r = new JsonResult();
+		if(feedid.contains("|")){
+			String[] necarr = feedid.split("\\|");
+			for(int i=0;i<necarr.length;i++){
+				r = setFeedDosingtimeconfig(necarr[i],one,two,three,four,five,six,seven,eight, nine,ten, eleven,twelve,areacycle,false);
+			}
+		}else{
+			r = setFeedDosingtimeconfig(feedid,one,two,three,four,five,six,seven,eight, nine,ten, eleven,twelve,areacycle,false);
+		}
+		return ResponseEntity.ok(r);
+	}
+	
+	public JsonResult setFeedDosingtimeconfig(String feedid,String one,String two,String three,String four, String five,String six, String seven,String eight,
+			  String nine,String ten, String eleven,String twelve, Integer areacycle, Boolean zeroflag){
+		JsonResult r = new JsonResult();
+		try {
+			SysLayconfig layconfig = sysLayconfigMapper.selectLayConfigByMid(feedid);
+			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
+			boolean flag = false;
+			if(layconfig==null){
+				layconfig = new SysLayconfig();
+				layconfig.setId(0);
+				layconfig.setMid(feedid);
+				layconfig.setOne(format.parse(one));
+				layconfig.setTwo(format.parse(two));
+				layconfig.setThree(format.parse(three));
+				layconfig.setFour(format.parse(four));
+				layconfig.setFive(format.parse(five));
+				layconfig.setSix(format.parse(six));
+				layconfig.setSeven(format.parse(seven));
+				layconfig.setEight(format.parse(eight));
+				layconfig.setNine(format.parse(nine));
+				layconfig.setTen(format.parse(ten));
+				layconfig.setEleven(format.parse(eleven));
+				layconfig.setTwelve(format.parse(twelve));
+				layconfig.setUimodifyflag(Byte.valueOf("1"));
+				layconfig.setHardmodifyflag(Byte.valueOf("0"));
+				layconfig.setUpdatetime(new Date());
+				flag = sysLayconfigMapper.insert(layconfig)==1?true:false;
+			}else{
+				layconfig.setOne(format.parse(one));
+				layconfig.setTwo(format.parse(two));
+				layconfig.setThree(format.parse(three));
+				layconfig.setFour(format.parse(four));
+				layconfig.setFive(format.parse(five));
+				layconfig.setSix(format.parse(six));
+				layconfig.setSeven(format.parse(seven));
+				layconfig.setEight(format.parse(eight));
+				layconfig.setNine(format.parse(nine));
+				layconfig.setTen(format.parse(ten));
+				layconfig.setEleven(format.parse(eleven));
+				layconfig.setTwelve(format.parse(twelve));
+				layconfig.setUimodifyflag(Byte.valueOf("1"));
+				layconfig.setHardmodifyflag(Byte.valueOf("0"));
+				layconfig.setUpdatetime(new Date());
+				flag = sysLayconfigMapper.updateByPrimaryKey(layconfig)==1?true:false;
+			}
+			boolean flag2  = false;
+			if(flag) {
+				String command02 = Analyse.Command_02_Send(layconfig);
+				redisService.remove("time_"+feedid);
+				flag2  = redisService.setpersist("time_"+feedid, command02);
+			}
+			if(flag2) {
+				//删除最老的一条记录
+				SysLayconfigExample example = new SysLayconfigExample();
+				SysLayconfigExample.Criteria criteria = example.createCriteria();
+				criteria.andMidEqualTo(feedid);
+				int num = sysLayconfigMapper.countByExample(example);
+				if(num == 4) {
+					sysLayconfigMapper.deleteOldestLayConfigByMid(feedid);
+				}
+				SysDeviceconf sysDeviceconf = sysDeviceconfMapper.selectDeviceConfigByMid(feedid);
+				boolean flag3 = false;
+				if(sysDeviceconf!=null){
+					sysDeviceconf.setInfoupdatecycle(areacycle);
+					sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
+					sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
+					sysDeviceconf.setUpdatetime(new Date());
+					sysDeviceconf.setClearerr(Byte.valueOf("1"));
+					if(zeroflag){
+						sysDeviceconf.setStatus(0);
+						sysDeviceconf.setFactory(Byte.valueOf("1"));
+					}
+					flag3 = sysDeviceconfMapper.updateByPrimaryKey(sysDeviceconf)==1?true:false;
+				}else{
+					sysDeviceconf = new SysDeviceconf();
+					sysDeviceconf.setMid(feedid);
+					sysDeviceconf.setStatus(0);
+					sysDeviceconf.setInfoupdatecycle(areacycle);
+					sysDeviceconf.setUimodifyflag(Byte.valueOf("1"));
+					sysDeviceconf.setHardmodifyflag(Byte.valueOf("0"));
+					sysDeviceconf.setUpdatetime(new Date());
+					//默认值
+					sysDeviceconf.setIp("119.3.177.203");
+					sysDeviceconf.setPort(59999);
+					sysDeviceconf.setTickcycle(30);
+					sysDeviceconf.setFactory(Byte.valueOf("0"));
+					sysDeviceconf.setBastimes(Byte.valueOf("20"));
+					sysDeviceconf.setGpstimes(Byte.valueOf("60"));
+					sysDeviceconf.setClearerr(Byte.valueOf("1"));
+					if(zeroflag){
+						sysDeviceconf.setStatus(0);
+						sysDeviceconf.setFactory(Byte.valueOf("1"));
+					}
+					flag3 = sysDeviceconfMapper.insert(sysDeviceconf)==1?true:false;
+				}
+				if(flag3) {
+					String command03 = Analyse.Command_03_Send(sysDeviceconf);
+					redisService.remove("device_"+feedid);
+					redisService.setpersist("device_"+feedid, command03);
+				}
+				boolean flag4 = false;
+				Feedconfig feedconfig = feedconfigMapper.getFeedconfig(feedid);
+				feedconfig.setAreacycle(areacycle);
+				feedconfig.setUpdatetime(new Date());
+				feedconfig.setFirstdosingTime(format.parse(one));
+				feedconfig.setEnddosingTime(format.parse(twelve));
+				flag4 = feedconfigMapper.updateByPrimaryKey(feedconfig)==1?true:false;
+				boolean flag5 = false;
+				Lastfeeddosing lastfeeddosing = lastfeeddosingMapper.getLastfeeddosing(feedid);
+				lastfeeddosing.setFirstdosingTime(format.parse(one));
+				lastfeeddosing.setEnddosingTime(format.parse(twelve));
+				lastfeeddosing.setPositioncycle(areacycle);
+				flag5 = lastfeeddosingMapper.updateByPrimaryKey(lastfeeddosing)==1?true:false;
+				if(flag3 && flag4 && flag5){
+					r.setCode(200);
+					r.setMsg("配置喂饲器时间成功！");
+					if(zeroflag){
+						r.setMsg("清零并配置喂饲器时间成功！");
+					}
+					r.setData(layconfig);
+					r.setSuccess(true);
+				}else{
+					r.setCode(500);
+					r.setData(null);
+					r.setMsg("配置喂饲器时间失败");
+					if(zeroflag){
+						r.setMsg("清零并配置喂饲器时间失败！");
+					}
+					r.setSuccess(false);
+					TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				}
+			}else {
+				r.setCode(500);
+				r.setData(null);
+				r.setMsg("配置喂饲器时间失败");
+				if(zeroflag){
+					r.setMsg("清零并配置喂饲器时间失败！");
+				}
+				r.setSuccess(false);
+				TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+				return r;
+			}
+		} catch (Exception e) {
+			r.setCode(500);
+			r.setData(e.getClass().getName() + ":" + e.getMessage());
+			r.setMsg("配置喂饲器时间失败");
+			if(zeroflag){
+				r.setMsg("清零并配置喂饲器时间失败！");
+			}
+			r.setSuccess(false);
+			TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+			e.printStackTrace();
+			return r;
+		}
+		return r;
+	}
+	
+	// @add zyj 20200604 end
+	
 	@ApiOperation(value = "配置清零", notes = "配置清零")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "necid", value = "项圈标识", required = true, dataType = "String",paramType = "query"),

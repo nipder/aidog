@@ -33,6 +33,6 @@ public interface FeedconfigMapper {
 
     int updateByPrimaryKey(Feedconfig record);
 
-    @Select("select * from necconfig where nec_id=#{neckletid}")
-    Feedconfig getFeedconfig(String neckletid);
+    @Select("select * from feedconfig where feed_id=#{feedid}")
+    Feedconfig getFeedconfig(String feedid);
 }

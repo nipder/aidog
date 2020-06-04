@@ -257,8 +257,8 @@ $(function () {
             alert("请输入喂饲器编号！");
             return;
         }
-        if(feedid.charAt(0) != '9'){
-            alert("请输入数字9开头的有效喂饲器编号！");
+        if(feedid.charAt(0) != '3'){
+            alert("请输入数字3开头的有效喂饲器编号！");
             return;
         }
 
@@ -286,8 +286,8 @@ $(function () {
             alert("请输入喂饲器编号，然后校验！");
             return;
         }
-        if($("#input_dogfeedid").val().charAt(0) != '9'){
-            alert("请输入数字9开头的有效喂饲器编号！");
+        if($("#input_dogfeedid").val().charAt(0) != '3'){
+            alert("请输入数字3开头的有效喂饲器编号！");
             return;
         }
         if(unbindfeedlist.indexOf($("#input_dogfeedid").val())!="-1"){

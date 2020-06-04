@@ -44,13 +44,13 @@ $(function () {
                         //                            var select_feed = document.getElementById("select_feed");
                         viewdata = $.extend(true, [], data.data.data);
                         for (var i = viewdata.length - 1; i >= 0; i--) {
-                            //                                if(data.data.data[i].feedId!="-1"){
+                            //                                if(data.data.data[i].appId!="-1"){
                             //                                    //遍历后台传回的结果，一项项往select中添加option
-                            //                                    select_feed.options.add(new Option(data.data.data[i].feedId, data.data.data[i].dogId));
+                            //                                    select_feed.options.add(new Option(data.data.data[i].appId, data.data.data[i].dogId));
 
                             //                                }
-                            viewdata[i].check = "<input name='check' id='\"" + viewdata[i].feedId + "\"' class=\"checkbox feedcheck\" type=\"checkbox\" />";
-                            if (viewdata[i].feedId == "-1") {
+                            viewdata[i].check = "<input name='check' id='\"" + viewdata[i].appId + "\"' class=\"checkbox feedcheck\" type=\"checkbox\" />";
+                            if (viewdata[i].appId == "-1") {
                                 viewdata.splice(i, 1);
                             }
                         }
@@ -195,8 +195,8 @@ $(function () {
                         //                                    select_feed.options.add(new Option(data.data.data[i].feedId, data.data.data[i].dogId));
 
                         //                                }
-                        viewdata[i].check = "<input name='check' id='\"" + viewdata[i].feedId + "\"' class=\"checkbox feedcheck\" type=\"checkbox\" />";
-                        if (viewdata[i].feedId == "-1") {
+                        viewdata[i].check = "<input name='check' id='\"" + viewdata[i].appId + "\"' class=\"checkbox feedcheck\" type=\"checkbox\" />";
+                        if (viewdata[i].appId == "-1") {
                             viewdata.splice(i, 1);
                         }
                     }
@@ -564,7 +564,7 @@ $(function () {
             var twelve = "twelve=" + $("#input_lay12").val() + ":00&";
             var senddata = feedid + one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + areacycle;
             $.ajax({
-                url: "/aidog/api/dosingtimeconfig",
+                url: "/aidog/api/feeddosingtimeconfig2",
                 method: "POST",
                 data: senddata,
                 beforeSend: function (request) {
