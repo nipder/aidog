@@ -697,11 +697,21 @@ public class FeedServiceImpl implements FeedService {
 
             feedView.setFeedId(sysDeviceconflist.get(i).getMid());
 
-            feedView.setPillcode("ER190901");
+            feedView.setPillcode("{}");
             String devicestatus = changestatus(sysDeviceconflist.get(i).getStatus());   //投药状态加轮询状态
             String dosingstatus = devicestatus.substring(0,12);
+            String dosingvideo = "0000-0000-0000";
+            feedView.setDosingvideo(dosingvideo);
             feedView.setDosingstatus(dosingstatus.substring(0,4)+"-"+dosingstatus.substring(4,8)+"-"+dosingstatus.substring(8,12));
             feedView.setConfstatus("正常");
+
+            Feed feedInfo = feedMapper.selectByFeedId(sysDeviceconflist.get(i).getMid());
+            if(feedInfo!=null){
+                if(feedInfo.getPillCode()!=null && feedInfo.getPillCode().length()>0)
+                {
+                    feedView.setPillcode(feedInfo.getPillCode());
+                }
+            }
 
             //统一喂饲器id
             SysLaytime sysLaytime = null;
@@ -713,7 +723,9 @@ public class FeedServiceImpl implements FeedService {
             }
 
             if(sysLaytime != null){
-                feedView.setDistrictcode(feedMapper.selectByFeedId(sysLaytime.getMid()).getDistrictcode());
+                if(feedInfo != null){
+                    feedView.setDistrictcode(feedInfo.getDistrictcode());
+                }
                 feedView.setPower(sysLaytime.getVoltage()==null?"未反馈":sysLaytime.getVoltage()+"");
                 feedView.setTemperature(sysLaytime.getTemperature()==null?"未反馈":sysLaytime.getTemperature()+"");
                 if(sysDeviceconflist.get(i).getUimodifyflag().equals(Byte.valueOf("1")) && sysDeviceconflist.get(i).getHardmodifyflag().equals(Byte.valueOf("0"))){

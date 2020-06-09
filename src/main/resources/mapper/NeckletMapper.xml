@@ -5,6 +5,7 @@
     <constructor >
       <idArg column="id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="nec_id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="pill_code" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="produce_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="register_time" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="dosing_total" jdbcType="INTEGER" javaType="java.lang.Integer" />
@@ -74,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, nec_id, produce_time, register_time, dosing_total, changebattery_time, changepill_time, 
+    id, nec_id, pill_code, produce_time, register_time, dosing_total, changebattery_time, changepill_time,
     bind_time, hamlet, districtcode
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.NeckletExample" >
@@ -108,11 +109,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sec.aidog.pojo.Necklet" >
-    insert into necklet (id, nec_id, produce_time, 
+    insert into necklet (id, nec_id, pill_code, produce_time,
       register_time, dosing_total, changebattery_time, 
       changepill_time, bind_time, hamlet, 
       districtcode)
-    values (#{id,jdbcType=INTEGER}, #{necId,jdbcType=VARCHAR}, #{produceTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=INTEGER}, #{necId,jdbcType=VARCHAR}, #{pillCode,jdbcType=VARCHAR}, #{produceTime,jdbcType=TIMESTAMP},
       #{registerTime,jdbcType=TIMESTAMP}, #{dosingTotal,jdbcType=INTEGER}, #{changebatteryTime,jdbcType=TIMESTAMP}, 
       #{changepillTime,jdbcType=TIMESTAMP}, #{bindTime,jdbcType=TIMESTAMP}, #{hamlet,jdbcType=VARCHAR}, 
       #{districtcode,jdbcType=VARCHAR})
@@ -125,6 +126,9 @@
       </if>
       <if test="necId != null" >
         nec_id,
+      </if>
+      <if test="pillCode != null" >
+        pill_code,
       </if>
       <if test="produceTime != null" >
         produce_time,
@@ -157,6 +161,9 @@
       </if>
       <if test="necId != null" >
         #{necId,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        #{pillCode,jdbcType=VARCHAR},
       </if>
       <if test="produceTime != null" >
         #{produceTime,jdbcType=TIMESTAMP},
@@ -199,6 +206,9 @@
       <if test="record.necId != null" >
         nec_id = #{record.necId,jdbcType=VARCHAR},
       </if>
+      <if test="record.pillCode != null" >
+        pill_code = #{record.pillCode,jdbcType=VARCHAR},
+      </if>
       <if test="record.produceTime != null" >
         produce_time = #{record.produceTime,jdbcType=TIMESTAMP},
       </if>
@@ -232,6 +242,7 @@
     update necklet
     set id = #{record.id,jdbcType=INTEGER},
       nec_id = #{record.necId,jdbcType=VARCHAR},
+      pill_code = #{record.pillCode,jdbcType=VARCHAR},
       produce_time = #{record.produceTime,jdbcType=TIMESTAMP},
       register_time = #{record.registerTime,jdbcType=TIMESTAMP},
       dosing_total = #{record.dosingTotal,jdbcType=INTEGER},
@@ -249,6 +260,9 @@
     <set >
       <if test="necId != null" >
         nec_id = #{necId,jdbcType=VARCHAR},
+      </if>
+      <if test="pillCode != null" >
+        pill_code = #{pillCode,jdbcType=VARCHAR},
       </if>
       <if test="produceTime != null" >
         produce_time = #{produceTime,jdbcType=TIMESTAMP},
@@ -280,6 +294,7 @@
   <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.Necklet" >
     update necklet
     set nec_id = #{necId,jdbcType=VARCHAR},
+      pill_code = #{pillCode,jdbcType=VARCHAR},
       produce_time = #{produceTime,jdbcType=TIMESTAMP},
       register_time = #{registerTime,jdbcType=TIMESTAMP},
       dosing_total = #{dosingTotal,jdbcType=INTEGER},
@@ -298,11 +313,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey >
     insert into necklet
-    (nec_id, produce_time, register_time)
+    (nec_id, pill_code, produce_time, register_time)
     values
     <foreach collection ="list" item="necklet" index= "index" separator =",">
       (
-      #{necklet.necId}, #{necklet.produceTime},
+      #{necklet.necId}, #{necklet.pillCode}, #{necklet.produceTime},
       #{necklet.registerTime}
       )
     </foreach >

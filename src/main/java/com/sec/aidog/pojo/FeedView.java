@@ -8,6 +8,7 @@ public class FeedView {
     private String feedId;
     private String pillcode;
     private String dosingstatus;   //投药状态
+    private String dosingvideo;
     private Date firstDosingTime;
     private Date nextDosingTime;
     private Integer leftnum;
@@ -73,6 +74,14 @@ public class FeedView {
 
     public void setDosingstatus(String dosingstatus) {
         this.dosingstatus = dosingstatus;
+    }
+    
+    public String getDosingvideo() {
+        return dosingvideo;
+    }
+
+    public void setDosingvideo(String dosingvideo) {
+        this.dosingvideo = dosingvideo;
     }
 
     public Date getFirstDosingTime() {

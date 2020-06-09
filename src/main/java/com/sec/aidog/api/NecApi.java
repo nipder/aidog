@@ -58,6 +58,7 @@ public class NecApi {
             for(Object obj:arr){
                 necklet = new Necklet();
                 necklet.setNecId(((JSONObject)obj).get("nec_id")+"");
+                necklet.setPillCode(((JSONObject)obj).get("pill_code")+"");
                 necklet.setProduceTime(new Date(Long.valueOf(((JSONObject)obj).get("producetime")+"")));
                 necklet.setRegisterTime(new Date());
                 neclist.add(necklet);
@@ -80,17 +81,19 @@ public class NecApi {
     @ApiOperation(value = "单个项圈注册", notes = "单个项圈注册")
     @ApiImplicitParams({
         @ApiImplicitParam(name = "nec_id", value = "项圈标识", required = true, dataType = "String",paramType = "query"),
+        @ApiImplicitParam(name = "pill_code", value = "药编号", required = true, dataType = "String",paramType = "query"),
         @ApiImplicitParam(name = "producetime", value = "生产日期", required = true, dataType = "String",paramType = "query"),
         @ApiImplicitParam(name = "token", value = "token", required = true, dataType = "String",paramType = "header")
     })
     @RequestMapping(value="singlenecregister",method = RequestMethod.POST)
     @Transactional
     @ResponseBody
-    public ResponseEntity<JsonResult> singleNecRegister(@RequestParam(value = "nec_id")String nec_id, @RequestParam(value = "producetime")String producetime, HttpServletRequest request){
+    public ResponseEntity<JsonResult> singleNecRegister(@RequestParam(value = "nec_id")String nec_id, @RequestParam(value = "pill_code")String pill_code, @RequestParam(value = "producetime")String producetime, HttpServletRequest request){
         JsonResult r = new JsonResult();
         try {
             Necklet necklet = new Necklet();
             necklet.setNecId(nec_id);
+            necklet.setPillCode(pill_code);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
             necklet.setProduceTime(format.parse(producetime));
             necklet.setRegisterTime(new Date());

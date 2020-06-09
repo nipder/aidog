@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sec.aidog.api.Analyse;
 import com.sec.aidog.dao.*;
+import com.sec.aidog.model.NeckletExample;
 import com.sec.aidog.pojo.*;
 import com.sec.aidog.service.NeckletService;
 import com.sec.aidog.service.RedisService;
@@ -704,6 +705,16 @@ public class NeckletServiceImpl implements NeckletService{
             neckletView.setDosingstatus(dosingstatus.substring(0,4)+"-"+dosingstatus.substring(4,8)+"-"+dosingstatus.substring(8,12));
             neckletView.setConfstatus("正常");
 
+            // @add zyj 20200606 begin
+            Necklet necInfo = neckletMapper.selectByNecId(sysDeviceconflist.get(i).getMid());
+            if(necInfo!=null){
+                if(necInfo.getPillCode()!=null && necInfo.getPillCode().length()>0)
+                {
+                    neckletView.setPillcode(necInfo.getPillCode());
+                }
+            }
+            // @add zyj 20200606 end
+
             //统一项圈id
             SysLaytime sysLaytime = null;
             for(int j=0;j<SysLaytimelist.size();j++){
@@ -714,7 +725,12 @@ public class NeckletServiceImpl implements NeckletService{
             }
 
             if(sysLaytime != null){
-                neckletView.setDistrictcode(neckletMapper.selectByNecId(sysLaytime.getMid()).getDistrictcode());
+                // @chg zyj 20200606 BEGIN
+                if(necInfo != null){
+                    neckletView.setDistrictcode(necInfo.getDistrictcode());
+                }
+                //neckletView.setDistrictcode(neckletMapper.selectByNecId(sysLaytime.getMid()).getDistrictcode());
+                // @chg zyj 20200606 END
                 neckletView.setPower(sysLaytime.getVoltage()==null?"未反馈":sysLaytime.getVoltage()+"");
                 neckletView.setTemperature(sysLaytime.getTemperature()==null?"未反馈":sysLaytime.getTemperature()+"");
                 if(sysDeviceconflist.get(i).getUimodifyflag().equals(Byte.valueOf("1")) && sysDeviceconflist.get(i).getHardmodifyflag().equals(Byte.valueOf("0"))){

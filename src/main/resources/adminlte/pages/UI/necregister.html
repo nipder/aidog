@@ -36,6 +36,11 @@
                         <input type="text" class="form-control" placeholder="项圈编号"  id="input_neckletid" />
                     </div>
                     <div class="form-group  has-success">
+                        <label>药饵：</label>
+                        <select class="form-control select2"  id="select_pill" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
                         <label>生产日期：</label>
                         <input id="producetime"  class="form-control" type="datetime-local" value="2017-06-30T00:00"/>
                     </div>
@@ -71,15 +76,53 @@
 
 <script type="text/javascript">
     $(function(){
+        function getpilllist(){
+            var senddata = {};
+            senddata.startitem = 1;
+            senddata.pagesize = 100000;
+            senddata.districtcode = "";
+            senddata.level = "";
+            $.ajax({
+                url:  "/aidog/api/getpilllist",
+                type: "POST",
+                data:  senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    var select_pill = document.getElementById("select_pill");
+                    var pillarray = objToArray(data.data.data);
+                    if(pillarray && pillarray.length>0) {
+                        for (var i = 0; i < pillarray.length; i++) {
+                            //遍历后台传回的结果，一项项往select中添加option
+                            select_pill.options.add(new Option(pillarray[i].pillCode + " " + pillarray[i].pillName, pillarray[i].pillCode));
+                        }
+                    }
+                }
+            })
+        };
+
+        getpilllist();
         //单个注册
         $("#a_addnec").click(function () {
             var tempdata = {};
             var nec_id = $("#input_neckletid").val();
+            var pill_code = hamletcode = $('#select_pill').find('option:selected').val();// @add zyj 20200606
             var producetime = $("#producetime").val();
             if(nec_id == ""){
                 alert("请输入项圈编号！");
                 return;
             }
+            // @add zyj 20200606 begin
+            if(nec_id.charAt(0) == '3'){
+                alert("请输入有效的项圈编号！");
+                return;
+            }
+            if(!pill_code || pill_code == ""){
+                alert("请选择药饵！");
+                return;
+            }
+            // @add zyj 20200606 end
             if(producetime == "2017-06-30T00:00"){
                 alert("请输入生产日期！");
                 return;
@@ -87,6 +130,7 @@
             producetime = $("#producetime").val()+":00";
             alert(producetime);
             tempdata.nec_id = nec_id;
+            tempdata.pill_code = pill_code;
             tempdata.producetime = producetime;
             $.ajax({
                 url: "/aidog/api/singlenecregister",
@@ -168,6 +212,14 @@
             });
         });
     })
+
+    function objToArray(array) {
+        var arr = []
+        for (var i in array) {
+            arr.push(array[i]);
+        }
+        return arr;
+    }
 
 </script>
 </body>

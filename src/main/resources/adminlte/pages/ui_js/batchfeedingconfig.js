@@ -564,7 +564,7 @@ $(function () {
             var twelve = "twelve=" + $("#input_lay12").val() + ":00&";
             var senddata = feedid + one + two + three + four + five + six + seven + eight + nine + ten + eleven + twelve + areacycle;
             $.ajax({
-                url: "/aidog/api/feeddosingtimeconfig2",
+                url: "/aidog/api/feeddosingtimeconfig",
                 method: "POST",
                 data: senddata,
                 beforeSend: function (request) {

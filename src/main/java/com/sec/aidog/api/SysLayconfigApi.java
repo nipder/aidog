@@ -232,7 +232,7 @@ public class SysLayconfigApi {
 		}
 		return ResponseEntity.ok(r);
 	}
-	
+
 	@ApiOperation(value = "新配置项圈时间", notes = "新配置项圈时间")
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "necid", value = "项圈标识", required = true, dataType = "String",paramType = "query"),

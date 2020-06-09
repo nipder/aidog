@@ -7,6 +7,8 @@ public class Necklet {
 
     private String necId;
 
+    private String pillCode;
+
     private Date produceTime;
 
     private Date registerTime;
@@ -23,9 +25,10 @@ public class Necklet {
 
     private String districtcode;
 
-    public Necklet(Integer id, String necId, Date produceTime, Date registerTime, Integer dosingTotal, Date changebatteryTime, Date changepillTime, Date bindTime, String hamlet, String districtcode) {
+    public Necklet(Integer id, String necId, String pillCode, Date produceTime, Date registerTime, Integer dosingTotal, Date changebatteryTime, Date changepillTime, Date bindTime, String hamlet, String districtcode) {
         this.id = id;
         this.necId = necId;
+        this.pillCode = pillCode;
         this.produceTime = produceTime;
         this.registerTime = registerTime;
         this.dosingTotal = dosingTotal;
@@ -54,6 +57,14 @@ public class Necklet {
 
     public void setNecId(String necId) {
         this.necId = necId == null ? null : necId.trim();
+    }
+
+    public String getPillCode() {
+        return pillCode;
+    }
+
+    public void setPillCode(String pillCode) {
+        this.pillCode = pillCode == null ? null : pillCode.trim();
     }
 
     public Date getProduceTime() {
