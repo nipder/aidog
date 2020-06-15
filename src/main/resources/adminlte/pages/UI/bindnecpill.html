@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>项圈药饵配置</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="renderer"  content="webkit">
+    <!--bootstrap table-->
+    <script type="text/javascript" src="../../plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- bootstrap -->
+    <script src="../../bootstrap/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../../bootstrap/css/bootstrap.css">
+
+    <!-- Select2 -->
+    <!--<link rel="stylesheet" href="../../plugins/select2/select2.min.css">-->
+    <!--<script src="../../plugins/select2/select2.full.js"></script>-->
+    <!--bootstrap table-->
+    <link rel="stylesheet" type="text/css" href="../../DataTables/DataTables-1.10.18/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../../DataTables/Buttons-1.5.4/css/buttons.dataTables.min.css">
+    <script type="text/javascript" src="../../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" src="../../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="../../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="../ui_js/util.js"></script>
+    <script type="text/javascript" src="../ui_js/bindnecpill.js"></script>    
+    <title>项圈药饵配置</title>
+    <style>/*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+        .form-group-sm label{
+            font-size:12px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="col-md-12" style="margin-top: 20px">
+            <div class="box-body">
+                <form role="form">
+                    <!-- text input -->
+                    <div class="form-group  has-success select-5">
+                        <style>
+                            @media (min-width: 992px){
+                                .select-5 .form-control{
+                                    width:18%;
+                                    margin-left:15px;
+                                }
+                            }
+
+                        </style>
+                        <label style="padding-bottom: 5px">所属区域(*)</label>
+                        <div class="row">
+                            <select id="select_province" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_city" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_county" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_village" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                            <select id="select_hamlet" class="form-control col-md-2" style="margin-bottom: 5px"></select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="col-md-12" id="searchRow" style="padding-top: 10px;padding-bottom: 11px;">
+                <div class="alert alert-info alert-dismissible" style="padding: 0 0 0 5px">
+                	<h5><i class="icon fa fa-info"></i>药饵配对</h5>
+                    <h5><i class="icon fa fa-info"></i>先选择需要配对药饵的项圈，再选择新的药饵编码，确认配对</h5>
+				</div>
+            </div>
+            <div class="box-body">
+                <form role="form">
+                    
+                    <div class="col-md-12">
+                    	<button type="button" id="batchnec" class="btn btn-info btn-flat btn-sm" style="margin-bottom: 3px">批量选择项圈</button>                    
+                    	<span id="selectnecs" style="color:red;margin-left: 10px"></span>
+                	</div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>药饵：</label>
+                        <select class="form-control select2"  id="select_pill" style="width: 100%;">
+                        </select>
+                    </div>
+                    <div class="form-group form-group-sm has-success">
+                        <label>配对时间：</label>
+                        <input id="input_lay" class="form-control" type="datetime-local" value="2019-04-30T00:00"/>
+                    </div>
+                    <div class="form-group form-group-sm  has-success">
+                        <button type="button" id="a_bindnecpill" class="btn btn-info btn-flat  btn-sm"  style="margin-right: 20px">确认配对</button>
+                    </div>
+                </form>
+            </div>
+        </div>        
+    </div>    
+    <div class="modal fade" id="doglist" tabindex="-1" role="dialog">
+        <div class="modal-dialog model80" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">信息详情</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                            <thead>
+                                <tr>
+                                    <th><input type="checkbox" name="select_all" id="select-all" class="select-all"></th>
+                                    <th>犬主姓名</th>
+                                    <th>犬名</th>
+                                    <th>犬只政府编码</th>
+                                    <th>项圈编号</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody">
+
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="choosedog()" type="button">
+                        选择
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->    
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>药饵配对信息</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>药饵配对信息</title>
+    <style>
+        /*web background*/
+        .container{
+            display:table;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style="width: 100%">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible" style="padding: 2px">
+                        <h5><i class="icon fa fa-info"></i>设备药饵配对记录表</h5>
+                    </div>
+                    <table data-toggle="table" class="table  table-bordered" id="pillbindrectable" style="table-layout:fixed;">
+                        <thead>
+                        <tr>
+                            <th>药饵编号</th>
+                            <th>配对时间</th>
+                            <th>药饵名称</th>
+                            <th>生产厂家</th>
+                            <th>规格</th>
+                            <th>生产批号</th>
+                            <th>失效日期</th>
+                            <th>采购日期</th>
+                            <th>采购人姓名</th>
+                            <th>采购人电话</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript">
+        $(function () {
+            var pillBindRecTable;
+            var senddata = {};
+            var mid = $("#mid").html();
+            senddata.mid = mid;
+            $.ajax({
+                url: "/aidog/api/getpillbindreclist",
+                method: "POST",
+                data: senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    if (data.data == null) {
+                        alert(data.msg);
+                        return;
+                    }else{
+                        for(var i = 0;i<data.data.length;i++){
+                            if(data.data[i].configTime!=null){
+                                data.data[i].configTime = timetrans(data.data[i].configTime);
+                            }else{
+                                data.data[i].configTime = "无";
+                            }
+                            if(data.data[i].pillExpdate!=null){
+                                data.data[i].pillExpdate = timetrans2(data.data[i].pillExpdate);
+                            }else{
+                                data.data[i].pillExpdate = "无";
+                            }
+                            if(data.data[i].pillBuydate!=null){
+                                data.data[i].pillBuydate = timetrans2(data.data[i].pillBuydate);
+                            }else{
+                                data.data[i].pillBuydate = "无";
+                            }
+                        }
+                        if(pillBindRecTable){
+                            pillBindRecTable.clear();//清空数据.fnClearTable();//清空数据
+                            pillBindRecTable.destroy(); //还原初始化了的datatable
+                        }
+                        pillBindRecTable = $('#pillbindrectable').DataTable({
+                            data: data.data,
+                            "jQueryUI": true,
+                            'paging'      : true,
+                            lengthMenu: [　//显示几条数据设置
+                                [10, 20,30, 50,-1],
+                                ['10 条', '20 条','30条', '50 条','全部']
+                            ],
+                            'searching'   : true,
+                            'ordering'    : true,
+                            "pageLength": 10, //每行显示记录数
+                            'info'        : true,
+                            'bAutoWidth'  : false,
+                            "responsive": false,
+                            //允许重建
+                            "destroy": true,
+                            "scrollX":true,
+                            "oLanguage": {
+                                buttons: {
+                                    pageLength: {
+                                        _: "每页%d条记录",
+                                        '-1': "显示所有记录"
+                                    }
+                                },
+                                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                                "sZeroRecords": "暂无数据",
+                                "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+                                "sInfoEmtpy": "暂无数据",
+                                "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+                                "sProcessing": "正在加载中",
+                                "sSearch": "搜索",
+                                "sUrl": "",
+                                "oPaginate": {
+                                    "sFirst": "第一页",
+                                    "sPrevious": " 上一页 ",
+                                    "sNext": " 下一页 ",
+                                    "sLast": " 最后一页 "
+                                }
+                            },
+                            "scrollY": "450px",
+                            "dom": 'Bfrtip',
+                            "processing": true,
+                            "columns": [
+                                { "data": "pillCode","width":"60px"  },
+                                { "data": "configTime","width":"125px"  },
+                                { "data": "pillName","width":"120px"  },
+                                { "data": "pillFactory","width":"90px"},
+                                { "data": "pillSpec","width":"90px" },
+                                { "data": "pillBatchnum","width":"90px" },
+                                { "data": "pillExpdate" ,"width":"75px"},
+                                { "data": "pillBuydate" ,"width":"75px"},
+                                { "data": "pillBuyer" ,"width":"90px"},
+                                { "data": "pillBuyertel" ,"width":"90px"}
+                            ],
+                            buttons: [
+                                'pageLength',
+                                {
+                                    text: "导出Excel",
+                                    extend: 'excelHtml5',
+                                    filename:"用户信息报表"+"_"+new Date(),
+                                    exportOptions: {
+                                        format: {
+                                        }
+                                    },
+                                    customize: function (win) {
+                                        console.log(win);
+                                        var sheet = win.xl.worksheets['sheet1.xml'];
+                                        $('cols col', sheet).attr({'width':30});
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text:"打印报表",
+                                    messageTop: function () {
+                                    }
+                                }
+                            ]
+                        });
+                    }
+                }
+            })
+        })
+
+
+        function timetrans(date){
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+            var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
+
+        function timetrans2(date){
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) ;
+            return Y+M+D;
+        }
+    </script>
+</body>
+</html>
