@@ -710,6 +710,7 @@ public class FeedServiceImpl implements FeedService {
                 if(feedInfo.getPillCode()!=null && feedInfo.getPillCode().length()>0)
                 {
                     feedView.setPillcode(feedInfo.getPillCode());
+                    feedView.setChangepillTime(feedInfo.getChangepillTime());
                 }
             }
 

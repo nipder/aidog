@@ -279,8 +279,18 @@ $(function () {
                         }else{
                             data.data.data[i].lastUpdateTime = "无";
                         }
+                        // @add zyj 20200614 begin
+                        if(data.data.data[i].changepillTime!=null){
+                            data.data.data[i].changepillTime = timetrans(data.data.data[i].changepillTime);
+                        }else{
+                            data.data.data[i].changepillTime = "无";
+                        }
+                        // @add zyj 20200614 end
                         data.data.data[i].countnum = i+1;
                         data.data.data[i].dosingstatus = "<a href='javascript:void(0);'onclick='detailNecTimeInfo(\""+ data.data.data[i].necId + "\")' ><i class='fa fa-arrow-down'></i>"+data.data.data[i].dosingstatus+"</a>";
+                        // @add zyj 20200614 begin
+                        data.data.data[i].pillcode = "<a href='javascript:void(0);'onclick='detailNecPillInfo(\""+ data.data.data[i].necId + "\")' ><i class='fa fa-arrow-down'></i>"+data.data.data[i].pillcode+"</a>";
+                        // @add zyj 20200614 end
                         data.data.data[i].detailaddr = distrctcodetoaddr(data.data.data[i].districtcode);
                     }
                     viewdata = $.extend(true,[],data.data.data);
@@ -357,7 +367,8 @@ $(function () {
                             { "data": "power","width":"50px" },
                             { "data": "temperature","width":"80px" },
                             { "data": "confstatus","width":"100px"},
-                            { "data": "lastUpdateTime","width":"125px"}
+                            { "data": "lastUpdateTime","width":"125px"},
+                            { "data": "changepillTime","width":"125px"}
                         ],
                         "columnDefs": [
                             {
@@ -544,6 +555,21 @@ function detailNecTimeInfo(id) {
         $(this).removeData("bs.modal");
     });
 }
+
+// @add zyj 20200614 begin
+function detailNecPillInfo(id) {
+    $("#mid").html(id);
+    $("#necPillDiv").modal({
+        remote: 'detaildevpillmodal.html'
+
+    });
+    $("#necPillDiv").modal('show');
+    //Bootstrap v3
+    $("#necPillDiv").on("hidden.bs.modal", function() {
+        $(this).removeData("bs.modal");
+    });
+}
+// @add zyj 20200614 end
 
 function modifyDog(id) {
     $("#dogid").html(id);

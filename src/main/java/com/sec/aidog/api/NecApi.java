@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sec.aidog.common.RedisUtil;
+import com.sec.aidog.dao.DevPillRecMapper;
+import com.sec.aidog.dao.NeckletMapper;
+import com.sec.aidog.pojo.DevPillRec;
+import com.sec.aidog.pojo.Feed;
 import com.sec.aidog.pojo.Manager;
 import com.sec.aidog.pojo.Necklet;
 import com.sec.aidog.service.NeckletService;
@@ -37,8 +41,11 @@ public class NecApi {
     @Autowired
     private RedisService redisService;
 
+    @Autowired
+    private NeckletMapper neckletMapper;
 
-
+    @Autowired
+    private DevPillRecMapper devPillRecMapper;
 
     @RequestMapping(value = "batchnecregister",produces = "application/json; charset=utf-8",method = RequestMethod.POST)
     @ResponseBody
@@ -61,10 +68,12 @@ public class NecApi {
                 necklet.setPillCode(((JSONObject)obj).get("pill_code")+"");
                 necklet.setProduceTime(new Date(Long.valueOf(((JSONObject)obj).get("producetime")+"")));
                 necklet.setRegisterTime(new Date());
+                necklet.setChangepillTime(necklet.getRegisterTime());
                 neclist.add(necklet);
             }
             if(neclist.size()>0){
                 boolean isSuccess = neckletService.batchNecRegister(neclist);
+                isSuccess = batchNecPillRecByNecList(neclist);
                 if(isSuccess){
                     result = "批量注册项圈成功!";
                 }else{
@@ -77,6 +86,19 @@ public class NecApi {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
+	private boolean batchNecPillRecByNecList(List<Necklet> neclist){
+    	boolean bRtn = false;
+    	for(Necklet nec:neclist){
+    		DevPillRec devPillRec = new DevPillRec();
+    		devPillRec.setMid(nec.getNecId());
+            devPillRec.setPillCode(nec.getPillCode());
+            devPillRec.setConfigTime(nec.getChangepillTime());
+            boolean flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+    	}
+    	bRtn = true;
+    	return bRtn;
+    }
 
     @ApiOperation(value = "单个项圈注册", notes = "单个项圈注册")
     @ApiImplicitParams({
@@ -97,7 +119,15 @@ public class NecApi {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
             necklet.setProduceTime(format.parse(producetime));
             necklet.setRegisterTime(new Date());
+            necklet.setChangepillTime(necklet.getRegisterTime());
             boolean isSuccess = neckletService.singleNecRegister(necklet);
+            if(isSuccess){
+            	DevPillRec devPillRec = new DevPillRec();
+        		devPillRec.setMid(necklet.getNecId());
+                devPillRec.setPillCode(necklet.getPillCode());
+                devPillRec.setConfigTime(necklet.getChangepillTime());
+                boolean flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+            }
             if(isSuccess){
                 r.setCode(200);
                 r.setMsg("注册项圈成功!");
@@ -338,6 +368,81 @@ public class NecApi {
             e.printStackTrace();
         }
         return ResponseEntity.ok(r);
+    }
+    
+    @RequestMapping(value = "/batchnecpillbind", method = RequestMethod.POST)
+    public ResponseEntity<JsonResult> BatchNecPillBind( HttpServletRequest request, @RequestBody JSONObject json){
+        String token = request.getHeader("token");
+        JsonResult r = new JsonResult();
+        try {
+            //取出存在缓存中的已登录用户的信息
+            String managerstr = RedisUtil.RedisGetValue("token:"+token);
+            //权限控制
+            String mids = json.getString("mids");
+            String pill_code = json.getString("pill_code");
+            String configtime = json.getString("configtime");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date configTime = format.parse(configtime);
+
+            if(mids.contains("|")){
+                String[] midarr = mids.split("\\|");
+                for(int i=0;i<midarr.length;i++){
+                    r = NecPillBind(midarr[i], pill_code, configTime);
+                }
+            }else{
+                r = NecPillBind(mids, pill_code, configTime);
+            }
+        } catch (Exception e) {
+            r.setCode(500);
+            r.setData(e.getClass().getName() + ":" + e.getMessage());
+            r.setMsg("药饵配对失败4");
+            r.setSuccess(false);
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(r);
+    }
+
+    private JsonResult NecPillBind(String mid, String pill_code, Date configTime){
+        JsonResult r = new JsonResult();
+        try {
+        	Necklet nec = neckletMapper.selectByNecId(mid);
+        	nec.setPillCode(pill_code);
+        	nec.setChangepillTime(configTime);
+            boolean flge = neckletMapper.updateByPrimaryKey(nec)==1?true:false;
+            DevPillRec devPillRec = new DevPillRec();
+            if(flge){
+                devPillRec.setMid(mid);
+                devPillRec.setPillCode(pill_code);
+                devPillRec.setConfigTime(configTime);
+                flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+                if(flge){
+                    r.setCode(200);
+                    r.setMsg("配置项圈药饵配对成功！");
+                    r.setData(devPillRec);
+                    r.setSuccess(true);
+                }else{
+                    r.setCode(500);
+                    r.setData(null);
+                    r.setMsg("配置项圈药饵配对失败2");
+                    r.setSuccess(false);
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                }
+            }else{
+                r.setCode(500);
+                r.setData(null);
+                r.setMsg("配置项圈药饵配对失败1");
+                r.setSuccess(false);
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            }
+        } catch (Exception e) {
+            r.setCode(500);
+            r.setData(e.getClass().getName() + ":" + e.getMessage());
+            r.setMsg("配置项圈药饵失败3");
+            r.setSuccess(false);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
+        return r;
     }
 }
 

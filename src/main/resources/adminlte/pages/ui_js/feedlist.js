@@ -195,9 +195,15 @@ $(function () {
                         }else{
                             data.data.data[i].lastUpdateTime = "无";
                         }
+                        if(data.data.data[i].changepillTime!=null){
+                            data.data.data[i].changepillTime = timetrans(data.data.data[i].changepillTime);
+                        }else{
+                            data.data.data[i].changepillTime = "无";
+                        }
                         data.data.data[i].countnum = i+1;
                         data.data.data[i].dosingstatus = "<a href='javascript:void(0);'onclick='detailFeedTimeInfo(\""+ data.data.data[i].feedId + "\")' ><i class='fa fa-arrow-down'></i>"+data.data.data[i].dosingstatus+"</a>";
                         data.data.data[i].dosingvideo = "<a href='javascript:void(0);'onclick='dosingvideoInfo(\""+ data.data.data[i].feedId + "\")'><i class='fa fa-arrow-down'></i>"+data.data.data[i].dosingvideo+"</a>";
+                        data.data.data[i].pillcode = "<a href='javascript:void(0);'onclick='detailFeedPillInfo(\""+ data.data.data[i].feedId + "\")' ><i class='fa fa-arrow-down'></i>"+data.data.data[i].pillcode+"</a>";
                         data.data.data[i].detailaddr = distrctcodetoaddr(data.data.data[i].districtcode);
                     }
                     viewdata = $.extend(true,[],data.data.data);
@@ -270,7 +276,8 @@ $(function () {
                             { "data": "power","width":"50px" },
                             { "data": "temperature","width":"80px" },
                             { "data": "confstatus","width":"100px"},
-                            { "data": "lastUpdateTime","width":"125px"}
+                            { "data": "lastUpdateTime","width":"125px"},
+                            { "data": "changepillTime","width":"125px"}
                         ],
                         "columnDefs": [
                             {
@@ -443,6 +450,18 @@ function dosingvideoInfo(id){
     });
 }
 
+function detailFeedPillInfo(id) {
+    $("#mid").html(id);
+    $("#feedPillDiv").modal({
+        remote: 'detaildevpillmodal.html'
+
+    });
+    $("#feedPillDiv").modal('show');
+    //Bootstrap v3
+    $("#feedPillDiv").on("hidden.bs.modal", function() {
+        $(this).removeData("bs.modal");
+    });
+}
 
 function modifyDog(id) {
     $("#dogid").html(id);

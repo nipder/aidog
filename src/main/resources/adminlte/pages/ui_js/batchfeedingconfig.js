@@ -265,7 +265,7 @@ $(function () {
                     { "data": "ownerName", "width": "60px" },
                     { "data": "dogName", "width": "60px" },
                     { "data": "dogGovcode", "width": "70px" },
-                    { "data": "feedId", "width": "70px" }
+                    { "data": "appId", "width": "70px" }
                 ]
             });
             //                    $('#tbody').on( 'click', 'tr td.details-control', function () {

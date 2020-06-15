@@ -711,6 +711,7 @@ public class NeckletServiceImpl implements NeckletService{
                 if(necInfo.getPillCode()!=null && necInfo.getPillCode().length()>0)
                 {
                     neckletView.setPillcode(necInfo.getPillCode());
+                    neckletView.setChangepillTime(necInfo.getChangepillTime());
                 }
             }
             // @add zyj 20200606 end

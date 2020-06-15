@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.sec.aidog.common.RedisUtil;
+import com.sec.aidog.dao.DevPillRecMapper;
+import com.sec.aidog.dao.FeedMapper;
+import com.sec.aidog.pojo.DevPillRec;
 import com.sec.aidog.pojo.Manager;
 import com.sec.aidog.pojo.Feed;
 import com.sec.aidog.service.FeedService;
@@ -32,10 +35,16 @@ import java.util.Map;
 public class FeedApi {
 
     @Autowired
+    private FeedMapper feedMapper;
+
+    @Autowired
     private FeedService feedService;
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private DevPillRecMapper devPillRecMapper;
     
     @RequestMapping(value = "feedtest",produces = "application/json; charset=utf-8",method = RequestMethod.GET)
     @ResponseBody
@@ -64,10 +73,12 @@ public class FeedApi {
                 feed.setPillCode(((JSONObject)obj).get("pill_code")+"");
                 feed.setProduceTime(new Date(Long.valueOf(((JSONObject)obj).get("producetime")+"")));
                 feed.setRegisterTime(new Date());
+                feed.setChangepillTime(feed.getRegisterTime());
                 feedlist.add(feed);
             }
             if(feedlist.size()>0){
                 boolean isSuccess = feedService.batchFeedRegister(feedlist);
+                isSuccess = batchFeedPillRecByFeedList(feedlist);
                 if(isSuccess){
                     result = "批量注册喂饲器成功!";
                 }else{
@@ -80,6 +91,19 @@ public class FeedApi {
         return result.toString();
     }
 
+    @SuppressWarnings("unused")
+	private boolean batchFeedPillRecByFeedList(List<Feed> feedlist){
+    	boolean bRtn = false;
+    	for(Feed feed:feedlist){
+    		DevPillRec devPillRec = new DevPillRec();
+    		devPillRec.setMid(feed.getFeedId());
+            devPillRec.setPillCode(feed.getPillCode());
+            devPillRec.setConfigTime(feed.getChangepillTime());
+            boolean flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+    	}
+    	bRtn = true;
+    	return bRtn;
+    }
 
     @ApiOperation(value = "单个喂饲器注册", notes = "单个喂饲器注册")
     @ApiImplicitParams({
@@ -100,7 +124,15 @@ public class FeedApi {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");//注意格式化的表达式
             feed.setProduceTime(format.parse(producetime));
             feed.setRegisterTime(new Date());
+            feed.setChangepillTime(feed.getRegisterTime());
             boolean isSuccess = feedService.singleFeedRegister(feed);
+            if(isSuccess){
+            	DevPillRec devPillRec = new DevPillRec();
+        		devPillRec.setMid(feed.getFeedId());
+                devPillRec.setPillCode(feed.getPillCode());
+                devPillRec.setConfigTime(feed.getChangepillTime());
+                boolean flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+            }
             if(isSuccess){
                 r.setCode(200);
                 r.setMsg("注册喂饲器成功!");
@@ -341,6 +373,81 @@ public class FeedApi {
             e.printStackTrace();
         }
         return ResponseEntity.ok(r);
+    }
+
+    @RequestMapping(value = "/batchfeedpillbind", method = RequestMethod.POST)
+    public ResponseEntity<JsonResult> BatchFeedPillBind( HttpServletRequest request, @RequestBody JSONObject json){
+        String token = request.getHeader("token");
+        JsonResult r = new JsonResult();
+        try {
+            //取出存在缓存中的已登录用户的信息
+            String managerstr = RedisUtil.RedisGetValue("token:"+token);
+            //权限控制
+            String mids = json.getString("mids");
+            String pill_code = json.getString("pill_code");
+            String configtime = json.getString("configtime");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date configTime = format.parse(configtime);
+
+            if(mids.contains("|")){
+                String[] midarr = mids.split("\\|");
+                for(int i=0;i<midarr.length;i++){
+                    r = FeedPillBind(midarr[i], pill_code, configTime);
+                }
+            }else{
+                r = FeedPillBind(mids, pill_code, configTime);
+            }
+        } catch (Exception e) {
+            r.setCode(500);
+            r.setData(e.getClass().getName() + ":" + e.getMessage());
+            r.setMsg("药饵配对失败4");
+            r.setSuccess(false);
+            e.printStackTrace();
+        }
+        return ResponseEntity.ok(r);
+    }
+
+    private JsonResult FeedPillBind(String mid, String pill_code, Date configTime){
+        JsonResult r = new JsonResult();
+        try {
+            Feed feed = feedMapper.selectByFeedId(mid);
+            feed.setPillCode(pill_code);
+            feed.setChangepillTime(configTime);
+            boolean flge = feedMapper.updateByPrimaryKey(feed)==1?true:false;
+            DevPillRec devPillRec = new DevPillRec();
+            if(flge){
+                devPillRec.setMid(mid);
+                devPillRec.setPillCode(pill_code);
+                devPillRec.setConfigTime(configTime);
+                flge = devPillRecMapper.insert(devPillRec) > 0 ? true : false;
+                if(flge){
+                    r.setCode(200);
+                    r.setMsg("药饵配对成功！");
+                    r.setData(devPillRec);
+                    r.setSuccess(true);
+                }else{
+                    r.setCode(500);
+                    r.setData(null);
+                    r.setMsg("药饵配对失败2");
+                    r.setSuccess(false);
+                    TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                }
+            }else{
+                r.setCode(500);
+                r.setData(null);
+                r.setMsg("药饵配对失败1");
+                r.setSuccess(false);
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            }
+        } catch (Exception e) {
+            r.setCode(500);
+            r.setData(e.getClass().getName() + ":" + e.getMessage());
+            r.setMsg("配置喂饲器时间失败3");
+            r.setSuccess(false);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            e.printStackTrace();
+        }
+        return r;
     }
 }
 

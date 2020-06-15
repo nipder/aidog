@@ -17,6 +17,7 @@ public class FeedView {
     private String confstatus;
     private String err;
     private Date lastUpdateTime;
+    private Date changepillTime;
 
     public String getDistrictcode() {
         return districtcode;
@@ -130,5 +131,13 @@ public class FeedView {
 
     public void setConfstatus(String confstatus) {
         this.confstatus = confstatus;
+    }
+
+    public Date getChangepillTime() {
+        return changepillTime;
+    }
+
+    public void setChangepillTime(Date changepillTime) {
+        this.changepillTime = changepillTime;
     }
 }
