@@ -5,31 +5,21 @@ import java.util.Date;
 public class DevResource {
     private String id;
 
+    private String mid;
+
+    private Integer num;
+
+    private String ccid;
+
     private Integer category;
 
     private Date createtime;
 
-    private String createrid;
-
     private String extension;
-
-    private Double imgh;
-
-    private Double imgw;
-
-    private Double latitude;
-
-    private Double longitude;
 
     private String name;
 
     private String path;
-
-    private Double posx;
-
-    private Double posy;
-
-    private String qiniuurl;
 
     private Long size;
 
@@ -43,21 +33,16 @@ public class DevResource {
 
     private String resourcedescribe;
 
-    public DevResource(String id, Integer category, Date createtime, String createrid, String extension, Double imgh, Double imgw, Double latitude, Double longitude, String name, String path, Double posx, Double posy, String qiniuurl, Long size, Integer type, Date updatetime, String updaterid, String url, String resourcedescribe) {
+    public DevResource(String id, String mid, Integer num, String ccid, Integer category, Date createtime, String extension, String name, String path, Long size, Integer type, Date updatetime, String updaterid, String url, String resourcedescribe) {
         this.id = id;
+        this.mid = mid;
+        this.num = num;
+        this.ccid = ccid;
         this.category = category;
         this.createtime = createtime;
-        this.createrid = createrid;
         this.extension = extension;
-        this.imgh = imgh;
-        this.imgw = imgw;
-        this.latitude = latitude;
-        this.longitude = longitude;
         this.name = name;
         this.path = path;
-        this.posx = posx;
-        this.posy = posy;
-        this.qiniuurl = qiniuurl;
         this.size = size;
         this.type = type;
         this.updatetime = updatetime;
@@ -78,6 +63,30 @@ public class DevResource {
         this.id = id == null ? null : id.trim();
     }
 
+    public String getMid() {
+        return mid;
+    }
+
+    public void setMid(String mid) {
+        this.mid = mid == null ? null : mid.trim();
+    }
+
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public String getCcid() {
+        return ccid;
+    }
+
+    public void setCcid(String ccid) {
+        this.ccid = ccid == null ? null : ccid.trim();
+    }
+
     public Integer getCategory() {
         return category;
     }
@@ -94,52 +103,12 @@ public class DevResource {
         this.createtime = createtime;
     }
 
-    public String getCreaterid() {
-        return createrid;
-    }
-
-    public void setCreaterid(String createrid) {
-        this.createrid = createrid == null ? null : createrid.trim();
-    }
-
     public String getExtension() {
         return extension;
     }
 
     public void setExtension(String extension) {
         this.extension = extension == null ? null : extension.trim();
-    }
-
-    public Double getImgh() {
-        return imgh;
-    }
-
-    public void setImgh(Double imgh) {
-        this.imgh = imgh;
-    }
-
-    public Double getImgw() {
-        return imgw;
-    }
-
-    public void setImgw(Double imgw) {
-        this.imgw = imgw;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
     }
 
     public String getName() {
@@ -156,30 +125,6 @@ public class DevResource {
 
     public void setPath(String path) {
         this.path = path == null ? null : path.trim();
-    }
-
-    public Double getPosx() {
-        return posx;
-    }
-
-    public void setPosx(Double posx) {
-        this.posx = posx;
-    }
-
-    public Double getPosy() {
-        return posy;
-    }
-
-    public void setPosy(Double posy) {
-        this.posy = posy;
-    }
-
-    public String getQiniuurl() {
-        return qiniuurl;
-    }
-
-    public void setQiniuurl(String qiniuurl) {
-        this.qiniuurl = qiniuurl == null ? null : qiniuurl.trim();
     }
 
     public Long getSize() {

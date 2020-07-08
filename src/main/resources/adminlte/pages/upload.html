@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer"  content="webkit">
+    <!--<title>智能牧犬监控 | 登录</title>-->
+    <title>文件上传</title>
+
+    <!-- 告诉浏览器该页面是自适应布局 -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../dist/css/font-awesome.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="../dist/css/ionicons.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../dist/css/AdminLTE.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="../dist/css/blue.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="row" style="padding-top: 10px">
+        <div class="col-md-6">
+            <div class="box-body">
+                <form role="form">
+                    <div class="alert alert-info alert-dismissible">
+                        <h4><i class="icon fa fa-info"></i>喂饲器视频接口测试</h4>
+                        输入编号和视频次号，选择要上传的文件！
+                    </div>
+                    <!-- text input -->
+                    <div class="form-group  has-success">
+                        <label>喂饲器编号：</label>
+                        <input type="text" class="form-control" placeholder="喂饲器编号"  id="input_mid" />
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>视频次号：</label>
+                        <select class="form-control select2"  id="select_num" style="width: 100%;">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                        </select>
+                    </div>
+                    <div class="form-group  has-success">
+                        <label>CCID：</label>
+                        <input type="text" class="form-control" placeholder="CCID"  id="input_ccid" />
+                    </div>
+                    <div class="form-group">
+                        <input type="file" name="UploadDocFile" id="UploadDocFile" style="display: none" />
+                        <button type="button" id="btnselectfile" class="btn btn-info btn-flat">选择要上传的文件</button>
+                        <input type="text" class="form-control" id="show_file" />
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="a_upload" class="btn btn-info btn-flat">上传</button>
+
+                        <button type="button" id="a_find" class="btn btn-info btn-flat">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box-body">
+                <div class="box box-solid">
+                    <table data-toggle="table" class="table  table-bordered" id="datatable" style="table-layout:fixed;">
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>视频</th>
+                            <th>上传日期</th>
+                            <th>CCID</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery 3 -->
+<script src="../bootstrap/js/jquery-latest.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="../bootstrap/js/bootstrap.js"></script>
+
+<script type="text/javascript" src="../DataTables/DataTables-1.10.18/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="../DataTables/Buttons-1.5.4/js/dataTables.buttons.min.js"></script>
+<script type="text/javascript" src="../DataTables/JSZip-2.5.0/jszip.min.js"></script>
+<script type="text/javascript" src="../DataTables/pdfmake-0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="../DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="../DataTables/Buttons-1.5.4/js/buttons.html5.min.js"></script>
+<script type="text/javascript" src="../DataTables/Buttons-1.5.4/js/buttons.print.min.js"></script>
+<!-- iCheck -->
+<script src="../bootstrap/js/icheck.min.js"></script>
+
+<script type="text/javascript" src="ui_js/util.js"></script>
+<script>
+    var g_resource_upload_url = "https://www.nipder.com"+"/aidog/api/uploadvideo";
+
+    $(function(){
+
+        $("#btnselectfile").click(function () {
+            var file = document.getElementById('UploadDocFile');
+            file.value = '';
+            $("#UploadDocFile").click();
+        });
+
+        $('#UploadDocFile').change(function () {
+            var file_name = $("#UploadDocFile")[0].files[0].name;
+            $("#show_file").val(file_name);
+        });
+
+        $("#a_upload").click(function () {
+            btnUploadFile();
+        });
+
+        function btnUploadFile() {
+            var mid = $("#input_mid").val();
+            var ccid = $("#input_ccid").val();
+            var num = $('#select_num').find('option:selected').val();
+            if(mid == ""){
+                alert("请输入喂饲器编号！");
+                return;
+            }
+            if(mid.charAt(0) != '3'){
+                alert("请输入数字3开头的有效喂饲器编号！");
+                return;
+            }
+
+            var fd = new FormData();
+            fd.append("file", $("#UploadDocFile")[0].files[0]);
+            fd.append("id", mid);
+            fd.append("num", num);
+            fd.append("ccid", ccid);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.addEventListener("load", function (event) {
+                var FileObj = JSON.parse(event.target.responseText);
+                console.log(FileObj);
+                $("#a_find").click();
+                //if (FileObj != null && FileObj.code == 1) {
+
+                //    var docinfo = angular.fromJson(FileObj.data);
+                //    if (!$scope.CurrInfo.mapPicResourceList) {
+                //        $scope.CurrInfo.mapPicResourceList = [];
+                //    }
+                //    $scope.CurrInfo.mapPicResourceList.push(docinfo);
+
+                //    $scope.doHideUploadFrom();
+
+                //    $scope.$apply();
+                //}
+                //else {
+                //    alert("上传失败" + FileObj.code);
+                //}
+            }, false);
+
+            xhr.open("POST", g_resource_upload_url);
+            xhr.send(fd);
+        };
+
+
+        function timetrans(date){
+            //    var date = new Date(date*1000);//如果date为13位不需要乘1000
+            var date = new Date(date);
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + 'T';
+            var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+            var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+            var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+            return Y+M+D+h+m+s;
+        }
+
+
+
+        var dataTable;
+
+        $("#a_find").click(function () {
+            var mid = $("#input_mid").val();
+            if(mid == ""){
+                alert("请输入喂饲器编号！");
+                return;
+            }
+            if(mid.charAt(0) != '3'){
+                alert("请输入数字3开头的有效喂饲器编号！");
+                return;
+            }
+
+            var senddata = {};
+            senddata.mid = mid;
+            $.ajax({
+                url:  "/aidog/api/getdevvideo",
+                type: "POST",
+                data:  senddata,
+                beforeSend: function (request) {
+                    request.setRequestHeader("token", window.localStorage.getItem("aidog_token"));
+                },
+                success: function (data) {
+                    var countnum = 0;
+                    if (data.data == null) {
+                        alert(data.msg);
+                        return;
+                    }else{
+                        for(var i = 0;i<data.data.length;i++){
+                            data.data[i].createtime = timetrans(data.data[i].createtime).replace('T'," ");
+                            data.data[i].updatetime = timetrans(data.data[i].updatetime).replace('T'," ");
+                            data.data[i].videoname = "<a href='javascript:void(0);'onclick='openvideo(\""+ data.data[i].url + "\")' ><i class='fa fa-arrow-down'></i>"+data.data[i].name+"</a>";
+                        }
+                        viewdata = $.extend(true,[],data.data);
+
+                        if(dataTable){
+                            dataTable.clear();//清空数据.fnClearTable();//清空数据
+                            dataTable.destroy(); //还原初始化了的datatable
+                        }
+                        dataTable = $('#datatable').DataTable({
+                            data: data.data,
+                            "jQueryUI": true,
+                            'paging'      : true,
+                            lengthMenu: [　//显示几条数据设置
+                                [10, 20,30, 50,-1],
+                                ['10 条', '20 条','30条', '50 条','全部']
+                            ],
+                            'searching'   : true,
+                            'ordering'    : true,
+                            "pageLength": 10, //每行显示记录数
+                            'info'        : true,
+                            'bAutoWidth'  : false,
+                            "responsive": false,
+                            //允许重建
+                            "destroy": true,
+                            "scrollX":true,
+                            "oLanguage": {
+                                buttons: {
+                                    pageLength: {
+                                        _: "每页%d条记录",
+                                        '-1': "显示所有记录"
+                                    }
+                                },
+                                "sLengthMenu": "每页显示 _MENU_ 条记录",
+                                "sZeroRecords": "暂无数据",
+                                "sInfo": "当前显示 _START_ 到 _END_ 条，共 _TOTAL_ 条记录",
+                                "sInfoEmtpy": "暂无数据",
+                                "sInfoFiltered": "数据表中共为 _MAX_ 条记录)",
+                                "sProcessing": "正在加载中",
+                                "sSearch": "搜索",
+                                "sUrl": "",
+                                "oPaginate": {
+                                    "sFirst": "第一页",
+                                    "sPrevious": " 上一页 ",
+                                    "sNext": " 下一页 ",
+                                    "sLast": " 最后一页 "
+                                }
+                            },
+                            "scrollY": "450px",
+                            "dom": 'Bfrtip',
+                            "processing": true,
+                            "columns": [
+                                { "data": "num","width":"20px" },
+                                { "data": "videoname","width":"240px"  },
+                                { "data": "createtime" ,"width":"90px"},
+                                { "data": "ccid","width":"90px"}
+                            ],
+                            buttons: [
+                                'pageLength',
+                                {
+                                    text: "导出Excel",
+                                    extend: 'excelHtml5',
+                                    filename:"用户信息报表"+"_"+new Date(),
+                                    exportOptions: {
+                                        format: {
+                                        }
+                                    },
+                                    customize: function (win) {
+                                        console.log(win);
+                                        var sheet = win.xl.worksheets['sheet1.xml'];
+                                        $('cols col', sheet).attr({'width':30});
+                                    }
+                                },
+                                {
+                                    extend: 'print',
+                                    text:"打印报表",
+                                    messageTop: function () {
+                                    }
+                                }
+                            ]
+                        });
+
+
+                        // Array to track the ids of the details displayed rows
+                        /*var detailRows = [];
+
+                        $('#tbody').on( 'click', 'tr td.details-control', function () {
+                            var tr = $(this).closest('tr');
+                            var row = dataTable.row( tr );
+                            var idx = $.inArray( tr.attr('id'), detailRows );
+
+                            if ( row.child.isShown() ) {
+                                tr.removeClass( 'details' );
+                                row.child.hide();
+
+                                // Remove from the 'open' array
+                                detailRows.splice( idx, 1 );
+                            }
+                            else {
+                                tr.addClass( 'details' );
+                                row.child( format( row.index() ) ).show();
+
+                                // Add to the 'open' array
+                                if ( idx === -1 ) {
+                                    detailRows.push( tr.attr('id') );
+                                }
+                            }
+                        } );*/
+
+                        // On each draw, loop over the `detailRows` array and show any child rows
+                        dataTable.on( 'draw', function () {
+                            $.each( detailRows, function ( i, id ) {
+                                $('#'+id+' td.details-control').trigger( 'click' );
+                            } );
+                        });
+
+                    }
+                }
+            })
+        });
+    });
+
+    function openvideo(url){
+        window.open(url);
+    }
+</script>
+</body>
+</html>

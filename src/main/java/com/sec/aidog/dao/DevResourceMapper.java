@@ -31,4 +31,10 @@ public interface DevResourceMapper {
     int updateByPrimaryKeySelective(DevResource record);
 
     int updateByPrimaryKey(DevResource record);
+
+    @Select("select * from d_resource where mid=#{mid} order by createTime")
+    List<DevResource> selectDevResByMid(String mid);
+
+    @Select("select * from d_resource where mid=#{mid} order by createTime desc limit 1")
+    DevResource selectLastResByMid(String mid);
 }

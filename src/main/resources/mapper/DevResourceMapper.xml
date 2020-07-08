@@ -4,19 +4,14 @@
   <resultMap id="BaseResultMap" type="com.sec.aidog.pojo.DevResource" >
     <constructor >
       <idArg column="id" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="mid" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="num" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ccid" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="category" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="createTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="createrId" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="extension" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="imgH" jdbcType="DOUBLE" javaType="java.lang.Double" />
-      <arg column="imgW" jdbcType="DOUBLE" javaType="java.lang.Double" />
-      <arg column="latitude" jdbcType="DOUBLE" javaType="java.lang.Double" />
-      <arg column="longitude" jdbcType="DOUBLE" javaType="java.lang.Double" />
       <arg column="name" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="path" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="posX" jdbcType="DOUBLE" javaType="java.lang.Double" />
-      <arg column="posY" jdbcType="DOUBLE" javaType="java.lang.Double" />
-      <arg column="qiniuUrl" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="size" jdbcType="BIGINT" javaType="java.lang.Long" />
       <arg column="type" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="updateTime" jdbcType="TIMESTAMP" javaType="java.util.Date" />
@@ -84,8 +79,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, category, createTime, createrId, extension, imgH, imgW, latitude, longitude, 
-    name, path, posX, posY, qiniuUrl, size, type, updateTime, updaterId, url, resourceDescribe
+    id, mid, num, ccid, category, createTime, extension, name, path, size, type, updateTime,
+    updaterId, url, resourceDescribe
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.sec.aidog.model.DevResourceExample" >
     select
@@ -102,7 +97,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from d_resource
     where id = #{id,jdbcType=VARCHAR}
@@ -118,20 +113,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.sec.aidog.pojo.DevResource" >
-    insert into d_resource (id, category, createTime, 
-      createrId, extension, imgH, 
-      imgW, latitude, longitude, 
-      name, path, posX, posY, 
-      qiniuUrl, size, type, 
-      updateTime, updaterId, url, 
-      resourceDescribe)
-    values (#{id,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, 
-      #{createrid,jdbcType=VARCHAR}, #{extension,jdbcType=VARCHAR}, #{imgh,jdbcType=DOUBLE}, 
-      #{imgw,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{longitude,jdbcType=DOUBLE}, 
-      #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{posx,jdbcType=DOUBLE}, #{posy,jdbcType=DOUBLE}, 
-      #{qiniuurl,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, 
-      #{updatetime,jdbcType=TIMESTAMP}, #{updaterid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
-      #{resourcedescribe,jdbcType=VARCHAR})
+    insert into d_resource (id, mid, num,
+      ccid, category, createTime,
+      extension, name, path,
+      size, type, updateTime,
+      updaterId, url, resourceDescribe
+      )
+    values (#{id,jdbcType=VARCHAR}, #{mid,jdbcType=VARCHAR}, #{num,jdbcType=INTEGER},
+      #{ccid,jdbcType=VARCHAR}, #{category,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP},
+      #{extension,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR},
+      #{size,jdbcType=BIGINT}, #{type,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP},
+      #{updaterid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{resourcedescribe,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.sec.aidog.pojo.DevResource" >
     insert into d_resource
@@ -139,44 +132,29 @@
       <if test="id != null" >
         id,
       </if>
+      <if test="mid != null" >
+        mid,
+      </if>
+      <if test="num != null" >
+        num,
+      </if>
+      <if test="ccid != null" >
+        ccid,
+      </if>
       <if test="category != null" >
         category,
       </if>
       <if test="createtime != null" >
         createTime,
       </if>
-      <if test="createrid != null" >
-        createrId,
-      </if>
       <if test="extension != null" >
         extension,
-      </if>
-      <if test="imgh != null" >
-        imgH,
-      </if>
-      <if test="imgw != null" >
-        imgW,
-      </if>
-      <if test="latitude != null" >
-        latitude,
-      </if>
-      <if test="longitude != null" >
-        longitude,
       </if>
       <if test="name != null" >
         name,
       </if>
       <if test="path != null" >
         path,
-      </if>
-      <if test="posx != null" >
-        posX,
-      </if>
-      <if test="posy != null" >
-        posY,
-      </if>
-      <if test="qiniuurl != null" >
-        qiniuUrl,
       </if>
       <if test="size != null" >
         size,
@@ -201,44 +179,29 @@
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
+      <if test="mid != null" >
+        #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        #{ccid,jdbcType=VARCHAR},
+      </if>
       <if test="category != null" >
         #{category,jdbcType=INTEGER},
       </if>
       <if test="createtime != null" >
         #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createrid != null" >
-        #{createrid,jdbcType=VARCHAR},
-      </if>
       <if test="extension != null" >
         #{extension,jdbcType=VARCHAR},
-      </if>
-      <if test="imgh != null" >
-        #{imgh,jdbcType=DOUBLE},
-      </if>
-      <if test="imgw != null" >
-        #{imgw,jdbcType=DOUBLE},
-      </if>
-      <if test="latitude != null" >
-        #{latitude,jdbcType=DOUBLE},
-      </if>
-      <if test="longitude != null" >
-        #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
       <if test="path != null" >
         #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="posx != null" >
-        #{posx,jdbcType=DOUBLE},
-      </if>
-      <if test="posy != null" >
-        #{posy,jdbcType=DOUBLE},
-      </if>
-      <if test="qiniuurl != null" >
-        #{qiniuurl,jdbcType=VARCHAR},
       </if>
       <if test="size != null" >
         #{size,jdbcType=BIGINT},
@@ -272,44 +235,29 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=VARCHAR},
       </if>
+      <if test="record.mid != null" >
+        mid = #{record.mid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.num != null" >
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.ccid != null" >
+        ccid = #{record.ccid,jdbcType=VARCHAR},
+      </if>
       <if test="record.category != null" >
         category = #{record.category,jdbcType=INTEGER},
       </if>
       <if test="record.createtime != null" >
         createTime = #{record.createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.createrid != null" >
-        createrId = #{record.createrid,jdbcType=VARCHAR},
-      </if>
       <if test="record.extension != null" >
         extension = #{record.extension,jdbcType=VARCHAR},
-      </if>
-      <if test="record.imgh != null" >
-        imgH = #{record.imgh,jdbcType=DOUBLE},
-      </if>
-      <if test="record.imgw != null" >
-        imgW = #{record.imgw,jdbcType=DOUBLE},
-      </if>
-      <if test="record.latitude != null" >
-        latitude = #{record.latitude,jdbcType=DOUBLE},
-      </if>
-      <if test="record.longitude != null" >
-        longitude = #{record.longitude,jdbcType=DOUBLE},
       </if>
       <if test="record.name != null" >
         name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.path != null" >
         path = #{record.path,jdbcType=VARCHAR},
-      </if>
-      <if test="record.posx != null" >
-        posX = #{record.posx,jdbcType=DOUBLE},
-      </if>
-      <if test="record.posy != null" >
-        posY = #{record.posy,jdbcType=DOUBLE},
-      </if>
-      <if test="record.qiniuurl != null" >
-        qiniuUrl = #{record.qiniuurl,jdbcType=VARCHAR},
       </if>
       <if test="record.size != null" >
         size = #{record.size,jdbcType=BIGINT},
@@ -337,25 +285,20 @@
   <update id="updateByExample" parameterType="map" >
     update d_resource
     set id = #{record.id,jdbcType=VARCHAR},
-      category = #{record.category,jdbcType=INTEGER},
-      createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      createrId = #{record.createrid,jdbcType=VARCHAR},
-      extension = #{record.extension,jdbcType=VARCHAR},
-      imgH = #{record.imgh,jdbcType=DOUBLE},
-      imgW = #{record.imgw,jdbcType=DOUBLE},
-      latitude = #{record.latitude,jdbcType=DOUBLE},
-      longitude = #{record.longitude,jdbcType=DOUBLE},
-      name = #{record.name,jdbcType=VARCHAR},
-      path = #{record.path,jdbcType=VARCHAR},
-      posX = #{record.posx,jdbcType=DOUBLE},
-      posY = #{record.posy,jdbcType=DOUBLE},
-      qiniuUrl = #{record.qiniuurl,jdbcType=VARCHAR},
-      size = #{record.size,jdbcType=BIGINT},
-      type = #{record.type,jdbcType=INTEGER},
-      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
-      updaterId = #{record.updaterid,jdbcType=VARCHAR},
-      url = #{record.url,jdbcType=VARCHAR},
-      resourceDescribe = #{record.resourcedescribe,jdbcType=VARCHAR}
+    mid = #{record.mid,jdbcType=VARCHAR},
+    num = #{record.num,jdbcType=INTEGER},
+    ccid = #{record.ccid,jdbcType=VARCHAR},
+    category = #{record.category,jdbcType=INTEGER},
+    createTime = #{record.createtime,jdbcType=TIMESTAMP},
+    extension = #{record.extension,jdbcType=VARCHAR},
+    name = #{record.name,jdbcType=VARCHAR},
+    path = #{record.path,jdbcType=VARCHAR},
+    size = #{record.size,jdbcType=BIGINT},
+    type = #{record.type,jdbcType=INTEGER},
+    updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+    updaterId = #{record.updaterid,jdbcType=VARCHAR},
+    url = #{record.url,jdbcType=VARCHAR},
+    resourceDescribe = #{record.resourcedescribe,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -363,44 +306,29 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.sec.aidog.pojo.DevResource" >
     update d_resource
     <set >
+      <if test="mid != null" >
+        mid = #{mid,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null" >
+        num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="ccid != null" >
+        ccid = #{ccid,jdbcType=VARCHAR},
+      </if>
       <if test="category != null" >
         category = #{category,jdbcType=INTEGER},
       </if>
       <if test="createtime != null" >
         createTime = #{createtime,jdbcType=TIMESTAMP},
       </if>
-      <if test="createrid != null" >
-        createrId = #{createrid,jdbcType=VARCHAR},
-      </if>
       <if test="extension != null" >
         extension = #{extension,jdbcType=VARCHAR},
-      </if>
-      <if test="imgh != null" >
-        imgH = #{imgh,jdbcType=DOUBLE},
-      </if>
-      <if test="imgw != null" >
-        imgW = #{imgw,jdbcType=DOUBLE},
-      </if>
-      <if test="latitude != null" >
-        latitude = #{latitude,jdbcType=DOUBLE},
-      </if>
-      <if test="longitude != null" >
-        longitude = #{longitude,jdbcType=DOUBLE},
       </if>
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="path != null" >
         path = #{path,jdbcType=VARCHAR},
-      </if>
-      <if test="posx != null" >
-        posX = #{posx,jdbcType=DOUBLE},
-      </if>
-      <if test="posy != null" >
-        posY = #{posy,jdbcType=DOUBLE},
-      </if>
-      <if test="qiniuurl != null" >
-        qiniuUrl = #{qiniuurl,jdbcType=VARCHAR},
       </if>
       <if test="size != null" >
         size = #{size,jdbcType=BIGINT},
@@ -425,19 +353,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sec.aidog.pojo.DevResource" >
     update d_resource
-    set category = #{category,jdbcType=INTEGER},
+    set mid = #{mid,jdbcType=VARCHAR},
+      num = #{num,jdbcType=INTEGER},
+      ccid = #{ccid,jdbcType=VARCHAR},
+      category = #{category,jdbcType=INTEGER},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      createrId = #{createrid,jdbcType=VARCHAR},
       extension = #{extension,jdbcType=VARCHAR},
-      imgH = #{imgh,jdbcType=DOUBLE},
-      imgW = #{imgw,jdbcType=DOUBLE},
-      latitude = #{latitude,jdbcType=DOUBLE},
-      longitude = #{longitude,jdbcType=DOUBLE},
       name = #{name,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
-      posX = #{posx,jdbcType=DOUBLE},
-      posY = #{posy,jdbcType=DOUBLE},
-      qiniuUrl = #{qiniuurl,jdbcType=VARCHAR},
       size = #{size,jdbcType=BIGINT},
       type = #{type,jdbcType=INTEGER},
       updateTime = #{updatetime,jdbcType=TIMESTAMP},
